@@ -29,6 +29,7 @@ from shim_physics_core import (ShimStackCore, ShimLayer,
                                analytic_phi,
                                STEEL_7C27MO2_E, STEEL_7C27MO2_NU)
 from shim_fem_plate import PolarShimFEM
+from shim_nl_plate import PolarShimNLPlate
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
@@ -112,13 +113,15 @@ class ShimStackCheckerApp:
         tk.Button(btns, text="-行", width=4,
                   command=self._pop_row).pack(side=tk.LEFT, padx=2)
 
-        # 求解器模式: 1D 环元 (v0) / 2D 极坐标 FEM (Mindlin 板)
+        # 求解器模式: 1D 环元 (v0) / 2D 极坐标 Mindlin / 2D 大挠度 (von Kármán)
         sol = tk.LabelFrame(ctrl, text="求解器模式", fg="#333")
         sol.pack(fill=tk.X, pady=(2, 4))
         self.var_solver = tk.StringVar(value="1D")
         tk.Radiobutton(sol, text="1D 环元 (v0)", value="1D",
                        variable=self.var_solver).pack(side=tk.LEFT)
         tk.Radiobutton(sol, text="2D FEM (Mindlin)", value="2D",
+                       variable=self.var_solver).pack(side=tk.LEFT)
+        tk.Radiobutton(sol, text="2D 大挠度 (vK)", value="NL",
                        variable=self.var_solver).pack(side=tk.LEFT)
         fp = tk.Frame(ctrl)
         fp.pack(fill=tk.X, pady=(0, 2))
@@ -130,8 +133,10 @@ class ShimStackCheckerApp:
             side=tk.LEFT)
         self.var_fem_nt = tk.StringVar(value="0")   # 0 = 自动(偶数)
         tk.Entry(fp, textvariable=self.var_fem_nt, width=6).pack(side=tk.LEFT)
-        tk.Label(ctrl, text="FEM 参数: 径向 n≥4; nθ=0 自动\n"
-                            "(2D 模式重算约 1~4 s, h(p) 线性放大即时)",
+        tk.Label(fp, text="FEM 参数: 径向 n≥4; nθ=0 自动\n"
+                            "(2D 模式重算约 1~4 s, h(p) 线性放大即时)\n"
+                            "大挠度 vK: 含膜拉伸刚化, 曲线逐点迭代求解\n"
+                            "(建议 径向 n≤40 / nθ≤48; 仅适用 w/t ≲ 2~3)",
                  fg="#888", font=("Microsoft YaHei", 8)).pack(anchor="w")
 
         # 状态区
@@ -199,6 +204,8 @@ class ShimStackCheckerApp:
             return
         if self.var_solver.get() == "2D":
             self._run_2d(layers, e_pa, nu, p_max)
+        elif self.var_solver.get() == "NL":
+            self._run_nl(layers, e_pa, nu, p_max)
         else:
             self._run_1d(layers, e_pa, nu, p_max)
 
@@ -331,6 +338,117 @@ class ShimStackCheckerApp:
 
         self._report_2d(fem, core, layers, ps, tips_f, tips_1,
                         h_an_pmax, e_pa, nu, t_wall)
+
+    def _run_nl(self, layers, e_pa, nu, p_max):
+        """求解器 = 2D 极坐标 von Kármán 大挠度板 (含膜拉伸刚化)."""
+        try:
+            nr = int(float(self.var_fem_nr.get()))
+            nt = int(float(self.var_fem_nt.get()))
+            if nr < 4 or nt < 0 or nt == 1:
+                raise ValueError("径向 n ≥ 4; 周向 nθ=0 自动 或 ≥3")
+            t0 = time.perf_counter()
+            nl = PolarShimNLPlate(layers, E=e_pa, nu=nu,
+                                  n_elem_base_radial=nr, n_theta=nt, nl=True)
+            # 曲线取点 (非线性: 逐点续载; 点数少于线性模式以控时)
+            npts = 9
+            ps = np.linspace(0.0, p_max, npts)
+            tips_nl = nl.solve_curve(ps[1:], n_steps=4, tol=1e-6)
+            t_wall = time.perf_counter() - t0
+        except Exception as exc:
+            self._set_status(f"大挠度求解失败: {exc}\n\n"
+                             f"{traceback.format_exc(limit=3)}")
+            return
+
+        p_mpa = p_max / 1e6
+        lin = PolarShimFEM(layers, E=e_pa, nu=nu,
+                           n_elem_base_radial=nr, n_theta=nl.n_theta)
+        tips_lin = lin.tip_deflections_unit()[:, None] * ps[None, :]
+        top = layers[0]
+        h_an_pmax = analytic_edge_deflection(top.d_in_mm, top.d_out_mm,
+                                             top.t_mm, p_max, e_pa, nu)
+        colors = [f"C{i}" for i in range(len(layers))]
+
+        # ---------- 上图: h(p) 大挠度 vs 线性 ----------
+        ax = self.ax_hp
+        ax.cla()
+        ax.set_title("阀片外缘 h(p): 2D 大挠度 vK 实线 vs 线性解虚线"
+                     "  (膜拉伸刚化 → 大挠度明显偏低)")
+        ax.set_xlabel("压强 p [MPa]")
+        ax.set_ylabel("外缘挠度 h [mm]")
+        ax.grid(True, alpha=0.35)
+        handles = [Line2D([], [], color="k", ls=":", lw=1.6,
+                          label=f"单片参照(解析) Ø{top.d_out_mm:g}")]
+        for i, l in enumerate(layers):
+            ax.plot(ps[1:] / 1e6, tips_nl[i] * 1e3, "-o", color=colors[i],
+                    lw=2.0, ms=3.5,
+                    label=f"第{i + 1}片 Ø{l.d_out_mm:g} 大挠度")
+            ax.plot(ps / 1e6, tips_lin[i] * 1e3, color=colors[i], lw=1.0,
+                    ls=(0, (5, 2)), label=f"第{i + 1}片 Ø{l.d_out_mm:g} 线性")
+        ax.legend(fontsize=7.5, loc="upper left")
+
+        # ---------- 下图: w(r) 剖面 @ p_max (大挠度 vs 线性) ----------
+        r_nl, w_nl = nl.profile()
+        r_l, w_l = lin.profile_unit_w()
+        ax2 = self.ax_wr
+        ax2.cla()
+        ax2.set_title(f"挠度剖面 w(r) @ p = {p_mpa:g} MPa "
+                      f"(大挠度 实线 vs 线性 虚线)")
+        ax2.set_xlabel("半径 r [mm]")
+        ax2.set_ylabel("挠度 w [mm]")
+        ax2.grid(True, alpha=0.35)
+        ax2.plot(r_nl * 1e3, w_nl * 1e3, "-", color="#333", lw=2.0)
+        ax2.plot(r_l * 1e3, w_l * p_max * 1e3, "--", color="#999", lw=1.2)
+        handles2 = [Line2D([], [], color="#333", lw=2.0,
+                           label="w(r) 大挠度 vK"),
+                    Line2D([], [], color="#999", ls="--", lw=1.2,
+                           label="w(r) 线性")]
+        for i, l in enumerate(layers):
+            ax2.axvline(l.b_m * 1e3, color=colors[i], ls=":", lw=1.2)
+            handles2.append(Line2D([], [], color=colors[i], ls=":",
+                                   label=f"第{i + 1}片外缘 Ø{l.d_out_mm:g}"))
+        ax2.axvline(nl.mesh["clamp_radius_mm"], color="r", ls="--", lw=1.0)
+        handles2.append(Line2D([], [], color="r", ls="--", label="固支内缘"))
+        ax2.legend(handles=handles2, fontsize=7, loc="upper left")
+        self.fig.tight_layout()
+        self.canvas.draw()
+
+        self._report_nl(nl, lin, layers, ps, tips_nl, tips_lin,
+                        h_an_pmax, e_pa, nu, t_wall)
+
+    def _report_nl(self, nl, lin, layers, ps, tips_nl, tips_lin,
+                   h_an_pmax, e_pa, nu, t_wall):
+        """大挠度模式状态栏: 刚化因子/适用域/守恒/耗时."""
+        p_max = ps[-1]
+        p_mpa = p_max / 1e6
+        lines = [
+            f"[2D 大挠度 von Kármán] 网格 {nl.mesh['n_cell_r']} 径向带 × "
+            f"nθ={nl.n_theta} → {nl.mesh['n_elem']} 单元, DOF 5/节点 × "
+            f"{nl.n_nodes} = {nl.n_dof} (自由 {int(nl.free.sum())})",
+            f"耗时 {t_wall:.2f} s | Newton 累计 {nl.curve_info['n_newton']} 次 "
+            f"| 载荷步 {nl.curve_info['n_steps']} "
+            f"({nl.curve_info['n_points']} 个曲线点, 逐点热启动续载)",
+            f"层合刚度: A=ΣEt/(1−ν²) 膜 + D=ΣEt³/12(1−ν²) 弯 + "
+            f"k·G·Σt 剪 (B=0: 层间无摩擦可滑移)",
+            f"单片解析参照 @ {p_mpa:g} MPa: h = {h_an_pmax * 1e3:.5f} mm"]
+        ratio_max = 0.0
+        for i, l in enumerate(layers):
+            wnl = abs(tips_nl[i, -1])
+            wln = abs(tips_lin[i, -1])
+            ht = wnl / (l.t_mm * 1e-3)
+            ratio_max = max(ratio_max, ht)
+            kfac = wln / wnl if wnl > 0 else float("nan")
+            mark = "  ← 超出 w/t≤3 建议域!" if ht > 3.0 else ""
+            lines.append(f"  第{i + 1}片 Ø{l.d_out_mm:g}: "
+                         f"h_NL = {wnl * 1e3:.5f} mm (线性 "
+                         f"{wln * 1e3:.5f}) | w/t = {ht:.3f} | "
+                         f"刚化 {kfac:.3f}×{mark}")
+        lines.append(f"环向均匀性 {nl.ring_uniformity():.1e} | "
+                     f"von Kármán 适用 w/t ≲ 2~3 (斜率 ≲ 10°); "
+                     f"超出需全 Green-Lagrange")
+        if ratio_max > 3.0:
+            lines.append("[警告] w/t > 3: 超出 von Kármán 中等转动域, "
+                         "结果仅供趋势参考")
+        self._set_status("\n".join(lines))
 
     # ---------------- 数值核验报告 ----------------
     def _report(self, core, layers, ps, tips, h_an_pmax, e_pa, nu):
