@@ -1,0 +1,1391 @@
+
+====================================================================================================
+POST #308 | author=Clicked | page=16 | id=12941940 | date=February 25, 2016
+====================================================================================================
+Shaft diameter effect on shock performance
+
+russ17: "If you switch from a 16mm shaft to an 18mm shaft does the damping force go up or down?"
+
+ Here's the theory:
+
+On the compression stroke a larger shaft diameter pushes more flow through the compression adjuster (base valve) into the shock oil reservoir. That drives damping force up.
+
+But, the larger shaft also takes up more volume in the rebound chamber so there is less oil flow through the mid-valve. That drives damping force down.
+
+ Does a larger shaft diameter drive damping force up or down? Skoo asked that same question for a snowmobile shock.
+
+  
+
+ [[IMG:1yz-forces.png|//cdn.thumpertalk.com/uploads/imageproxy/1yz-forces.png.c0185fcf191c85e93a56eb71b2505862.png]]
+
+  
+
+ John Curea took up the challenge and dyno tested a '06 yz250 46mm kyb shock with a 16 mm and 18 mm shaft to answer russ17's question.
+
+ Same shock, same valve, same compression adjuster
+
+ Same shim stack
+
+ Only change was 16 mm to 18 mm shaft
+
+ Does a larger shaft diameter drive damping force up or down?
+
+ [[IMG:2-yz250r-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/2-yz250r-stack.png.f1ca1a6e3ac8f7208d4537a81b43662c.png]]
+
+ The 18mm shaft pushes more fluid into the oil reservoir compressing the bladder more which increases the gas spring force measured on the dyno. To compare the 16mm shaft data to the 18mm data we need to correct the dyno measurements for the difference in gas spring force for the two shafts.
+
+  
+
+ All of the dyno data to this point has been PVP (peak velocity pickoff) data. PVP testing only records data at the peak shaft velocity. To get a damping force curve you have to run a series of dyno tests at progressively higher crank rpms to generate progressively higher shaft speeds only recording data at the mid-stroke position where shaft speeds are the highest. The feature of PVP testing is all of the measurements are obtained at the mid-stroke position so the gas reservoir pressure is theoretically always the same – ignoring oil temperature changes over the test which of coarse change the gas pressure.
+
+  
+
+ John Curea ran a CVP dyno test. CVP data (Continuous Velocity Plot) sets the dyno to run at the max shaft speed and records data over a single shock stroke. The test starts at BDC with zero shaft velocity and finishes at TDC with zero shaft velocity. Over the stroke oil is pushed into the reservoir so the final reservoir pressure at TDC is higher than the initial pressure at BDC. That creates a situation where the data recorded through the first half of the stroke does not line up with data through the second half of the stroke because of the increase in reservoir gas pressure. The change in gas force over the stroke creates a hysteresis loop in CVP dyno data.
+
+  
+
+ Ordinarily dyno tuners ignore the gas force change between BDC and TDC and just subtract the mid-stroke gas force as an “average” value over the stroke. That is close enough for most applications but we are trying to make some detailed comparisons here so lets make the correction one time and see how it works out. To make the correction we need to track how much oil is transferred into the reservoir as a function of stroke position, compute the gas force change, and subtract the gas force increase at each stroke position. That has been worked out in the figure below showing the original and gas force corrected data.  
+
+ [[IMG:3-gas-force.png|//cdn.thumpertalk.com/uploads/imageproxy/3-gas-force.png.cd13a81e29b8ca191ec3bb4966dfe6a6.png]]
+
+ Correcting the dyno data for changes in gas force over the stroke pretty much eliminates the hysteresis loop measured on the rebound stroke. Good to know.
+
+  
+
+ On the rebound stroke, the difference between those curves is caused by the fluid flow rate difference between a 16mm and 18mm shaft. How chose is the data to the expected effect?
+
+====================================================================================================
+POST #309 | author=Clicked | page=16 | id=12962715 | date=March 5, 2016
+====================================================================================================
+Theoretical effect on rebound damping
+
+ Dyno testing shows the 18mm shaft produced less rebound damping. That was expected since the larger 18mm shaft has less oil flow through the valve. How close are the dyno results to the expected effect?
+
+  
+
+ The oil volume swept through the valve is straight forward to calculate.
+
+       [[IMG:4-yz-oil-flow.png|//cdn.thumpertalk.com/uploads/imageproxy/4-yz-oil-flow.png.4d1358b207281ef1404b6887dfa81eb5.png]]
+
+ An 18 mm shaft sweeps an oil volume that is 3.8% less than a 16 mm shaft. That creates two effects reducing rebound damping force:  
+
+ At any shaft velocity, the 18 mm shaft has 3.8% less oil flow through the valve. If you compared the 18mm data to the 16mm data at a shaft velocity that is 3.8% lower the oil flow through the 16mm valve would be identical
+
+ The pressure drop across the valve is the damping force measured on the dyno. That force is created by the pressure difference between the top and bottom surface of the valve. Since the 18 mm shaft has 3.8% less exposed valve area the shock is going to generate 3.8% less damping force when the pressure drop across the valve is the same
+
+ Both of those are simple geometric effects created by the shaft diameter change. If you corrected for the oil flow differences and the valve face area change you should be able to overlay the 16 mm shaft data on top of the 18 mm data. Those two corrections are:
+
+ Multiply the measured 16 mm shaft velocity by (1+3.8%) so the oil flow rate through the valve is the same for both tests
+
+ At each shaft velocity, with the same oil flow rate through the valve, the damping force produced by the 16 mm shaft is going to be 3.8% greater due to the larger exposed valve area. So you have to multiply the 16 mm shaft force data by (1- 3.8%) to correct for the difference in valve face area
+
+ That's the theory anyway, how does it work out?
+
+  
+
+ Corrected 18mm Shaft Rebound Data
+
+ The dashed blue line in the plot below multiplies each 16 mm shaft velocity data point by (1+ 3.8%) to correct for the oil flow difference and multiplies the shaft force by (1- 3.8%) to correct for the valve face area difference. With those two corrections the 16 mm shaft data should theoretically overlay on the 18 mm rebound data.  
+
+ [[IMG:5-shaft-correction.png|//cdn.thumpertalk.com/uploads/imageproxy/5-shaft-correction.png.7937d47a2c3741f97cee327d1e69d118.png]]
+
+ The data does not line up. After correcting for oil flow difference and valve face area the 16 mm data (dashed blue line) still produces more damping forces than the 18 mm shaft. Looks like there was more going on in that test then a simple shaft diameter change.
+
+  
+
+ The reason for the difference is simple I think. When kyb changed to an 18 mm shaft they took that opportunity to increase the tuning range of the clicker circuit. When John Curea swapped shafts in the dyno test that also swapped the clicker bleed circuits built into each shaft. So the dyno test ended up with different clicker bleed circuits in each shaft – that difference is important to understand. Bike model-to-model and year-to-year clicker bleed circuits are not always the same. The data here shows and example of that.
+
+====================================================================================================
+POST #310 | author=Clicked | page=16 | id=12966255 | date=March 7, 2016
+====================================================================================================
+yz250 18 mm vs. 16 mm Shaft Dyno Data, Rebound
+
+ There is no simple hand calc to correct the data for the differences in clicker flow area. Flow through the clicker circuit depends on pressure drop while flow through the valve only depends on shaft velocity. The flows are coupled, but in a non-linear way with no simple algebraic correction to relate the two. For non-linear coupled problems like that analysis tools make dyno data interpretation a whole lot easier.
+
+  
+
+ Put in the modified needle geometry and the computed damping force curves line up with the 16 mm and 18 mm shaft data. The 16 mm shaft produced more rebound damping force because of the larger exposed valve face area, larger swept oil volume and smaller clicker bleed circuit. We can double check the needle geometry difference by comparing the compression side data to see if the needle change lines up with that data as well. 
+
+ [[IMG:6-yz250r-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/6-yz250r-dyno.png.ad326852178c28270069fba788838cbe.png]]
+
+====================================================================================================
+POST #311 | author=Clicked | page=16 | id=12972978 | date=March 10, 2016
+====================================================================================================
+yz250 18 mm vs. 16 mm Shaft Dyno Data, Compression
+
+ On the compression side things get more complicated. The 18 mm shaft pushes more fluid through the compression adjuster and that drives damping force up. But the larger shaft reduces oil flow through the mid-valve driving damping force down. Opposing effects make it hard to figure out if the damping force is going to go up or down with the larger shaft which is why russ17 asked the question in the first place.
+
+ [[IMG:7-kyb46w-compression.png|//cdn.thumpertalk.com/uploads/imageproxy/7-kyb46w-compression.png.3d124c1c72ba645f0fb987f9cf22d3f8.png]]
+
+ It would be cool to know how much damping force was generated by the compression adjuster and how much from the main piston. But dyno testing only measures overall shaft force so there is no way to tell out how much of the force was generated by each component. Regardless, russ17's question was what was the overall effect of the shaft change and the dyno measures that.  
+
+ [[IMG:8-yz250c-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/8-yz250c-dyno.png.a4928b20425db0fa1b43da3a1e63934b.png]]
+
+ To get compression damping force out of analysis the bleed circuit force, compression adjuster and force from the main shock valve have to all be summed together. Sum up the components and the overall force turns out to be pretty close to the shaft force measured on the dyno. Dyno test results show the 16 mm shaft produced more damping force. But then again, the 16 mm shaft had the smaller clicker needle geometry so the difference in damping force shown by the data is a little bit exaggerated.
+
+====================================================================================================
+POST #312 | author=Clicked | page=16 | id=12977944 | date=March 12, 2016
+====================================================================================================
+Oil Foaming
+
+ The other interesting thing in John Curea's dyno data in terms of understanding shock valving is the difference in hysteresis loops between the 16 mm and 18 mm shafts. The 18 mm shaft pushes more oil through the compression adjuster. That produces more back pressure on the shock chambers which in turn suppresses the hysteresis loop.  
+
+ [[IMG:10-yz250c-hysteresis.png|//cdn.thumpertalk.com/uploads/imageproxy/10-yz250c-hysteresis.png.f871995c66cdfb634007d4a0db2c2f9c.png]]
+
+ You can get a better grip on the “why” of that looking at the shock chamber pressures generated by the compression adjuster. At zero shaft velocity the oil reservoir starts out with a pressure of 150 psia. As the shaft accelerates, flow through the compression adjuster back pressures the shock driving pressures in the compression chamber up. That sets the value of P.c, the green curve. Meanwhile, the pressure drop across the main piston drives pressures in the rebound chamber down (P.r, the red curve).  
+
+ [[IMG:9-yz250-chmb-press.png|//cdn.thumpertalk.com/uploads/imageproxy/9-yz250-chmb-press.png.cb911b42010d84e01c3970d04aa76e8d.png]]
+
+ Crank down on the compression adjuster and flow resistance through the compression adjuster goes up increasing the value of P.c which back pressures the entire shock and increases pressures in the rebound chamber (P.r). On-the-other-hand, put in a stiffer shock valve stack on the main piston and the pressure drop across the valve goes up driving pressures in the rebound chamber (P.r) down. Through tuning of the main valve compression stack and compression adjuster you can set pressures in the rebound chamber (P.r) to be any value you want.
+
+  
+
+ For the test here, the 16mm shaft rebound chamber pressures drop below the initial reservoir pressure and end up at a value of about 130 psia at a shaft velocity of 7 in/sec. As the shock is driven to higher shaft speeds back pressure from the compression adjuster drives chamber pressures back up so that the 16 mm shaft rebound chamber return to the initial reservoir pressure at shaft speeds around 15 in/sec.
+
+  
+
+ Chamber pressures with the 18 mm shaft (dashed red line) are different in an interesting way. The 18 mm shaft pushes more fluid through the compression adjuster. That produces more back pressure on the shock chambers so that the rebound chamber pressure never falls below the initial reservoir pressure. Keeping the rebound chamber pressurized over the shaft velocity ranges prevents the oil from foaming and that shows up in the dyno data John Curea measured for the shock in terms of a smaller hysteresis loop. In terms of shock valving basics that is an important concept for mx suspension tuning.
+
+====================================================================================================
+POST #313 | author=Clicked | page=16 | id=12991557 | date=March 18, 2016
+====================================================================================================
+Compression Adjuster Performance
+
+ The effect of changing the shock shaft diameter shows up in the compression adjuster performance. The 16 mm shaft data (black line) has a larger hysteresis loop then the 18 mm data (red line). The larger 16 mm hysteresis loop creates a 9% change in damping force between the first half of the stroke and the second half. The data also shows a “hitch” in the curve above shafts speeds of 15 in/sec. That 15 in/sec shaft velocity marks the point where the compression adjuster has generated enough back pressure to return the rebound chamber pressure back to the original reservoir pressure (That was shown above in the chamber pressure plot).
+
+ [[IMG:10-yz250c-hysteresis.png|//cdn.thumpertalk.com/uploads/imageproxy/10-yz250c-hysteresis.png.f871995c66cdfb634007d4a0db2c2f9c.png]]
+
+ After the rebound chamber gets re-pressurized at 15 in/sec the oil “heals” itself collapsing the foam bubble. That causes the 16 mm damping force to jump up closing the hysteresis loop. That behavior doesn't show up in the 18 mm data since the chamber pressures never got low enough to foam out the oil. The right hand curves re-emphasize that point showing hardly any hysteresis loop for the 18 mm data after the data is corrected for changes in reservoir pressure over the stroke.
+
+  
+
+ Modeling shock performance with foamed out oil has some academic interest but frankly little practical use - Here's why: Sooner or later you will come up short landing a triple. When that happens high compression velocities when the rear wheel slams into the whoop face will foam out the oil in the compression stroke. That creates the situation shown in the above Roehrig video frame with foamed out oil below the piston. When the shock flips around into the rebound stroke the piston will just be winging back through foamed out oil producing no rebound damping at all. That launches you over the bars creating your basic snake bite suspension setup.
+
+  
+
+ How severely the oil foams out depends on both pressure and temperature. That means it is going to be different on the first lap compared to the last lap after the shock warms up. It's also going to be different at the start of a whoop field compared to the end as the foaming progressively builds. Inconsistent behavior that depends on the instantaneous oil temperature and stroke history just isn't worth modeling or trying to figure out how to tune.
+
+  
+
+ The fix is simple. Tune the compression adjuster to keep the rebound chamber pressurized at or above the oil reservoir pressure over the stroke velocity range. That keeps the gas dissolved in the shock oil from foaming out. Any time the pressure drops below the reservoir pressure all of the gas dissolved in the oil comes boiling out just like opening a hot bottle of coke. The 16 mm shaft data from John Curea shows that.
+
+  
+
+ While all of that sounds scary, it's important to understand data from that 16 mm shaft test isn't all that bad. The oil foamed out in the 7 in/sec range, but once shaft speeds cleared 15 in/sec the rebound chamber re-pressurized and the oil fixed itself. The shock was able to fix itself because the compression adjuster was set to be much stiffer than the mid-valve. So as shaft velocities increased back pressure from the compression adjuster eventually caught up with pressure drop across the main piston and re-pressurized all of the shock chambers. That fixed the compression stroke cavitation so the rebound side showed hardly any hysteresis at all.
+
+  
+
+ On-the-other-hand, hack around on the compression shim stack making it stiffer and you could easily overrun the tuning authority of the compression adjuster ending up in a situation where the chambers do not re-pressurize. When that happens the oil foams out and stays foamed out. Foamed out oil can create some really wacky behavior in a shock – Valving Logic shows an example of that.
+
+====================================================================================================
+POST #314 | author=mog | page=16 | id=12992393 | date=March 18, 2016
+====================================================================================================
+Oem went back to 16mm shaft for some reason ?
+
+====================================================================================================
+POST #315 | author=harrperf | page=16 | id=12994149 | date=March 19, 2016
+====================================================================================================
+Oem went back to 16mm shaft for some reason ?
+
+ Along with a larger main piston when they made the change to the 16mm.
+
+====================================================================================================
+POST #316 | author=Clicked | page=16 | id=13028946 | date=April 4, 2016
+====================================================================================================
+Along with a larger main piston when they made the change to the 16mm.
+
+ A larger piston produces more damping force with a lower valve pressure drop.
+
+ In that respect a larger piston is like switching to a larger shaft in terms of giving the compression adjuster more control over pressure balancing the shock.
+
+  
+
+ Penske Pressure Balancing
+
+ Tuning the compression adjuster to keep the rebound chamber pressurized is a little different than what Penske describes for pressure balancing a shock. The Penske process, shown on [[LINK:the Roehrig site|http://roehrigengineering.com/wp-content/uploads/Pressure-Balancing.pdf]], emphasizes minimizing chamber pressures to reduce seal drag and enhance tire grip. The process recommended by Penske sets the compression adjuster so the pressure rise above the main piston matches the pressure drop behind the piston in the rebound chamber. The left hand figure shows what Penske recommends as the “Ideal balanced damper”.
+
+ [[IMG:12-penske.png|//cdn.thumpertalk.com/uploads/imageproxy/12-penske.png.e686ca7dcc5dedb6775ed37e94595cf1.png]]
+
+ John Curea's dyno data for an '06 yz250 shock shows you need to move towards chamber pressures in the right hand curve “Excessive head valve damper”. That configuration keeps the rebound chamber pressurized and Curea's 18 mm shaft dyno data shows that suppresses oil foaming and the hysteresis loop measured in test. Back off on back pressure from the compression adjuster using the smaller oil flow of the 16 mm shaft and the hysteresis loop starts growing. Data from that test also shows the kyb shock used in those tests did not produce a bunch of seal drag causing the dyno force to hiccup every time the shaft changed direction through the zero velocity point.
+
+ [[IMG:11-curea-yz250-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/11-curea-yz250-dyno.png.f690dd0a5c67191eef032f8f0f6918fe.png]]
+
+ Valving Logic shows a second example of seal drag for a yz250 shock. Valving Logic was trying to diagnose the effect of an ultra stiff compression adjuster with nearly double the back pressure driving chamber pressures up into the 1181 psi range. Comparison of the stiff adjuster to a normal compression adjuster producing about 575 psi of back pressure showed the dynamic seal drag measured in test was about the same for both configurations. Seal drag for the kyb shock used in that test series was more-or-less independent of chamber pressure.
+
+ [[IMG:13-stiff-cmpadj.png|//cdn.thumpertalk.com/uploads/imageproxy/13-stiff-cmpadj.png.5289e5b2178941e699a915d2b4ff9c1d.png]]
+
+ There are two ways to pressurize the rebound chamber. One is crank up the reservoir gas pressure so that the drop in rebound chamber pressures over the stroke does not go low enough to foam out the oil (Penske approach in the left hand figure). The other approach is tune the compression adjuster to dynamically back pressure the shock as shaft velocities increase (right hand figure). The cool thing about dynamic back pressure is the chamber is only pressurized when shaft velocities are high. When shaft velocities go low (like changing direction through TDC) the compression adjuster does not produce much back pressure. That keeps chamber pressures low and potentially reduces seal drag. Create back pressure by cranking up the gas reservoir pressure and seal drags are higher everywhere.
+
+  
+
+ On-the-other-hand the Valving Logic data shows chamber pressures do not really effect seal drag. So the bigger effect for tuning the compression adjuster is setting the rate of dynamic back pressure to keep the shock chambers pressurized and suppress the hysteresis loop.
+
+  
+
+ There are different schools of thought in terms of what pressure balancing a shock means. Short stroke, high frequency applications of circle track racing may require different pressure balance criteria then shocks setup for the longer strokes and higher shaft speeds of off-road applications. The data here only looks at one shock configuration and that probably does not show the whole picture.
+
+====================================================================================================
+POST #317 | author=GHILL28 | page=16 | id=13029155 | date=April 4, 2016
+====================================================================================================
+Trying to interpret the data in Fig 3 (Excessive Head Valve Damper).  Looking at the Rebound Pressure arc in the left side on the compression stroke.  Why would that follow the same positive pressure trend as the compression pressure?  Shouldn't that still be negative (although reduced in amplitude)?
+
+  
+
+ Is the idea that the head valve forces are so high/excessive that EVERYTHING before it increases in pressure (both sides of the main piston) just due to the rod displacement acting on the volume of oil before the head valve?
+
+====================================================================================================
+POST #318 | author=Clicked | page=16 | id=13034863 | date=April 7, 2016
+====================================================================================================
+GHILL28:
+
+ Think you got the idea there.
+
+ By tuning the head valve (compression adjuster) you can set the back pressure to be anything you want. That gives you control of pressures in the rebound chamber and you can make them go up, down or stay constant.
+
+====================================================================================================
+POST #319 | author=Clicked | page=16 | id=13034871 | date=April 7, 2016
+====================================================================================================
+Factory Connection High Speed Compression Spring
+
+  
+
+ You guys ever test the effects of a softer shock compression adjuster spring?FC sells them and wonder what they will do for dampening and cavitation
+
+  
+
+ Valving Logic tested a Factory Connection compression adjuster spring for an '11 kxf250 shock. To get an idea of what the FC spring does the first thing Valving Logic did was measure the stiffness of the spring:  
+
+ Stock: 0.78 kgf/mm
+
+ FC: 1.2 kgf/mm
+
+ Some FC springs are stiffer – like the one tested here, others are softer. The FC kxf250 compression adjuster spring is 50% stiffer than stock.
+
+  
+
+ But what does that mean?
+
+ The high speed compression adjuster spring pre-loads a plate (spring seat) that operates on the compression adjuster shim stack. Force from the spring acts on the edge of the shim stack clamp or reaches around to clamp some other shim in the stack (like the 10.2 shim in the drawing below). Either way, increasing pre-load on the spring makes the HSC stack stiffer.
+
+ [[IMG:14-comp-adj-fig.png|//cdn.thumpertalk.com/uploads/imageproxy/14-comp-adj-fig.png.787d9a55d4ca9d43f651ff00f5139b9a.png]]
+
+ The stock kxf250 compression adjuster has 4 turns. At 4 turns in (1 mm/turn) the spring produces a force of 3.1 kgf. The stiffer FC spring produces that same force with 2 and 5/8 turns on the adjuster. So the FC spring gives an additional 1 3/8 turns of adjustment on the compression adjuster.
+
+  
+
+ But what does that mean?
+
+ To figure out what the stiffer spring does in terms of damping performance Valving Logic ran a dyno test series on the compression adjuster. The test took all of the shims off of the main piston so the compression adjuster was the only active circuit in the shock. To make sense out of the data Valving Logic had to run a second test series measuring the drag force of fluid flow through the main piston ports. That drag force was subtracted from the compression adjuster data to get a true measure of compression adjuster force.
+
+ [[IMG:15-FC-comp-adj.png|//cdn.thumpertalk.com/uploads/imageproxy/15-FC-comp-adj.png.d6c9c38b2909585dd5a2d989e29e16ac.png]]
+
+ At two turns out on the compression adjuster the dyno data shows the FC spring produces about 3 lbf more damping force then the stock compression adjuster.  
+
+  
+
+ But what does that mean?
+
+ By itself the compression adjuster doesn't make much damping force. That surprises most people and doesn't line up with test ride results where a half turn on the compression adjuster makes a big difference in shock performance, way more than the 3 lbf shown in the above dyno data.
+
+  
+
+ The reason for that is the compression adjuster generates damping force in an indirect way. The compression adjuster back pressures the shock chambers and that prevents the main piston from cavitating. By suppressing cavitation the compression adjuster increases the damping force from the main piston– by a lot. Anyone who has ever cranked down on the compression adjuster could tell you that.
+
+  
+
+ To figure out compression adjuster performance we need to figure out how much back pressure the compression adjuster generates. To get a measure of that Valving Logic ran another dyno test series measuring the back pressure (Pc) produced by the compression adjuster for both the stock and FC spring.
+
+ [[IMG:16-FC-chmb-press.png|//cdn.thumpertalk.com/uploads/imageproxy/16-FC-chmb-press.png.78990c7c9bad9bf7e0139f81db73d450.png]]
+
+ Compared to the stock compression adjuster the FC spring increases pressures in the compression chamber (Pc) by about 9 psi.
+
+  
+
+ But what does that mean?
+
+ So now we're getting somewhere. The FC spring generates 9 psi more back pressure. With higher back pressure the main piston shim stack can be made stiffer to produce a 9 psi higher pressure drop without cavitating the shock chambers.
+
+ In terms of performance:
+
+ How many face shims can you add to the main piston stack to get a 9 psi increase in pressure drop?
+
+ How much more compression damping force would that generate?
+
+ Add one face shim to the stack and the valve pressure drop increases by 8.6 psi. That stiffer shim stack produces about 2.6% more compression damping force. So the FC compression adjuster spring allows the main piston shim stack to be re-tuned to produce 2.6% more damping force and still keep the chambers pressure balanced.
+
+  
+
+ But what does that mean?
+
+ To figure out what a 2.6% more compression damping force means in terms of suspension setup we need some way to relate spring rate, mass and damping. Spring-mass-damper theory gives that relationship in terms of the “zeta” suspension response coefficient. Keep zeta the same and suspension response is the same – that's physics.  
+
+  
+
+ In terms of suspension response:
+
+ With 2.6% more compression damping how much could you increase the spring rate and keep damping performance (zeta) the same?
+
+ With the stiffer spring how much would the rider weight increase?
+
+ Zeta controls both low speed and high speed damping: Low speed damping controls chassis oscillations and that depends on the weight of the chassis plus rider; High speed damping controls the wheels and that depends on the un-sprung wheel weight. Zeta dictates the response of both, the only difference is using the sprung or un-sprung weight in the Zeta equation.
+
+ [[IMG:17-zeta.png|//cdn.thumpertalk.com/uploads/imageproxy/17-zeta.png.e49c1ae84a4356ea50c20477ca83ce8a.png]]
+
+ The compression adjuster is all about high speed damping of the un-sprung wheel weight. In evaluating zeta the wheel weight and linkage ratio are the same for both setups. That cancels out a bunch of stuff in the zeta equation. Hacking through the algebra shows high speed damping depends on a pretty simple relationship between spring rate (k) and the damping coefficient © squared.
+
+  
+
+ Increase high speed compression damping by 2.6% and the suspension is able to handle a spring rate increase of 5.3%. An '11 kxf250 stock suspension uses a spring rate of 5.2 kg/mm for a rider weight of 160 lb. Go over to the Race Tech spring rate calculator and a spring rate increase of 5.3% works out to a rider weight of 181 lbs.  
+
+  
+
+ Stiffer FC compression adjuster spring
+
+ The stiffer FC compression adjuster spring allows you to add one face shim to the main piston stack and keep the shock pressure balanced. The stiffer damping allows the spring rate to be increase for a rider that weighs 21 lbs more. Go to a heaver rider than that and you are going to have to hack around on the compression adjuster shim stack to generate enough back pressure to handle the stiffer shim stack and spring rate of a heavier rider.
+
+  
+
+ To make that setup work the rebound damping needs to be increased to keep the rebound stroke zeta value is the same. Then the low speed damping needs to be increased in both circuits to handle the 21 lb increase in rider/chassis weight. Match zeta in those strokes and the suspension will bottom out, jump and damp like the stock setup with the stock rider weight – i.e. the setup the manufacturer intended for that bike. The only difference is matching zeta re-tunes the suspension for a rider that weighs 21 lbs more.
+
+====================================================================================================
+POST #320 | author=Clicked | page=17 | id=13034873 | date=April 7, 2016
+====================================================================================================
+Valving Logic kxf250 dyno data
+
+ After all of that hacking around on the dyno to figure out the effect of the FC compression adjuster spring Valving Logic ended up a pretty cool set of data with separate measurements for the compression adjuster force, main piston force and overall damping force produced by the kxf250 shock. Those component values measured on the dyno line up pretty well with the theoretical values computed for the shock.
+
+ [[IMG:18-kxf250-1467c.png|//cdn.thumpertalk.com/uploads/imageproxy/18-kxf250-1467c.png.1dbbd20cb92dbd47878584c5c161a251.png]]
+
+ After that initial test series Valving Logic went on to test a stiffer shim stack configuration suggested by rdmx and measured the individual shock component values for that stiffer shim stack configuration as well.
+
+ [[IMG:19-kxf250-1469c.png|//cdn.thumpertalk.com/uploads/imageproxy/19-kxf250-1469c.png.0b4a83ac90e610e284f5b93e8805953b.png]]
+
+ The stiffer stack ended up over running the tuning authority of the FC compression adjuster spring. That drove pressures in the rebound chamber down and caused the oil to foam out in test.  
+
+ [[IMG:20-kxf250-pbal.png|//cdn.thumpertalk.com/uploads/imageproxy/20-kxf250-pbal.png.c0631795dfcf95af3b1d63461dd74c51.png]]
+
+ Comparing the stiffer stack used in the above kxf250 test to the yz250 shock tested by John Curea earlier shows the chamber pressure balance difference between the two shocks. For the yz250 shock the 16mm shaft configuration allowed the rebound chamber pressures to initially drop and then recover as the compression adjuster developed more back pressure at higher speed. That initial pressure drop caused a hysteresis loop in the yz250 dyno data. The 18mm yz250 shaft never allowed the chamber pressures to drop and produced virtually no hysteresis loop in the dyno data (after correcting for pressure changes over the stroke).
+
+  
+
+ The kxf250 compression adjuster allows pressures in the rebound chamber to initially drop (like the yz250) but as the shaft is driven to higher speeds the compression adjuster never develops the back pressure needed to recover and re-pressurize the shock chambers. That foams out the oil and keeps it foamed out producing in some whacky behavior from that shock. In test, opening the low speed clickers from 10 to 18 caused the damping force to go up by 15 lbf! The reason for that is opening the low speed compression adjuster clicker generated even less back pressure causing the shock to cavitate harder. The effect was only 15 lbf, but when the adjusters start driving damping force in the wrong direction the shock becomes hard to tune.
+
+====================================================================================================
+POST #321 | author=Clicked | page=17 | id=13049465 | date=April 14, 2016
+====================================================================================================
+Valve Port Geometry:
+
+ Dyno testing up to this point has been hacking around on shim stacks trying to figure out which stack is stiffer. MXScandinavia asked the question the other way around:  
+
+ If you ran the same shim stack on different valves, which valve is stiffer?
+
+ [[IMG:21-racetech-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/21-racetech-stack.png.ecad60da982cb33d1708520713a9c704.png]]
+
+ Webology of valve port design:
+
+ The general thinking on valve port geometry is wide valve ports allow the flow to dump as soon as the shim stack cracks open. That dumps the fluid pressure producing less low speed damping. With that thinking the Race Tech valve should have less low speed damping.  
+
+  
+
+ Narrow ports, like on the four port valve, are force to dump more of the flow over the sides or “spokes” of the valve port. As the shim stack peels back from the edge more side area opens so the damping force should get progressively softer as the shim stack lifts. That thinking implies the four port valve should get progressively softer at speed making a digressive damping force curve.
+
+ What does the dyno say?
+
+ [[IMG:22-racetech-3pc.png|//cdn.thumpertalk.com/uploads/imageproxy/22-racetech-3pc.png.586464849b71f6c9aaa72ff87e058f74.png]]
+
+ [[IMG:23-racetech-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/23-racetech-dyno.png.7661946f646b160d88f19d67b0d19f7e.png]]
+
+ Plotting the dyno data as a damping coefficient (right hand curve) shows the Race Tech valve was softer at low speed and the Ohins four port valve produced a digressive damping force profile. Those results were expected.
+
+  
+
+ The unexpected result was the Race Tech valve was stiffer producing about 28% more damping force. Visually the wide ports on that valve “look” bigger and MXScandinavia expected the large ports to produce less damping force. Dyno testing shows the results were the other way around.
+
+====================================================================================================
+POST #322 | author=conton11 | page=17 | id=13050168 | date=April 14, 2016
+====================================================================================================
+Since we don't have higher speed data to compare these two valve styles, what does the FEA say at speeds up to the 120 in/sec range? 
+
+ Point of interest:
+
+ Fox uses a valve that looks a lot like the race tech valve for some sled applications. They call it "high flow" in the part number.
+
+====================================================================================================
+POST #323 | author=jotukka | page=17 | id=13050210 | date=April 14, 2016
+====================================================================================================
+With wider ports and same chamber pressure shim stack pressure is lower. Right?
+
+====================================================================================================
+POST #324 | author=harrperf | page=17 | id=13051399 | date=April 15, 2016
+====================================================================================================
+Valve Port Geometry:
+
+ Dyno testing up to this point has been hacking around on shim stacks trying to figure out which stack is stiffer. MXScandinavia asked the question the other way around:  
+
+ If you ran the same shim stack on different valves, which valve is stiffer?
+
+ [[IMG:21-racetech-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/21-racetech-stack.png.ecad60da982cb33d1708520713a9c704.png]]
+
+ Webology of valve port design:
+
+ The general thinking on valve port geometry is wide valve ports allow the flow to dump as soon as the shim stack cracks open. That dumps the fluid pressure producing less low speed damping. With that thinking the Race Tech valve should have less low speed damping.  
+
+  
+
+ Narrow ports, like on the four port valve, are force to dump more of the flow over the sides or “spokes” of the valve port. As the shim stack peels back from the edge more side area opens so the damping force should get progressively softer as the shim stack lifts. That thinking implies the four port valve should get progressively softer at speed making a digressive damping force curve.
+
+ What does the dyno say?
+
+ [[IMG:22-racetech-3pc.png|//cdn.thumpertalk.com/uploads/imageproxy/22-racetech-3pc.png.586464849b71f6c9aaa72ff87e058f74.png]]
+
+ [[IMG:23-racetech-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/23-racetech-dyno.png.7661946f646b160d88f19d67b0d19f7e.png]]
+
+ Plotting the dyno data as a damping coefficient (right hand curve) shows the Race Tech valve was softer at low speed and the Ohins four port valve produced a digressive damping force profile. Those results were expected.
+
+  
+
+ The unexpected result was the Race Tech valve was stiffer producing about 28% more damping force. Visually the wide ports on that valve “look” bigger and MXScandinavia expected the large ports to produce less damping force. Dyno testing shows the results were the other way around.  
+
+  
+
+  
+
+ Again, nice post.
+
+ What's the total combined area of the ohlins vs racetech?  I  imagine the flow out the "sides" of the ohlins is greater - as there are 2 more "sides" to exit at higher stack lifts
+
+====================================================================================================
+POST #325 | author=Clicked | page=17 | id=13055997 | date=April 17, 2016
+====================================================================================================
+Since we don't have higher speed data to compare these two valve styles, what does the FEA say at speeds up to the 120 in/sec range?
+
+ Point of interest:
+
+ Fox uses a valve that looks a lot like the race tech valve for some sled applications. They call it "high flow" in the part number.
+
+  
+
+ You can get an idea of where damping force is going for those two valves at high speed by looking at the damping coefficient curve.
+
+ [[IMG:23a-high-speed.png|//cdn.thumpertalk.com/uploads/imageproxy/23a-high-speed.png.30a9a0e9ab6f5f5be2ccd64c1fb984dd.png]]
+
+ The wide port Race Tech valve has more-or-less topped out. The Ohlins valve is digressive but looks to be flattening out. My guess is that 28% damping force difference measured at 40 in/sec is going to remain more-or-less constant as that shock is pushed out to higher speeds. At some point the throat flow restriction in the four port valve will come into play. The three port valve has none.
+
+  
+
+ How all of that compares to the high flow Fox sled valve is hard to say. The Fox valve may look like the Race Tech valve but when it comes to performance the port geometry details are going to make a difference as well as how that valve port geometry compares to the stock sled valve. Those effects are not always easy to guess, which is what MXScandinavia was trying to demonstrate in the above test.
+
+  
+
+ With wider ports and same chamber pressure shim stack pressure is lower. Right?
+
+  
+
+ Again, nice post.
+
+ What's the total combined area of the ohlins vs racetech?  I  imagine the flow out the "sides" of the ohlins is greater - as there are 2 more "sides" to exit at higher stack lifts
+
+  
+
+ The usual approach to compare valve port geometries is to look at the port area (to estimate fluid force on the shim stack) and the valve port perimeter to estimate the flow spill area.
+
+ Valve port area
+
+ A simple estimate for port area is the port width (w.port) times the length (d.port). For the valve port geometries given above the port area ratio works out to 1.56 for the two valves.
+
+ [[IMG:23b-port-area.png|//cdn.thumpertalk.com/uploads/imageproxy/23b-port-area.png.7ef304c22920b51a2a90286b52514358.png]]
+
+ With 56% more port area the Ohlins valve should have 56% more fluid force on the shim stack and that should push the shim stack to a 56% higher lift. The port area difference is a little larger than the 28% damping force difference shown by the data. But then again damping force does not linearly scale with port area.
+
+ Port perimeter
+
+ The spill area around the valve port perimeter is another parameter used to compare valve port geometries. Assuming some kind of triangular spill area along the d.port length of the valve spoke the ratio of perimeter spill area between the two valves works out to 1.27.
+
+ [[IMG:23c-port-perim.png|//cdn.thumpertalk.com/uploads/imageproxy/23c-port-perim.png.e8dc57b8a9883e0cd0e9ae8540e57d74.png]]
+
+  
+
+ he Ohlins valve has a 56% larger port area. The expectation there is the larger port area puts more fluid force on the shim stack face causing a larger shim stack deflection. So the difference in shim stack flow area should be something like (port area)*(perimeter). Multiply that out and the ratio between the two valves works out to 1.98 which is a hole lot larger than the 1.28 damping force ratio measured in test. The magnitude is off, but at least the direction is right.
+
+ Wave shaped shim stack deflection
+
+ Another effect going on here is the difference in performance of a wide and narrow valve port. Those performance differences are caused by the wave shaped deflection of shim stacks, shown in the MXScandinavia finger press photo below, interacting with the valve port geometry.
+
+ Shim stacks deflect into a wave shape. That wave shaped deflection is centered over the valve port allowing the flow to spill outward over the port edge and tangentially over the valve spokes
+
+ On a wide valve port the wave shaped deflection only opens the middle of the valve port. The left and right edges are closed down by the wave shaped deflection. So, wide ports don't flow over the entire width of the valve port
+
+ [[IMG:24-stack-wave.png|//cdn.thumpertalk.com/uploads/imageproxy/24-stack-wave.png.a369ace9fed5cd171af4bd27122af74f.png]]
+
+ That puts a new dimension on shim stack tuning. Modifying the shim stack clamp, tapper or crossover gap changes the shape of the shim stack wave deflection. Those differences create situations where the shim stack may, or may not, cleanly lift over the entire width of the valve port. When the shim stack does not lift over the entire width the tuning of wide valve port geometries can get tricky.
+
+  
+
+ That also emphasizes shim stack lift, measured via a finger press, does not tell you if the wave shaped stack deflection cleanly opened the left and right sides of the valve port. That creates situations where two shim stacks could have the same center line edge lift but generate different damping forces because the valve port edge was open in one case but not the other.
+
+  
+
+ A better performance parameter is comparing shim stack flow area. That accounts for shifts in the wave deflection shape and interactions of that shape with the valve port geometry. That requires FEA analysis to integrate the flow area around the valve port perimeter or finger press measurements to provide a whole lot more detail on the tangential and radial deflection of the shim stack to get that data. Measurement of shim stack edge lift alone can't give you that info.
+
+  
+
+ Crossover shim stacks discussed earlier are another example where edge lift does not give the whole story, you have to look at the flow area produced by the shim stack deflection to understand how shim stack modifications are going to effect damping force.
+
+====================================================================================================
+POST #326 | author=MidlifeCrisisGuy | page=17 | id=13061608 | date=April 20, 2016
+====================================================================================================
+Thanks for leading an extremely interesting thread. Unfortunately for me, it generates a lot of questions.
+
+  
+
+ I ride woods and most of what I ride is rocky and rooted.  My bikes have 120 to 140 rear tires on 18 inch rims.  7 to 12 PSI, depending on the tire and conditions.
+
+  
+
+ The force curves generated by Restackor assume long, steady state, one dimensional strokes.  The shock dynos, from my understanding, don't test short periodic strokes either.  What is really happening in the shock when we ride over a series of 2 inch roots at 25 MPH ?
+
+  
+
+ Why don't shocks have float in the main stack like a fork stack does ?   Does float play a part in small movement damping ?
+
+  
+
+ I bought a used shock from eBay for parts.   It had a sticker on it from a prominent tuning company.  When I opened it up it had a very small face shim that didn't cover the piston ports.  The shims behind it were covering the ports.  It would have created a very large bleed.   What was the purpose of this ?  Or did someone mess up assembling the shock ?  Would Restackor model this correctly or would it look differently on the dyno ?
+
+  
+
+ I find the force diagrams that Restackor generates to be very linear, even when they are progressive or digressive.   The change in force versus linear are much smaller than what I would have expected.   My butt dyno seems to tell me that shocks sometimes aren't that linear and they encounter episodes of severe progressive behavior.  What might be driving this in the real world compared to in Restackor or on the shock dyno ?   Foaming ? Packing ?
+
+  
+
+ How far are we away from using CFD to model shock behaviors and how do you think that would change the results ?
+
+  
+
+ Is there a way to target shock tuning to isolate braking bumps and trail trash and still provide bottoming resistance on air and big air ?  Seems to me this is where we need some float in the main stack ?  Does flow actually momentarily reverse in the piston when stack float is used ?  Or should this be handled with position sensitive damping ?
+
+  
+
+ Thanks again.
+
+			
+				
+
+	Edited April 20, 2016 by MidlifeCrisisGuy
+
+====================================================================================================
+POST #327 | author=MidlifeCrisisGuy | page=17 | id=13062576 | date=April 20, 2016
+====================================================================================================
+The posts above indicate that changing the HSC spring and stack shouldn't change the damping curve that much, but then there is this thread that seems to indicate otherwise.  http://www.thumperta...r-the-yz-shock/
+
+  
+
+ I implemented this mod.  It worked exactly how 2grimjim said it would, removing the jolt from high speed hits.  I used the FC connection spring because it was easier to obtain and I softened the HSC stack and wala, I had a bike that soaked up high speed hits instead of jarring on them.
+
+  
+
+ According to this thread, the HSC adjuster only ever contributes a few 10s of pounds of force to the overall damping.  So how is it that it could be creating the jarring that 2grimjim and I both observed ?  Or more importantly, how does increasing the flow of the compression piston decrease the jarring ?  It seems that 2grimjim, myself and others all agree it works, the question is why.
+
+  
+
+ This thread is also applicable to this discussion (http://www.thumperta...-kxf-250-shock/) because they actually measures the lack of pressure on the rebound side due to having the compression adjuster running too wide.  Presumably drilling out the piston ports and reducing the spring pressure would achieve the same thing and make things worse, not better ?
+
+  
+
+ So why does lowering the HS compression adjuster spring pressure removing the jarring ?  Does it really modify the compression curve on hits, its transient response, or is it cavitating the oil on the rebound cycle which allows a faster rebound ?  Or is something else going on ?
+
+  
+
+ Thanks
+
+====================================================================================================
+POST #328 | author=Clicked | page=17 | id=13065317 | date=April 22, 2016
+====================================================================================================
+You should read the post here again:
+
+ Factory Connection High Speed Compression Spring
+
+  
+
+ But what does that mean?
+
+ By itself the compression adjuster doesn't make much damping force. That surprises most people and doesn't line up with test ride results where a half turn on the compression adjuster makes a big difference in shock performance, way more than the 3 lbf shown in the above dyno data.
+
+  
+
+ The reason for that is the compression adjuster generates damping force in an indirect way. The compression adjuster back pressures the shock chambers and that prevents the main piston from cavitating. By suppressing cavitation the compression adjuster increases the damping force from the main piston– by a lot. Anyone who has ever cranked down on the compression adjuster could tell you that.
+
+  
+
+ To figure out compression adjuster performance ...
+
+  
+
+ The compression adjuster has a bunch of tuning range and it does that by controlling cavitation. So why does a softer HS compression adjuster spring reduce jarring?
+
+  
+
+ You mention cavitation, but it does not sound like you have really thought it through. When the compression adjuster does not supply enough back pressure to push the oil through the main valve the oil cavitates behind the main piston (Roehrig video). When the shock cavitates the oil can not make it though the main piston. So where does the oil go?
+
+ [[IMG:A1-cavitation.png|//cdn.thumpertalk.com/uploads/imageproxy/A1-cavitation.png.268512d440db438ee9c862a99d5a94cc.png]]
+
+ When there is not enough back pressure the oil that was supposed to go through the main piston into the rebound chamber is pushed out through the compression adjuster into the oil reservoir. We are not talking about the usual small oil flow displaced by the shock shaft. We are talking about a large oil flows displaced by the main piston – Big flows and big flows produce big pressures.
+
+  
+
+ Pushing that large oil volume through the small 6x2mm compression adjuster ports creates a big back pressure and that back pressure is working against the main piston area with low pressure foamed out oil behind the piston in the rebound chamber. Big pressure on the main piston area produces big forces and that creates the jarring hit MidlifeCrisisGuy is talking about on square edge hits.
+
+  
+
+ The 2grimjim thread linked above made 4 mods to reduce the jolt:
+
+Increased the compression adjuster port size to 6x3.8mm. That is a 3.6 times more flow area and reduces the port pressure drop by a factor of 13
+
+Softer FC compression adjuster spring. 2grimjim mentions the softer compression adjuster spring didn't do anything from full in to full out on the adjuster. He needed a third mod to fix that
+
+Modify the compression adjuster spring seat to operate on the outside edge of the compression adjuster shim stack instead of the clamp shim. The modified spring seat works the same as the one SDI sells. Moving the compression adjuster spring force to work on the outside edge of the shim stack increases the compression adjuster stiffness by a lot
+
+2grimjim also mentions he was using a modified main piston shim stack, but he does not say what that stack was
+
+ The situation here, as I understand it, is the shock is severely cavitating on sharp compression hits. The 2grimjim mod opens up the compression adjuster ports and softens the compression adjuster spring to allow the shock to cavitate even harder and blow through the stroke on a hard hit.
+
+  
+
+ The other way to go, and it makes more sense to me, is just soften the main piston shim stack. That softens compression damping to accommodate square edge hits, prevents the main piston from cavitating, keeps the oil from foaming out and gives you a chance of some tunable configuration on the rebound stroke to control of the suspension motion. 2grimjim mentions he tried that approach but could not figure out how to change the main piston shim stack to keep enough low speed damping while softening the high speed.
+
+  
+
+ That sums up one of those basic “How do you tune a shim stack to control the shape of the damping force curve” questions. The dyno data on TT shows you how to soften high speed damping but we have not gotten to those dyno tests yet...........
+
+ ------------
+
+ Oil Viscosity
+
+ What the heck does DaveJ's 215.VM2.K5 – SPI-3 vibration cancellation fluid do in terms of shock performance?
+
+  
+
+ MXScandinavia had that question and re-tested the Jake01 stack with DaveJ's 215.VM2.K5 – SPI-3 vibration cancellation fluid to see what the oil does in terms of shock damping performance.
+
+ [[IMG:25-spi-oil.png|//cdn.thumpertalk.com/uploads/imageproxy/25-spi-oil.png.5486a814a4d0f665cff59c5aa8c1ed62.png]]
+
+ MXScandinavia's comment on the results:
+
+ The SPI3 behave like a ordinary thicker oil in the beguinning but ordinary oils use to fall and meet the thinner oil in the end, but it seams that the viscosity rice with the pressure and hold the same slope angel as jake 01
+
+ My take on MXScandinavia's comment: Push a high viscosity oil through the clicker bleed circuits and damping force goes up. But here is an interesting artifact of fluid dynamics: Once the flow goes turbulent, oil viscosity does not make much difference in flow resistance. So at high speed thin oils and thick oils end up producing about the same damping force. Whether that makes any sense or not doesn't really matter, it's just the way it is.
+
+  
+
+ The dyno data shows 215.VM2.K5 – SPI-3 vibration cancellation fluid does not fall off at high speed. It is stiffer everywhere, both at low speed and at high speed. Those results indicate the effect of that oil is not a viscosity effect.
+
+  
+
+ The other oil parameter that effects damping is oil density. It takes more force to push a heavy fluid through a flow restriction. That is a basic F=ma kind of deal and that effect is not going to drop off at high speed like oil viscosity does. Run ReStackor with a 10% higher oil density and the results line up with the MXScandinavia 215.VM2.K5 – SPI-3 vibration cancellation fluid dyno data.
+
+ [[IMG:26-spi-rstk.png|//cdn.thumpertalk.com/uploads/imageproxy/26-spi-rstk.png.4fc19022602a60fa0a7daf37407c8d08.png]]
+
+ Increasing the oil density effects the damping force produced from both the base and mid-valve. That alters the ability of the base valve to pressure balance the shock and control cavitation. DaveJ tries to come to grips with that in a thread here trying to figure out the fork mods needed to re-balance the chambers with the higher pressure drops produced by 215.VM2.K5 – SPI-3 vibration cancellation fluid.
+
+  
+
+ Brand-to-brand differences in oil density have a direct impact on damping force and those oil density differences are larger than most people realize.
+
+ [[IMG:27-oil-density.png|//cdn.thumpertalk.com/uploads/imageproxy/27-oil-density.png.55b70277a78ae1536877c0d37fe48477.png]]
+
+ The other important thing to get a grip on is cSt values of kinematic viscosity printed on the bottle are not a direct measure of viscosity. Kinematic viscosity is defined as the true viscosity (aka dynamic viscosity) divided by oil density.
+
+  
+
+ That creates problems comparing oils. An oil might have a slightly lower cSt value of kinematic viscosity (suggesting damping force would go down), but a higher density (making damping force go up). That gets even worse once you understand the higher density oil also has a higher viscosity because (true viscosity) = (Kinematic viscosity)*(density).
+
+  
+
+ Oil viscosity tables splattered around on the web comparing cSt values of kinematic viscosity really tell you nothing about how the oil is going to perform. You have to look at both viscosity and oil density.
+
+====================================================================================================
+POST #329 | author=mog | page=17 | id=13065669 | date=April 22, 2016
+====================================================================================================
+I'm having a similar situation wanting the same low speed but less high speed on my 16 sxf 250 shock ,everything I do on the main piston results in a drop in low speed and high speed,I've tried single stage ,2 stage ,as the stack is so stiff in low speed shims (12 ) to get the low speed I want,any changes to the cross overs or hs stack do little to change the balance ,I think a ring shim us the only answer but haven't seen one for years
+
+====================================================================================================
+POST #330 | author=MidlifeCrisisGuy | page=17 | id=13065672 | date=April 22, 2016
+====================================================================================================
+Clicked: one time I revalved my shock and forgot to fully recharge the badder.   I was running with 40 PSI in the bladder.   By your theory that should have caused severe cavitation and thus jarring on even moderate bumps.  Yet I noticed nothing unusual.  Why ?
+
+  
+
+ If cavitation really is the issue with these sharp hits, we should be running higher bladder pressures and increasing the high speed compression setting should make the hits better.  I have not found that to be the case, at all.
+
+  
+
+ FWIW, I put a softer compression stack in my shock tonight and left the compression adjuster stock.   At a later point I am going mod just the compression adjuster.
+
+			
+				
+
+	Edited April 22, 2016 by MidlifeCrisisGuy
+
+====================================================================================================
+POST #331 | author=racerfmx450 | page=17 | id=13066479 | date=April 22, 2016
+====================================================================================================
+Clicked,
+
+  i have tested a new cadj. Design on a crf 250/2016 shock. 
+
+ The shock works well with the stock cadj. and stiffer compstack.
+
+ With the new cadj. The bike feels like a wild horse... 
+
+ Side by side kicking on bracking and acelleration.. 
+
+ No traktion.
+
+ Feels way to stiff. 
+
+ Do you think i can see what happend on the restackor? 
+
+ I am not sure about the stock design cadj stack. 
+
+ I use 6 ports for the Simulation but i think the shims bend only like a 2 port piston ...
+
+ Can you tell me how i can compare the stock cadj design with a 4 port piston on the restackor and see what happend?
+
+====================================================================================================
+POST #332 | author=EXC Yankee | page=17 | id=13066706 | date=April 22, 2016
+====================================================================================================
+I'm not that technical, but have been trying to improve my suspension. I been scouting threads for ways to improve shock. 
+
+ If I can quote another thread.. regarding modifications to the exchange stack and /or changing to the softer FC cadj spring:
+
+  "
+
+ #32        10/12/2014
+
+ Midlife crisis it turned out good, better than stock but I went through it again and made it much better. 
+
+ I originally used gray racers exchange stack with the crossover 9 mm shim. It was better than stock but my current exchange stack is much better. 
+
+ It's the stock shim stack but with the factory connection lighter high speed adjuster spring. It is the best it felt so far."
+
+ In a nutshell, should I leave the stock spring on or change it to the FC spring. I am assembling this shock tonight, revalved it for softer compression and beefed up the rebound(2001 YZ426).
+
+ I preferr not to tear it down again cause of the spring.
+
+ Thanks for your reply.
+
+			
+				
+
+	Edited April 22, 2016 by YZ Yankee
+
+====================================================================================================
+POST #333 | author=EXC Yankee | page=17 | id=13066727 | date=April 22, 2016
+====================================================================================================
+Clicked,
+
+  i have tested a new cadj. Design on a crf 250/2016 shock. 
+
+ The shock works well with the stock cadj. and stiffer compstack.
+
+ With the new cadj. The bike feels like a wild horse... 
+
+ Side by side kicking on bracking and acelleration.. 
+
+ No traktion.
+
+ Feels way to stiff. 
+
+ Do you think i can see what happend on the restackor? 
+
+ I am not sure about the stock design cadj stack. 
+
+ I use 6 ports for the Simulation but i think the shims bend only like a 2 port piston ...
+
+ Can you tell me how i can compare the stock cadj design with a 4 port piston on the restackor and see what happend?
+
+I thought that for aome bikes, FC made softer CADJ springs, other bikes, stiffer. 
+ Was your spring suppose to be softer or stiffer?
+
+====================================================================================================
+POST #334 | author=conton11 | page=17 | id=13066764 | date=April 22, 2016
+====================================================================================================
+While we are in the topic of adjusters, I have some snowmobile shocks that appear to have huge range. Two are fox with "dsc" adjuster and the other two are Walker Evans. The range feels like 2 factors at low speed. Though I have never dyno tested them, so I don't know.
+
+ Why do much range?
+
+ I have another KYB shock with a typical KYB/Showa "dirt bike" style adjuster. The range of adjustment is hardly noticeable.
+
+ If these shocks adjust the way they feel, I imagine the shape of the curve is being dragged all over.
+
+			
+				
+
+	Edited April 22, 2016 by conton11
+
+====================================================================================================
+POST #335 | author=Clicked | page=17 | id=13068785 | date=April 24, 2016
+====================================================================================================
+Clicked,
+
+ i have tested a new cadj. Design on a crf 250/2016 shock.
+
+ The shock works well with the stock cadj. and stiffer compstack.
+
+ With the new cadj. The bike feels like a wild horse...
+
+ Side by side kicking on bracking and acelleration..
+
+ No traktion.
+
+ Feels way to stiff.
+
+ Do you think i can see what happend on the restackor?
+
+ I am not sure about the stock design cadj stack.
+
+ I use 6 ports for the Simulation but i think the shims bend only like a 2 port piston ...
+
+ Can you tell me how i can compare the stock cadj design with a 4 port piston on the restackor and see what happend?
+
+  
+
+ There are a lot of different compression adjuster valve designs:
+
+ [[IMG:A2-cmp-adj-geom.png|//cdn.thumpertalk.com/uploads/imageproxy/A2-cmp-adj-geom.png.e1150c288b1b19223714720b188f702d.png]]
+
+ The left hand valve is the more typical compression adjuster configuration using a perimeter port. That valve deflects the shim stack Belleville washer style allowing the flow to spill all the way around the valve perimeter.
+
+  
+
+ Valves on the right are also for compression adjusters and use discrete ports. There the flow spills over the valve edge (w.port) and port “spoke” length (d.port). So the spill area there is a little different.
+
+  
+
+ In either case the parameters describing the valve (r.port, d.port and w.port) are the same. If you follow the process the calculations can tell when N.thrt*w.port extends all the way around the valve perimeter then the valve has a perimeter seat and when N.thrt*w.port is less than the perimeter the calculations are dealing with a discrete port configuration like the valves on the right.
+
+  
+
+ Spec the input parameters and you can compare a 3 port, 4 port, 6 port perimeter seat or an 8 port perimeter seat valve along with the shim stack deflections for each.
+
+====================================================================================================
+POST #336 | author=Clicked | page=17 | id=13071111 | date=April 25, 2016
+====================================================================================================
+Other things to check out on the stiffer modified compression adjuster is the differences in clicker flow area and the cadj spring seat. If the modified cadj uses a spring seat that clamps the outside edge of the shim stack if is going to be a whole lot stiffer than a seat that acts on the stack clamp.
+
+====================================================================================================
+POST #337 | author=MidlifeCrisisGuy | page=17 | id=13071528 | date=April 25, 2016
+====================================================================================================
+When there is not enough back pressure the oil that was supposed to go through the main piston into the rebound chamber is pushed out through the compression adjuster into the oil reservoir. We are not talking about the usual small oil flow displaced by the shock shaft. We are talking about a large oil flows displaced by the main piston – Big flows and big flows produce big pressures.
+  
+
+ Pushing that large oil volume through the small 6x2mm compression adjuster ports creates a big back pressure and that back pressure is working against the main piston area with low pressure foamed out oil behind the piston in the rebound chamber. Big pressure on the main piston area produces big forces and that creates the jarring hit MidlifeCrisisGuy is talking about on square edge hits.
+
+  
+
+ This doesn't happen.   If the oil cavitates on the rebound side, it is due to low pressure there.   Oil flows into the rebound side from the high pressure on the compression side via the rebound clicker.   The flow through the rod piston is from the high pressure compression side to the rebound side.  None of the cavitated oil on the rebound side goes anywhere.   Even if the rebound side cavitates, there is no big exodus of oil out of the compression chamber into the reservoir except for the normal shock rod displacement.
+
+  
+
+ I think the jarring we feel on square hits is due to trying to force the rod volume through the exchange stack quickly.   The high pressure created by this event acts on the main piston, creating the jarring force.  I suspect that the piston port area on the Yamaha kyb shocks is sufficient (8 x 3mm holes), especially on the 16mm shock shafts.   I suspect the problem is that the exchange piston stack is too stiff and it has too much preload from the compression adjuster spring. 
+
+  
+
+ I revalved the rebound stack on my 250FX.  I left the compression adjuster stock.   The jarring remains, though it is somewhat softer.  I will test a softer compression adjuster spring as soon as I get one.  
+
+  
+
+ FYI, the compression adjuster springs on the newer Yamaha shocks (ie left hand reservoirs on reverse engine bikes) is much smaller than the previous springs.  They are not interchangeable.
+
+			
+				
+
+	Edited April 25, 2016 by MidlifeCrisisGuy
+
+====================================================================================================
+POST #338 | author=KPRacing | page=17 | id=13072019 | date=April 25, 2016
+====================================================================================================
+When the rebound chamber cavitates, the volume of oil being forced though base valve is far more than the shock shaft displaces. The shock shaft is not displacing any oil during cavitation. It is the midvalve piston basically raising the floor (with a small amount of oil bleeding through). The volume displaced by the piston face is huge in comparison to the shaft volume.
+
+ In MidlifeCrisisGuy's tuning, the bigger holes & softer compression spring are allowing the cavitation to continue by letting the oil bleed through the base valve. This is giving a softer feel over square edge bumps but it is not curing the cavitation problem. It is actually just letting cavitation run its course. So while this may feel better on the hits, it is not helping with the rebound side of things or with big compression hits.
+
+ So like Clicked stated, going with a softer midvalve setting would be the better way to go. If you go too soft on the mid valve setting, the suspension will kick on small hits because it is actually bottoming or the wheel is getting tossed up into the bike (bottoming) & kicking.
+
+ Sorting the mid valve will give more rebound control in multiple high speed hits & make for a more consistent handling bike through a series of hits vs softening the base valve.
+
+ Years ago, I tried softening the base valve stack & opening up the base valve ports. I was getting a plush ride over square edge hits so  I decided to soften the mid valve compression stack in an attempt for an even smoother ride. My results were a riding style that had me doing random flying "W's" (feet off the pegs). Initially I thought it was still too stiff so i went softer on the mid valve until the flying "W's" were happening on bumps I could barely see (small rounded bumps). The light went on & i realized I was bottoming &/or having the rear wheel tossed up so violently that it was kicking the rear.
+
+			
+				
+
+	Edited April 26, 2016 by KPRacing
+
+====================================================================================================
+POST #339 | author=MidlifeCrisisGuy | page=17 | id=13072259 | date=April 25, 2016
+====================================================================================================
+When the rebound chamber cavitates, the volume of oil being forced though base valve is far more than the shock shaft displaces. The shock shaft is not displacing any oil during cavitation. It is the midvalve piston basically raising the floor (with a small amount of oil bleeding through). The volume displaced by the piston face is huge in comparison to the shaft volume.
+
+  
+
+ This can't happen.   The only path for the cavitated oil to go anywhere is past the main piston.  The oil on the other side of the main piston is under very high pressure due to the piston being moved by the bump.   As soon as that cavitated oil is put under pressure, it returns to its normal volume.   The only place the cavitated oil is going to exist is on the rebound side of the piston.
+
+  
+
+ This theory is proven in the Roehrig video.   The accumulator bladder membrane does not move much further when cavitation occurs than when a normal stroke occurs.  It does move faster because the rod is moving faster, but that is all.   
+
+  
+
+ I am going to experiment with bladder pressures.   If your theory is true, higher than normal bladder pressures should cure the cavitation issue.  What is the highest bladder pressure that one can run in a stock shock ?
+
+			
+				
+
+	Edited April 26, 2016 by MidlifeCrisisGuy
+
+====================================================================================================
+POST #340 | author=KPRacing | page=18 | id=13072437 | date=April 26, 2016
+====================================================================================================
+You can safely run 220-240psi
+
+ On some snowmobile shocks the nitrogen psi is as high asb275. So I would think you could probably go as high as 275psi but I have not done that on a bike shock. This will affect the spring rate & sag numbers.
+
+ As far as the Roehrig video. The setup is actually restoring the cavitation to normal quite well at the faster shaft speeds.. When the cavitaion gets going bin that video, it looks like the shock is moving quite fast (rear world bump situations) for the amount of stroke. The rear wheel would be moving full stroke in a very fast sequence.
+
+ I'm sure if you watch the video in slow motion the bladder movement changes it's time sequence as cavitation starts to occur. What I mean is that it starts it's movement earlier in the shock stroke & peaks (travel wise) sooner & a bit further.
+
+ Another thing with the bladder movement in that video is that the bladder is covering a large area. A jump in oil flow is still going to look like a little movement on that bladder. But again, that system looks like it restored the oil from a cavitation state quite well.
+
+			
+				
+
+	Edited April 26, 2016 by KPRacing
+
+====================================================================================================
+POST #341 | author=Clicked | page=18 | id=13072441 | date=April 26, 2016
+====================================================================================================
+This can't happen.   The only path for the cavitated oil to go anywhere is past the main piston.  The oil on the other side of the main piston is under very high pressure due to the piston being moved by the bump.   As soon as that cavitated oil is put under pressure, it returns to its normal volume.   The only place the cavitated oil is going to exist is on the rebound side of the piston.
+
+  
+
+ This theory is proven in the Roehrig video.   The accumulator bladder membrane does not move much further when cavitation occurs than when a normal stroke occurs.  It does move faster because the rod is moving faster, but that is all.   
+
+  
+
+ I am going to experiment with bladder pressures.   If your theory is true, higher than normal bladder pressures should cure the cavitation issue.  What is the highest bladder pressure that one can run in a stock shock ?
+
+  
+
+ To get a grip on what KPRacing was explaining above you need to think through the fluid volume balance. When fluid can’t make it through the main piston due to inadequate back pressure the rebound chamber foams out (cavitates). You seem hooked up on that idea and the Roehrig video linked above shows that really does happen in a shock. I suspect this discussion here is why that video got made in the first place. 
+
+  
+
+ The foam that ends up in the rebound chamber (gas bubbles) isn’t supposed to be there – that volume occupied by the foam is supposed to be filled with oil. Instead it is filled with gas bubbles and that forces an equal volume of oil to be displaced out the top of the shock.
+
+  
+
+ As a simple example to get your head around that idea you could take a non-cavitating shock plus some air bubbles and cram those air bubbles into the rebound chamber. Do that and the oil displaced by the air bubbles gets popped out the top of the shock. Either that or your shock body explodes due to the added volume. And no, you can’t compress the gas bubbles to zero volume. The bubbles are there, they take up space and you can actually see them.
+
+ [[IMG:A3-volume-bal.png|//cdn.thumpertalk.com/uploads/imageproxy/A3-volume-bal.png.78943c32d161ead04bb5dbd9b2c08bf4.png]]
+
+  
+
+ You aren't going to be able to solve the problem by reservoir gas pressure. The Valving Logic thread you linked above shows chamber pressures in the 400 psi range at 70 in/sec. Push that out to 250 in/sec and you are going to be in the 1,000 psi range. At that pressure cavitation is not going to care much about a change in gas reservoir pressure 100 psi one way or the other.
+
+ [[IMG:A4-chmb-press.png|//cdn.thumpertalk.com/uploads/imageproxy/A4-chmb-press.png.6afc5d226b2cc5d2dc58f4e29ccb033b.png]]
+
+ If you were successful at suppressing cavitation by gas reservoir pressure or retuning the compression adjuster the shock would then be blowing even more fluid through the main piston and generating even more compression damping force.
+
+  
+
+ You don’t want that, at least you say you don’t. You already have too much compression damping and that is bouncing the back end around on square edge bumps. To stop that you want less compression damping – to get there you need to soften high speed compression damping  on the main piston stack. That will soften damping and stop the cavitation. It’s a win-win situation for you.
+
+			
+				
+
+	Edited April 26, 2016 by Clicked
+
+====================================================================================================
+POST #342 | author=MidlifeCrisisGuy | page=18 | id=13074742 | date=April 27, 2016
+====================================================================================================
+If that is what is happening, that makes sense.  
+
+  
+
+ I find it hard to believe that we'd have crazy high pressure on one side of the piston causing the jarring and have cavitation on the other side, but I guess it could happen.  It makes sense that if the rebound side is cavitating that there is a lack of oil there and thus the main piston would be trying to push most of the main piston flow through the compression adjuster, which was never designed to take those flows.  The pressure acting on the main piston would explain the jarring.
+
+  
+
+ Softening the main compression stack would certainly help.   I did this on my WR, to the point that it is a bit too soft.  It still jarred to a certain extent.   The only thing that cured it was using the softer compression adjuster spring and modifying the compression adjuster stack.   I don't see the downside of doing that, really.  You can only soften the main stack so much.
+
+  
+
+ Is there any way that the main compression stack could be set up to be softer for small travels near the top of the stroke ?   Would a float in the stack do this ?
+
+  
+
+ The reason I got into all this was that the Restackor sims assume steady state and the shock dynos do sinusoidal loads.  In the real world we have impulse functions for inputs.    How does the response compare for transient inputs versus steady state ?
+
+			
+				
+
+	Edited April 27, 2016 by MidlifeCrisisGuy
+
+====================================================================================================
+POST #343 | author=GHILL28 | page=18 | id=13074835 | date=April 27, 2016
+====================================================================================================
+Is there any way that the main compression stack could be set up to be softer for small travels near the top of the stroke ?   Would a float in the stack do this ?
+
+  
+
+ Bleed, or flutter shim, or non-interactive crossover with a soft initial stack/larger crossover gap.
+
+====================================================================================================
+POST #344 | author=GDI70 | page=18 | id=13074897 | date=April 27, 2016
+====================================================================================================
+46mm shock is apples to oranges when tuning what you're after compared to a 50mm newer kyb shock.
+
+			
+				
+
+	Edited April 27, 2016 by GDI70
+
+====================================================================================================
+POST #345 | author=MidlifeCrisisGuy | page=18 | id=13075567 | date=April 27, 2016
+====================================================================================================
+46mm shock is apples to oranges when tuning what you're after compared to a 50mm newer kyb shock.
+
+  
+
+ The bike is a 2015 YZ250FX, which comes with a 50mm shock with a 16mm rod.   My WR had a 46mm shock with a 18mm rod.  
+
+  
+
+ Why is the 50mm shock harder to tune ?  More oil to move, but the piston ports are bigger.  I don't see the problem.
+
+====================================================================================================
+POST #346 | author=GDI70 | page=18 | id=13075673 | date=April 27, 2016
+====================================================================================================
+It's not harder to tune. Just approach it the way clicked explains earlier in The thread. 
+
+ Focus on the comp and reb areas. Another reason you may feel a difference between the two, is the piston band wear the 46/18 mm shocks can have. Coupled with the shaft bleed in that shock, that may be some of what you felt differently between the two.
+
+====================================================================================================
+POST #347 | author=GHILL28 | page=18 | id=13075922 | date=April 27, 2016
+====================================================================================================
+Yeah that's another thing.  The aftermarket DU glide bushings remove a LOT of drag from the system.  Or allow more blow-by, or both.  Who knows.  Either way, that removes a TON of effective "damping" from the system.  I leave the stock glide ring now for control reasons.
+
+====================================================================================================
+POST #348 | author=tmsuspension | page=18 | id=13075969 | date=April 27, 2016
+====================================================================================================
+Cavitation occurs due to an extreme drop in pressure on the shock fluid so someone correct me if I'm wrong,
+
+ If your mv and bv settings match well in my mind a reb stack that is stiffer than maybe normal,allows more oil to bypass via reb adj. would aid slightly in maintaining a consistent reb chamber pressure?
+
+====================================================================================================
+POST #349 | author=MidlifeCrisisGuy | page=18 | id=13076011 | date=April 27, 2016
+====================================================================================================
+Something else doesn't make sense here.   A 3" bump at 20 MPH supposedly results in a wheel speed of 150 in/sec, assuming the bump is square, which it isn't and assuming the tire doesn't absorb some of it, which it does. 
+
+  
+
+ Assuming we have a linkage ratio of 3:1, that results in a shock rod speed of only 50 in/sec.  We shouldn't have cavitation at such low piston velocities, should we ?  This leads me to ask if there is something about transient inputs that our SS analysis isn't addressing.
+
+  
+
+ Another difference between hitting trail trash and landing a jump is that the suspension is partially compressed when hitting trail trash.  When landing a jump, it is fully extended.
+
+			
+				
+
+	Edited April 27, 2016 by MidlifeCrisisGuy
+
+====================================================================================================
+POST #350 | author=MidlifeCrisisGuy | page=18 | id=13076635 | date=April 27, 2016
+====================================================================================================
+Here is something else I don't get.   When I hit a root at speed, it generates a jolt.  But if I land with an equivalent wheelspeed, there is no jolt.  The landing is very soft and controlled.   Why the difference ?
+
+  
+
+ 3" object at 20 MPH = 150 ips wheelspeed.
+
+  
+
+ 150 ips = 12.5 fps.  v = vo + at.  12.5 = 0 + 32.2 (t); t = 0.388 seconds falling.
+
+  
+
+ D = vot + 1/2 at^2  = 0 + 1/2 * 32.2 * (0.388) ^2 = 2.42 feet.
+
+  
+
+ Why doesn't my landing feel more jolt like ?  According to your theory the piston should be cavitating the same way and there should be large volumes of oil being forced through the compression adjuster stack.  That should create a jolt.
+
+  
+
+ I think there is something more than cavitation going on here.
+
+			
+				
+
+	Edited April 27, 2016 by MidlifeCrisisGuy
+
+====================================================================================================
+POST #351 | author=GDI70 | page=18 | id=13076685 | date=April 27, 2016
+====================================================================================================
+When you jump off something you use all the travel; unloaded On trail trash you are already in the stroke roughly one third.
+
+			
+				
+
+	Edited April 27, 2016 by GDI70
+
+====================================================================================================
+POST #352 | author=harrperf | page=18 | id=13077426 | date=April 28, 2016
+====================================================================================================
+It's not possible to not feel the "high" frequencies" inherent in a chassis, wheel, and suspension system that will still be there if all damping force was removed.
+
+A good test for you midlife - would be practically remove all damping.  Make the stack EXTREMELY soft - but just strong enough to not break the shims in the rebound direction - and soften the compression adjuster stack some.
+
+Then go ride your normal "trail trash" type obstacles - be sure to not jump or large g outs - faster bike speeds.  
+
+  
+
+ You will find there is still a huge amount of feedback felt to the bike and seat etc - no matter how soft you make the damping.  This is something NO amount of suspension tuning will get rid of.  You have to remember the wheel and swing arm system has inertia - it doesn't want to move....so there will always be a jolting force.
+
+Once you find what type of jarring will always be there - then tune your suspension to not make that worse - and make the suspension perform to it's best in all other variables.
+
+====================================================================================================
+POST #353 | author=Clicked | page=18 | id=13079756 | date=April 29, 2016
+====================================================================================================
+Progressive damping force curve
+
+ Crossovers and stack float create progressive damping force curves. Progressive curves get stiffer at high speed and that locks up compression damping on hard hits forcing the bike to jump over stuff, like in mx applications.
+
+====================================================================================================
+POST #354 | author=Clicked | page=18 | id=13079759 | date=April 29, 2016
+====================================================================================================
+Digressive damping force curve
+
+ Enduro bikes and trail bikes are setup with the opposite shape of a digressive damping force curve. Digressive curves need to be stiff enough at low speed to keep the chassis from wallowing and softer at high speed to allow the wheels to float over bumps. MidlifeCrisisGuy and 2grimjim have both been trying to figure out the shim stack mods needed to create a digressive damping force curve.
+
+====================================================================================================
+POST #355 | author=Clicked | page=18 | id=13079760 | date=April 29, 2016
+====================================================================================================
+Crossovers and stack flow create progressive damping force curves. To get a digressive curve you have to go in the opposite direction. What is the opposite of stack float?
+
+  
+
+ MXScandinavia gives a dyno example showing how to setup a shim stack to create a digressive damping force curve.
+
+====================================================================================================
+POST #356 | author=Clicked | page=18 | id=13079763 | date=April 29, 2016
+====================================================================================================
+More dyno data: Shim stack preload
+
+ Preloading the shim stack against the valve face increases the force needed to crack the shim stack open. While the shim stack is held closed the shock is forced to blow all of the fluid through the clicker bleed circuits and that increases low speed damping - by a lot. Once enough fluid pressure is built up in the shock to overcome the shim stack preload the stack cracks open and the shock returns to normal shim stack controlled damping.
+
+  
+
+ MXScandinavia demonstrated the effect of preloading a shim stack by adding a ring shim to the Jake 02 shim stack.
+
+ [[IMG:28-ring-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/28-ring-stack.png.4b953dacc27bed2043384a7b7990c79b.png]]
+
+ Ring shims give three options for tuning preload on the shim stack:
+
+ Change the thickness of the centering shim
+
+ Change the thickness of the ring shim
+
+ Move the ring shim further up the stack to reduce the stack preload
+
+ [[IMG:29-ring-shim.png|//cdn.thumpertalk.com/uploads/imageproxy/29-ring-shim.png.d333c14d0bde59bd9a80e92a24879e36.png]]
+
+====================================================================================================
+POST #357 | author=Clicked | page=18 | id=13079767 | date=April 29, 2016
+====================================================================================================
+MXScandinavia ring shim dyno data
+
+ The kx250-Jake02 stack tested by MXScandinavia is a simple tapered stack producing a nearly linear damping force profile. MXScandinavia added a 38.25 ring shim to the bottom of the stack with a 34.1 centering shim. That creates 0.15 mm of preload on the stack forcing the shock to produce about 20 lbf of fluid force to crack the shim stack open.
+
+ [[IMG:30-ring-lift.png|//cdn.thumpertalk.com/uploads/imageproxy/30-ring-lift.png.68fc062b17d2245366febba5fbed4940.png]]
+
+ On the dyno that preload creates big changes in damping force nearly doubling low speed damping at 10 in/sec to 110 lbf. That is a big change in damping force much larger than the other things we have been looking at like adding face shims, changes in valve port geometry or oil viscosity.
+
+ [[IMG:31-ring-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/31-ring-dyno.png.eae5a783ffc19d192c1bdd12140f517f.png]]
+
+ If you had been using the jake02 stack and thought it was close but just wanted to try some shim stack preload to see what it “feels” like you would be very disappointed with the results. MXScandinavia shows the preload doubles low speed damping at 10 in/sec and makes the stack stiffer everywhere across the speed range. If the jake02 stack was close before, adding preload has made the stack way off now.
+
+  
+
+ To get something rideable to see what preload “feels” like you have to make two changes. Add the ring shim to increase low speed damping and back way off on shim stack stiffness to get the high speed back into the ball park of where it was. Something like this:
+
+ [[IMG:32-hsd-match.png|//cdn.thumpertalk.com/uploads/imageproxy/32-hsd-match.png.24be91c946055a156794e54936dc3dc5.png]]
+
+ Taking about half the shims out of the Jake02 stack gets high speed damping at 40 in/sec back into the ball park of where it was. So you end up with a pretty wimpy looking shim stack after adding preload, but that wimpy stack actually produces more damping force on the dyno.
+
+====================================================================================================
+POST #358 | author=Clicked | page=18 | id=13079770 | date=April 29, 2016
+====================================================================================================
+Ring shim ying-yang effects
+
+ Something to watch out for in tuning ring-shim stacks is the center section of the face shim below the ring shim is not supported. That allows the center section of the face shim to deflect and crack open before the stack edge lifts.
+
+ [[IMG:33-ring-ying-yang.png|//cdn.thumpertalk.com/uploads/imageproxy/33-ring-ying-yang.png.4a1d94b9d2628ce9b02bd252a4a3f348.png]]
+
+ That creates a ying-yang effect: The ring shim was added to increase low speed damping but deflection of the center section creates a leak that ends up reducing low speed damping. That creates confusion in dyno testing when the results “go the wrong way” and end up showing reduced low speed damping instead of higher. The fix is simple, put a couple more face shims below the ring shim to make the center section stiff enough so that is does not deflect.
+
+====================================================================================================
+POST #359 | author=Clicked | page=18 | id=13079778 | date=April 29, 2016
+====================================================================================================
+Softening the main compression stack would certainly help.   I did this on my WR, to the point that it is a bit too soft.  It still jarred to a certain extent.   The only thing that cured it was using the softer compression adjuster spring and modifying the compression adjuster stack.   I don't see the downside of doing that, really.  You can only soften the main stack so much.
+
+  
+
+ Is there any way that the main compression stack could be set up to be softer for small travels near the top of the stroke ?   Would a float in the stack do this ?
+
+  
+
+ The reason I got into all this was that the Restackor sims assume steady state and the shock dynos do sinusoidal loads.  In the real world we have impulse functions for inputs.    How does the response compare for transient inputs versus steady state ?
+
+  
+
+ Trail/Enduro bike setup
+
+ MidlifeCrisisGuy and 2grimjim were both battling the same problem trying to find a shim stack stiff enough at low speed to stop the chassis from wallowing and soft enough at high speed to deal with square edge bumps to get a workable trail setup. The problem was backing off the high speed made the low speed to soft and the chassis started wallowing.
+
+  
+
+ MXScandinavia shows the fix. Use a wimpy stack that lets the shock blow through the stroke at high speed, suck up square edge hits and logs. Then preloaded the stack to bring the low speed damping back up into the ball park of where the old stack was running to keep the chassis from wallowing around.
+
+  
+
+ That's a good trail/enduro setup for sucking up bumps, but takes some work to get the right balance of something stiff enough to survive the whoops and soft enough to deal with square edge hits and braking bumps. Sometimes there is no compromise, its one of the other.
+
+  
+
+ MX bikes just give up on that. Progressive damping force curves in MX shocks lock up compression damping on hard hits and just jump over stuff – like square edge bumps for example.
+
+====================================================================================================
+POST #360 | author=Clicked | page=19 | id=13079781 | date=April 29, 2016
+====================================================================================================
+Trouble in dyno land
+
+  
+
+ How accurate is shock dyno data?
+
+  
+
+ As an instrument, dynos make precision measurements capable of resolving shaft forces to within a fraction of a pound and shaft velocities down to the mm/sec range. As a measurement instrument there is little to complain about in the precision of dyno measurements.
+
+  
+
+ The problem is there are a bunch of peripheral parameters that work there way into dyno testing that create test-to-test variations and inconsistencies in damping force measurements. Those variations have nothing to do with measurement accuracy. Instead it's about uncertainties created by tearing down, re-configuring, purging, and zeroing a shock that create damping force differences in back-to-back tests and discrepancies comparing one shock to another.
+
+====================================================================================================
+POST #361 | author=Clicked | page=19 | id=13079785 | date=April 29, 2016
+====================================================================================================
+Shim defects
+
+ Ideally all of the shims in the stack are perfectly flat. In reality shims are warped, cupped, bent or pretzeled with irregular edges from being punched out of a sheet of shim stock. Tightening the clamp nut compresses all of those defects preloading the stack face shim. Dirt or grit trapped in the stack creates another problem. Nobody assembles these things in a laminar flow clean room. Instead everything is spread out on the work bench and dragged around creating conditions where dirt occasionally gets trapped in the stack. If that grit is inside the clamp diameter the shim stack has a gap making the stack softer. It the grit is outside the clamp the grit particle preloads the stack face shim.
+
+ [[IMG:1-stack-uncertainty.png|//cdn.thumpertalk.com/uploads/imageproxy/1-stack-uncertainty.png.c6aa62fb44df8cabfee9f658c417f82d.png]]
+
+====================================================================================================
+POST #362 | author=Clicked | page=19 | id=13079790 | date=April 29, 2016
+====================================================================================================
+Trapped dirt and grit
+
+ Dirt trapped in the shim stack changes damping force more then you might expect. Wikipedia defines “very fine sand” as a grain size of 62 to 125 microns and silt as 4 to 62.5 microns. Lets skip sand and just look at a single particle of silt with a 30 micron diameter. Put that particle in MXScandinavia's 14x40.2 stack and the difference between a 30 micron gap created by the silt particle trapped under the clamp and 30 microns of shim stack preload created by a silt particle outside the clamp produces a 20% change in damping force.
+
+ A single silt particle trapped in the shim stack changes damping force by 20%
+
+ On a fielded shock trapped dirt in the stack is not a big deal. That dirt gets ground up and spit out after a couple of hours of operation. Things are different on the dyno. Dyno tests are run just long enough to get the data – like a couple of minutes. Over that short duration there is not enough time to grind up trapped dirt and that results in measurement variations when comparing back-to-back tests.
+
+====================================================================================================
+POST #363 | author=Clicked | page=19 | id=13079792 | date=April 29, 2016
+====================================================================================================
+Shim friction
+
+ The Aerospace Corp and Professor Darling at the University of Bath have both noted shim stack are 17% stiffer when the shim stack is pushed open compared to forces measured on a finger press when the shim stack is lowered back to the closed position. Those differences are caused by shim friction and directly translate into another source of uncertainty in dyno damping force measurements.
+
+  
+
+ Professor Darling went on to note flooding the shim stack with oil minimized the friction differences. Add to that vibrations generated by turbulent flow through the shock circuits and friction effects may or may not effect the results of a test. All of the theoretical damping force curves in this thread have used the nominal (normal) value of shim friction and have not considered friction as a cause of test-to-test variations. Never the less the effect exists and is another source of uncertainty when comparing the measured performance of one shock to another.
+
+====================================================================================================
+POST #364 | author=Clicked | page=19 | id=13079793 | date=April 29, 2016
+====================================================================================================
+Valve face dish
+
+ Dyno comparisons often skip over differences in valve face dish when comparing shock performance. Most manufactures dish the valve face to something in the range of -0.001”. The valve face dish preloads the shim stack and sucks up the uncertainties of warped, cupped, bent or pretzeled shim defects giving the shim stack a good seat on the valve face. You have to look really close to see a valve face dish of -0.001”. For perspective, a sheet of paper has a thickness of 0.0039”, four times thicker. 
+
+ [[IMG:2-concave-surface.png|//cdn.thumpertalk.com/uploads/imageproxy/2-concave-surface.png.3b26074eaa623a8b41862fece5aad19a.png]]
+
+ Some tuners remove the valve face dish under the notion of perfecting the valve seat surface. Flattening the face occasionally creates a problem when the leading edge of the valve digs into the grinding stone. That grinds off the outside edge so the valve ends up with a convex surface and no edge sealing at all – remember we are talking about tolerances here like 1/4 the thickness of a sheet of paper.
+
+  
+
+ Depending on who got their hands on the valve, the valve seat may be flat, concave or convex. Taking the MXScandinavia 14x40.2 stack as the reference again and putting an uncertainty of +/- 0.0005” on the dish depth generates a 13% change in damping force. Softer stacks can dyno test stiffer depending on which valve they were tested on.
+
+====================================================================================================
+POST #365 | author=Clicked | page=19 | id=13079796 | date=April 29, 2016
+====================================================================================================
+Shock configuration differences
+
+ The usual assumption comparing shock dyno graphs is everything in the shock is identical except for the items intentionally changed for the test. That is not always the case. John Curea provides an example in dyno testing a yz250 shock. The assumption was swapping the shock shaft diameter from 16 mm to 18 mm would show the effect of the larger shaft on damping force. It turned out the clicker needle built into the 18 mm shaft was different then the 16 mm shaft. So the damping force differences measured in test got exaggerated by the needle geometry differences between the two shafts.  
+
+  
+
+ Dyno tests do not always record the details of clicker needle geometry, compression adjuster configuration or gas reservoir bladder volume or pressure. That can screw up shock-to-shock dyno comparisons not because the data was bad, but because there were differences in the shock configurations due to year-to-year changes or internal modifications nobody knew about when testing the shock.
+
+====================================================================================================
+POST #366 | author=Clicked | page=19 | id=13079798 | date=April 29, 2016
+====================================================================================================
+Shock-to-Shock Production differences
+
+ Ohlins factory info will tell you there target for production shocks is maintaining damping force differences within 10% from shock-to-shock. Valving Logic has found the same thing with +/- 10% variations in damping force between otherwise identical MX production bike shocks.
+
+====================================================================================================
+POST #367 | author=Clicked | page=19 | id=13079801 | date=April 29, 2016
+====================================================================================================
+Dyno test procedure differences
+
+ The unambiguous dyno verified damping force curves for a shock are measured by one of two dyno test procedures:
+
+ CVP: Continuous velocity plot. Dyno data is recorded over a single stroke starting at BDC, stroking through TDC and returning to BDC. Over the stroke the gas force from the shock is continuously changing as the gas reservoir is compressed and re-expanded
+
+ PVP: Peak velocity pick-off. The dyno only records data at the peak shaft velocity which occurs at the dyno mid-stroke position. With all of the measurements taken at mid-stroke the gas force is theoretically always the same. To construct a damping force curve over the shaft velocity range a series of dyno runs have to be made at progressively higher crank speed
+
+ CVP dyno measurements show 20% to 30% less damping force then PVP measurements for the same shock tested on the same dyno as Valving Logic shows in the data below.
+
+ [[IMG:5-pvp-vs-cvp-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/5-pvp-vs-cvp-dyno.png.b250956fba0619785bc4836b908c9a5c.png]]
+
+ At 40 in/sec the CVP test results match the PVP data -as it should- since both of those measurements where taken at the mid-stroke position where the peak shaft velocity occurs. Data at that position lines up by definition. At any other stroke position the CVP dyno data measured less damping force.
+
+  
+
+ The reason for that is the gas force from the shock increases as the gas reservoir is compressed over the stroke. To make use of CVP data the CVP data has to be corrected for the change in gas reservoir pressure over the stroke. Correcting CVP data for gas force (as demonstrated in John Curea's yz250 shock testing here and here) collapses the hysteresis loop measured in the data making the CVP data independent of stroke position. Correct the CVP data for the gas pressure at mid-stroke and the PVP data will line up with the CVP data by definition.
+
+  
+
+ Unfortunately, standard dyno test procedures do not correct CVP data for gas reservoir pressure changes over the stroke. That creates discrepancies in damping force measurements in the 20 to 30% range as Valving Logic demonstrated in the above test. BTW the CVP data above only shows the compression open part of the stroke.
+
+====================================================================================================
+POST #368 | author=Clicked | page=19 | id=13079805 | date=April 29, 2016
+====================================================================================================
+Gas spring force corrections
+
+ Push Industries shows a second example of problems created by ignoring gas force changes over the stroke in EMA dyno testing of a '14 yzf450 shock. The change in gas force from BDC to TDC is clear in the EMA dyno test data and the gas force produces a 40 lbf offset at zero shaft velocity.
+
+ [[IMG:6-ema-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/6-ema-dyno.png.ae412f0ab49b8228a132652eda122349.png]]
+
+ Take the dyno data literally (and why wouldn't you) creates a 35% error in low speed damping force measurements. Plot the data as a damping coefficient and the first half of the stoke from BDC to mid-stroke produced a progressive damping force curve (blue curve). The second half of the stroke from mid-stroke to TDC produced a digressive damping force curve (green curve). Using the raw data directly off the dyno makes it impossible to figure out if that shock produced a progressive, digressive or linear damping force curve. 
+
+ [[IMG:7-ema-error.png|//cdn.thumpertalk.com/uploads/imageproxy/7-ema-error.png.ffad48b290f45444fff89b14d6b2d241.png]]
+
+ There is nothing “wrong” with the Push Industries EMA dyno data. All CVP dyno data behaves this way. The results simply emphasizes you can not take raw CVP dyno data directly off the test stand and make use of it. The data has to be “post-processed” to correct for gas reservoir pressure changes over the stroke. If you don't do that you end up with 35% measurement errors at low speed and confusion trying to figure out if the damping force curve was progressive, digressive or linear.
+
+  
+
+ Dynos make a correction for the average gas force measured at the shock mid-stroke position. But do not correct for the changes in gas force from BDC to TDC. Those corrections are the users responsibility to add into the data when interpreting and comparing dyno tests. Those corrections are in the range of 20 to 35% at low speed and become a big deal when you start worrying about dyno measurement accuracy.

@@ -1,0 +1,1585 @@
+
+====================================================================================================
+POST #369 | author=Clicked | page=19 | id=13079810 | date=April 29, 2016
+====================================================================================================
+Dyno gas force corrections
+
+ There are two ways to compress a gas generally considered to bound the range of gas pressure changes over the stroke:
+
+Constant Temperature Compression: When a gas gets compressed at constant temperature the reduction in volume causes the gas pressure to go up. DaveJ refers to that as Boyle's law, aka the ideal gas law
+P2= P1*(V1/V2)
+
+​Adiabatic Compression: When a gas is compressed in a thermally insulated chamber the compression causes the gas temperature to increase. That causes the pressure to increase because of the volume reduction and further increase because of the temperature rise. Thermodynamically the equation is:
+P2= P1*(V1/V2)^gamma; where gamma= 1.38
+
+ A big problem in dyno testing is both of those gas pressure extremes show up in dyno testing depending on the stroke speed. Vavling Logic demonstrated the effect in testing a PSF fork.
+
+ [[IMG:8-vl-psf.png|//cdn.thumpertalk.com/uploads/imageproxy/8-vl-psf.png.e05893748755b44ddc19d444551b2f46.png]]
+
+Constant Temperature Compression: Compress the fork slowly (0.1 in/sec – black curve) and the gas temperature increase from compression gets dissipated into the fork body. That keeps the gas at constant temperature so you end up with constant temperature (Boyle's Law) compression and a lower gas spring force
+
+Adiabatic Compression: Compress the fork quickly (100 in/sec – red curve) and the 0.12 sec it takes a fork to blow through 12 inches of travel is not enough time for the gas to loose any heat. Fast compression with no heat loss creates an adiabatic compression and generates 175 lbf more gas force from the fork – demonstrated in dyno test
+
+ Run the dyno at any intermediate stroke speed and you get wacky results where the gas looses some of it's compression heating but not all of it. That creates a gas spring force somewhere between the extremes of constant temperature and adiabatic compression with an uncertainty band of 175 lbf of gas spring force measured on the dyno.
+
+====================================================================================================
+POST #370 | author=Clicked | page=19 | id=13079813 | date=April 29, 2016
+====================================================================================================
+PSF dyno testing
+
+  
+
+ Valving Logic shows an example at an intermediate stroke speed of 10 in/sec in the right hand figure below and compares that to the computed values (dashed line) of the Valving Logic PSF fork model (model downloaded from here). The fork starts off with 60 lbf of gas force at BDC. As the gas is compressed over the 8” compression stroke the fork ends up with 290 lbf of gas spring force at TDC. As the dyno rolls through TDC the gas looses heat to the fork body causing the gas pressure to drop so the fork starts the rebound stroke with a lower gas spring force of about 250 lbf. The compressed gas losses more heat through the first part of the rebound stroke producing a 50 lbf hysteresis loop where the gas force measured in rebound is lower than compression.
+
+ [[IMG:9-psf-vel.png|//cdn.thumpertalk.com/uploads/imageproxy/9-psf-vel.png.1f8415a9e541d46cebb7793aca9ddb00.png]]
+
+ The left hand figure shows how gas heat loss effects end up generating some wacky effects in dyno testing. At a stroke velocity of 3 in/sec (blue line) the gas looses heat as the dyno strokes through TDC causing the gas pressure and force to drop. As that cooled gas is expanded through the rebound stroke the gas force drops below the 0.1 in/sec constant temperature (Boyle's law) case. So constant temperature Boyle's law compression is not the lower bound of gas force – dyno testing shows actual gas force values drop below that level.
+
+			
+				
+
+	Edited April 29, 2016 by Clicked
+
+====================================================================================================
+POST #371 | author=Clicked | page=19 | id=13079819 | date=April 29, 2016
+====================================================================================================
+Open bath fork dyno testing
+
+ The variation in gas spring force over the stroke due to heat loss effects causes big problems in dyno testing of open bath forks. The above example for a PSF fork exaggerates the situation but demonstrate the problem none the less. A fork generates about 10 lbf of compression damping at 20 in/sec. For a PSF fork the difference between slow and fast compression generates a 175 lbf change in gas spring force. The hysteresis loop created by heat loss adds another 50 lbf of uncertainty in the gas force. Trying to tease out a 10 lbf damping force measurement from dyno data dominated by gas force changes over the stroke that are an order of magnitude higher is extremely difficult. That makes it very difficult to get reliable damping force measurements out of open bath fork dyno testing.
+
+  
+
+ An example of just how far out of hand dyno gas force corrections can get is given by Kyle Tarry in the ReStackor thread. Kyle ran a dyno test series for himself on an open chamber fork. I'm sure Kyle understands compressing a fork drives the gas force up. But somehow he forgot all about that when he got the dyno data in hand and assumed the dyno measurements were direct measurements of damping force. With no gas force correction the dyno data on the compression stroke was a factor of two too high. On the rebound stroke, because gas force acts in the opposite direction of damping, Kyle's rebound data was way too low. Not because the dyno data was bad, but because Kyle Tarry did not understand how to correct the raw dyno measurements for the changes in gas force over the stroke. 
+
+  
+
+ Get a grip on the changes in gas force over the stroke and the dyno test uncertainties created by those gas force changes and you can appreciate the simplicity of the hydraulic dyno tests Kawamaha runs. Pumping hydraulic fluid through the valve gives a direct measure of damping force and completely removes the uncertainties created by gas force changes dyno testing has to deal with.
+
+====================================================================================================
+POST #372 | author=Clicked | page=19 | id=13079823 | date=April 29, 2016
+====================================================================================================
+Closed chamber fork testing
+
+ On closed chamber forks dyno tests use a different procedure. For closed chamber forks the cartridge can be taken out of the fork and mounted directly on the dyno for test. That completely removes the gas force uncertainty along with the uncertainties associated with drag of the stanchion tube seals and guide bushings. Direct damping force measurements from the cartridge of a closed chamber fork makes the dyno data a whole lot easier to figure out.
+
+====================================================================================================
+POST #373 | author=Clicked | page=19 | id=13079826 | date=April 29, 2016
+====================================================================================================
+Why do gas force corrections matter?
+
+ Sooner or later you will want to compare the suspension of the bike you are working on to some other bike that is setup well. You need to know three things to compare suspension response: weight, spring rate and damping. Those three values set the zeta coefficient, also known as % critical damping, used to compute the suspension response.
+
+ [[IMG:10-spring-mass-damp.png|//cdn.thumpertalk.com/uploads/imageproxy/10-spring-mass-damp.png.6c4195233cfd2028e5437061c2b9625f.png]]
+
+ Springs make a suspension oscillate up and down. Damping stops that oscillation. In that sense spring force is the opposite of damping. The zeta coefficient shows that effect. The damping coefficient (c.shock) is in the numerator. Increasing damping increases the value of zeta making the suspension more stable. The spring stiffness constant (k.spring) is in the denominator. Increasing the spring stiffness reduces the value of zeta making the suspension less stable.
+
+  
+
+ Dyno shaft force measurements have the gas force intermingled with the shock damping force. If you don't separate the gas spring force from damping you are going to mistake a high gas force as if it were damping. That is not just bad - it's bad squared - because the gas spring force is the opposite of damping. The dyno tests above show the gas force corrections are in the range of 20 to 30% at low speed and that makes a big difference in the interpreted suspension response.
+
+====================================================================================================
+POST #374 | author=Clicked | page=19 | id=13079834 | date=April 29, 2016
+====================================================================================================
+Dyno test data accuracy
+
+ Start poking around in dyno data and the uncertainties of shock absorber testing become frighteningly large.
+
+A single flake of silt trapped in the shim stack changes damping force by 20%
+
+Valve face dish variations of +/-0.0005” change damping force by 13%
+
+Shim friction changes the effective stiffness of shim stacks by 17%
+
+Configuration uncertainties, like the clicker needle geometry in John Curea's test, create unexpected test-to-test differences
+
+PVP compared to CVP dyno measurements show low speed damping force differences of 20 to 30%
+
+Changes in gas force from BDC to TDC create a 35% uncertainty in EMA low speed damping force measurements
+
+Open bath fork dyno tests generate gas force changes over the stroke that are larger then the damping force the dyno is trying to measure
+
+ Dig a little into the uncertainties of dyno testing and it is easy to convince yourself you could never obtain reliable damping force measurements. But, the above examples have only been looking at the extremes. How bad is it really in day-to-day testing?
+
+====================================================================================================
+POST #375 | author=Clicked | page=19 | id=13079837 | date=April 29, 2016
+====================================================================================================
+Repeat dyno tests don't
+
+ The simplest way to get a handle on dyno test accuracy is look at back-to-back tests. John Curea provides an example in testing the Dogger's crf450r shock setup. The first dyno test ran the modified rebound stack Curea recommended for the Dogger. The second test ran the Dogger's rebound setup. Both tests used the same compression shim stack. In theory the compression data from those two tests should be line-on-line.  
+
+ [[IMG:11-dogger.png|//cdn.thumpertalk.com/uploads/imageproxy/11-dogger.png.32a88a8e518d462ac954dd9cf172e828.png]]
+
+ Results of those back-to-back tests showed compression damping force measurements repeated within 3.8% at the peak shaft velocity. The bigger problem was at mid-stroke where the hysteresis loop created a 13% uncertainty window in compression damping force values.
+
+  
+
+ Repeatability within 3.8% is pretty good. On the other hand, the test was trying to demonstrate a 10% change in rebound damping. Since the second test went 3.8% low on compression it may have also been 3.8% low on rebound as well. So the 10% rebound damping force increase the test was trying to demonstrate may have only been 6.2%. That is a 38.0% uncertainty on the result.
+
+====================================================================================================
+POST #376 | author=Clicked | page=19 | id=13079840 | date=April 29, 2016
+====================================================================================================
+Repeat dyno tests don't
+
+ A second repeatability example of back-to-back testing was shown by MXScandinavia. The stacks tested here were identical with the single change of a thicker clamp on the second stack. Test results should be line-on-line up to the point where the shim stack hits the backer.
+
+ [[IMG:12-scandi-repeat.png|//cdn.thumpertalk.com/uploads/imageproxy/12-scandi-repeat.png.8c3a2a3675e0f3875406b4d9d49a0ca8.png]]
+
+ Results of that test show a dyno repeatability of 2.5%. Those two tests show repeatability of 2.5% for MXScandinavia and 3.8% for John Curea ant that is pretty good.
+
+  
+
+ What about the other 52 dyno tests we have been looking at in this thread, how far off are they?
+
+			
+				
+
+	Edited April 29, 2016 by Clicked
+
+====================================================================================================
+POST #377 | author=Clicked | page=19 | id=13079847 | date=April 29, 2016
+====================================================================================================
+Dyno Data on TT
+
+ Dyno tests in this thread have used a wide range of valve port geometries.
+
+ [[IMG:13-valve-geom.png|//cdn.thumpertalk.com/uploads/imageproxy/13-valve-geom.png.c649ef2ea5ab8fe01f402834958f2203.png]]
+
+  
+
+ Shim Stack Configurations
+
+ The dyno tests covered a wide range of shim stack configurations with and without crossovers in the 56 dyno tests.
+
+ [[IMG:14-stacks.png|//cdn.thumpertalk.com/uploads/imageproxy/14-stacks.png.7d66f6cd83e9c4ff89fad3bb50ecea24.png]]
+
+  
+
+ Data Accuracy
+
+ The plot below shows the dyno damping force measured in test plotted against the theoretical value for each shim stack configuration. There are two error bars on the plot: the blue line is at +/- 10%; and the orange line at +/- 5%. At high speed the orange line (+/- 5%) pretty much bounds the data with most of the tests well within those error bars. That is consistent with the back-to-back test repeatability of 2.5% demonstrated by MXScandinavia and 3.8% shown by John Curea suggesting that accuracy range is typical of day-to-day dyno tests, at least for the dyno tests we have been looking at here.
+
+ [[IMG:15-TT-dyno-data.png|//cdn.thumpertalk.com/uploads/imageproxy/15-TT-dyno-data.png.7b22bc8eccecafdd3af56e22a4e848b2.png]]
+
+ At low speed (below 500 lbf) the dyno data pretty quickly over runs the +/- 10% error bars. That low speed data is down in the range where gas force corrections become critical and PVP vs. CVP dyno data show damping force variations of 20% to 30% and EMA dyno tests showed a 35% damping force error due to gas force changes over the stroke. To get any detail of what is going on at low speed we need to re-plot the data in a statistical format.
+
+====================================================================================================
+POST #378 | author=Clicked | page=19 | id=13079866 | date=April 29, 2016
+====================================================================================================
+Probability Distribution Function
+
+  
+
+ "There are three kinds of lies:
+
+Lies
+
+Damned lies
+
+And statistics"    - Mark Twain
+
+  
+
+ To get some detail on error analysis we have to rely on lies of the third type “statistics” to create what is know as a probability distribution function. The probability distribution is created by examining each dyno measurement and asking the question “how far off is it”. If that data point is off by 3% you put that point in the 3% error bin. If it is off by 5% it goes in the 5% bin, and so on. At the end the number of data points in each bin are summed up to figure out how often measurements are off at each error level. 
+
+  
+
+ For the 56 dyno runs on TT the probability distribution looks like this:
+
+ [[IMG:16-pdf.png|//cdn.thumpertalk.com/uploads/imageproxy/16-pdf.png.a6c6ff08b77382141d54d55368220af7.png]]
+
+ The first thing to check out in the error distribution is how peaked the curve is at 0% error. If that curve were flat on top, say from -5% to +5% error, that would tell you the measurements lacked sensitivity. For example, if you tried to measure 1 lbf with a 2,000 lbf load cell the instrument may not be sensitive enough to measure those small force changes. In that case you would get random force measurements splattered over the +/- 5% error range and the PDF curve would be flat on top. The data here shows no evidence of that. The curve is nicely peaked around 0% error indicating the dyno force and shaft velocity measurements are sensitive enough to resolve small damping force differences and generate a nicely peaked Gaussian shaped curve.
+
+  
+
+ The second thing to look at is whether the data is skewed to one side or the other. If the error distribution had more data points on the left then the right that would tell you when the dyno went off it tended to always measure low. That might mean something like as the shock heated up in test the temperature increase caused the oil viscosity to thin out so the damping force measurements went low. If the data was skewed the other way with more data points on the right hand side that would mean the dyno tended to read high. That might indicate the gas reservoir pressure went up as the shock heated up in the test causing the measured damping force values to go high when the shock got hot.
+
+  
+
+ Error distributions that are skewed to one side or the other give you some clues to what might be going wrong in test causing the errors. And that is a good thing. If you knew the dyno tended to always read high or low you could try and figure out what is causing the error and change the test procedure or instrumentation to fix or at least minimize the measurement error.
+
+  
+
+ The data here shows no sign of being skewed to the left or the right. That is a bad thing in terms of the errors are just plain old random noise with no rhyme or reason why the measurements went high or low.
+
+  
+
+ Error range
+
+ Figuring out the error range from statistical analysis becomes a big foggy mess. The usual method is pick some fraction of the data, the confidence level, and estimate the error range needed to bound that fraction of the data. The plot above shows the error range bounding 80% of the data.
+
+  
+
+ Bounding 80% of the data sounds pretty good but creates problems in dyno tuning. Suppose you wanted to increase damping force by 10%. To do that a series of dyno runs are made adding face shims and hacking around on the stack tapper to get to a 10% increase. If that takes five tests an 80% confidence interval means 4 out of 5 tests (80%) will be within the error range and one test in five (20%) will probably be outside the error bounds. Hopefully the last test, the one that demonstrated a 10% damping force increase, is not the one test in five that was outside the normal error bounds.
+
+  
+
+ Most of the data in the probability distribution are lumped around 0% error. So on any individual dyno run the most probable result is the data is good. Run five tests hacking around on the shock configuration and statistics will tell you 4 out of the 5 tests were probably good. But every once in awhile statistic also tells you the dyno is going to pull out some wacky value that is off in the 10 to 15% error range.
+
+  
+
+ That is the problem with statistical analysis, you just don't know for sure. The measurements are probably good. But one test in five is probably bad and every once in a while the dyno is going to pull out some wacky value out in the 10 to 15% error range. In the end, you just don't know for sure. That is what statistics shows you.
+
+====================================================================================================
+POST #379 | author=Clicked | page=19 | id=13079888 | date=April 29, 2016
+====================================================================================================
+Shim Factors
+
+ This thread started out looking at shim factors and dyno test of shim stacks designed to be equivalent by shim factors. Comparison of shim stack stiffness computed by FEA analysis to the stiffness estimated by shim factors showed differences in the range of 30%. Now that we have looked at a few more dyno tests how well do shim factors compare to the rest of the dyno test data?
+
+ [[IMG:1-tsf-data2.png|//cdn.thumpertalk.com/uploads/imageproxy/1-tsf-data2.png.18ea2546e48a40d9caeed042a024d68a.png]]
+
+ The first couple of dyno runs and the finger press data from MXScandinavia were used to set the calibration coefficient of 40 used in the above shim factor equation. That factor was set to bound the test data within an error range of +/- 30%. In terms of shim stack design an error range of +/-30% works out to be equivalent to adding +/- 10 face shims to the MXScandinavia SF40.2 stack.
+
+  
+
+ Adding the rest of the test data does nothing to improve shim factor accuracy. It just fills in the data scatter and reinforces that original error estimate of +/- 30%.
+
+  
+
+ Why are shim factors so far off?
+
+ MXScandinavia demonstrated one reason. Tall stacks are stiffer than short stacks due to the Fulcrum, Stacked Bowl or Internal Strain theory, pick your favorite. It is not clear which theory is the cause, but the bottom line is tall stacks are stiffer and the shim factor equation does not include that effect.
+
+  
+
+ Crossover gaps are another reason. Stacks like rm85-750 and rmz250-875 from Valving Logic shown below have a crossover gap. Crossovers make the stacks dyno test softer then expected by the shim factors simply because shim factors do not account for crossover effects. Correcting shim factors for crossover effects gets tricky because there are active, non-interactive and "fo" forms of crossovers. Each of those effect stack stiffness in a different way. The "fo" gap of the Valving Logic rmz250-54c stack is an example. That stack has a crossover gap so you would expect the stack to dyno test on the low side along with all of the other crossover stacks. Instead that "fo" gap dyno tests on the high side running along the +30% border in the above plot.
+
+ [[IMG:2-crossover-stacks.png|//cdn.thumpertalk.com/uploads/imageproxy/2-crossover-stacks.png.9889532114d3ddda3e379d709a715712.png]]
+
+ Simple stacks with no crossover are another problem for shim factors. Stacks like the ohlinsMX-clmp3025 tested by MXScandinavia and the rmz250-152 stack from Valving logic are stiffer then expected by the shim factors. Those simple straight stack configurations produce stack stiffness that are above the +30% shim factor error bar on the plot above.
+
+ [[IMG:3-straight-stacks.png|//cdn.thumpertalk.com/uploads/imageproxy/3-straight-stacks.png.9e14d8d46d5ace54f8ace68b25f0e4bc.png]]
+
+ SA simple tapered stack configuration like the MXScandinavia Jake02 stack you would expect to more-or-less fall in with the other straight stack data. Instead that stack tested softer and falls down at the bottom of the plot with the crossover stacks below the -30% error bar line.
+
+  
+
+ Results of shim factor testing do not show any simple rule that determines when shim factors will under or over estimate the stiffness of a shim stack – at least I can't figure one out. The data shows the results are simply scattered over the +/- 30% error range. That 30% error range is equivalent to adding +/- 10 face shims and that just isn't a worthwhile estimate of shim stack stiffness when it comes down to the details of damping force tuning.
+
+====================================================================================================
+POST #380 | author=Clicked | page=20 | id=13079895 | date=April 29, 2016
+====================================================================================================
+[[IMG:1-main-event.png|//cdn.thumpertalk.com/uploads/imageproxy/1-main-event.png.f4dac8f4fe2dad354a970d4a3e0818dc.png]]
+
+ Conventional wisdom is the damping force curve shape can be tuned by hacking around on the low or high speed stack. After kicking this title around for 20 pages “Dyno data -And what it tells us about how to tune a shim stack and control the shape of the damping force curve” the dyno data has shown that conventional approach does not work.
+
+  
+
+ Stiffer low speed stack
+
+ Adding shims to the low speed stack increases the damping force everywhere, not just at low speed. MXScandinavia demonstrated that in dyno testing shim stack configurations suggested by mog (mog01 and mog02) designed to test the low speed stack theory.
+
+ [[IMG:2-low-speed.png|//cdn.thumpertalk.com/uploads/imageproxy/2-low-speed.png.927b70e34879ea4573140512d38c8c62.png]]
+
+ Adding shims to the low speed stack increases damping force everywhere, not just at low speed.
+
+  
+
+ Stiffer high speed stack
+
+ Adding shims to the high speed stack increases the damping force everywhere, not just at high speed. Ohlins factory dyno data demonstrated that effect.
+
+ [[IMG:3-high-speed.png|//cdn.thumpertalk.com/uploads/imageproxy/3-high-speed.png.85923803d48deaec6b5f1b92c7de1357.png]]
+
+ Stiffening the high speed stack increases damping force everywhere, not just at high speed. The conventional thinking of a separate low and high speed stack just does not work out when those theories are compared against dyno data.
+
+			
+				
+
+	Edited April 29, 2016 by Clicked
+
+====================================================================================================
+POST #381 | author=Clicked | page=20 | id=13079913 | date=April 29, 2016
+====================================================================================================
+How do you change the shape of the damping force curve?
+
+  
+
+ It's real simple:
+
+ If you want less low speed damping add a crossover
+
+ If you want more low speed damping pre-load the shim stack
+
+ If you want more high speed stiffen the shim stack
+
+====================================================================================================
+POST #382 | author=Clicked | page=20 | id=13079919 | date=April 29, 2016
+====================================================================================================
+Reduce low speed damping
+
+ Adding a crossover softens low speed damping. Valving logic demonstrated that effect dyno testing stacks with and without a crossover.
+
+ [[IMG:4-crossover.png|//cdn.thumpertalk.com/uploads/imageproxy/4-crossover.png.e54bab62ae0666e84dcebe9219d55214.png]]
+
+ Adding a crossover softens damping, that is not a big surprise. The problem is the crossover also softens high speed making the damping force softer everywhere. So to soften low speed damping you have to do two things:  
+
+	
+ Add a crossover to soften low speed damping
+	
+
+	
+ Stiffen the shim stack to get high speed damping back to where is was
+	
+
+ Something like this:
+
+ [[IMG:5-crossover-match.png|//cdn.thumpertalk.com/uploads/imageproxy/5-crossover-match.png.7c8ff7bd5607a09698a9db37b24d13de.png]]
+
+ To change the damping force curve shape you have to make two changes in the shim stack at the same time. That goes against the usual thinking of “only change one thine at a time” - and that makes shim stack tuning hard.
+
+====================================================================================================
+POST #383 | author=Clicked | page=20 | id=13079938 | date=April 29, 2016
+====================================================================================================
+Increase low speed damping
+
+ MXScandinavia showed how to increase low speed damping in dyno tests by preloading the shim stack using a ring shim. The problem is the preload increased damping force everywhere, not just at low speed.
+
+ [[IMG:6-ring-shim.png|//cdn.thumpertalk.com/uploads/imageproxy/6-ring-shim.png.904665fd3d766412aa6c9c2b181f1818.png]]
+
+ To increase low speed damping you have to make two changes in the shim stack at the same time:
+
+	
+ Add a ring shim to increase low speed damping
+	
+
+	
+ Soften the shim stack to get high speed back to where it was
+	
+
+ Something like this:
+
+ [[IMG:7-preload-match.png|//cdn.thumpertalk.com/uploads/imageproxy/7-preload-match.png.6722a7166bfb47301f7c6272a6e40128.png]]
+
+ Here we go again, making two changes to the shim stack at the same time to get a single change in the damping force curve shape.
+
+====================================================================================================
+POST #384 | author=Clicked | page=20 | id=13079975 | date=April 29, 2016
+====================================================================================================
+Damping force curve shape tuning
+
+ The above dyno tests demonstrate three basic damping force curve shapes and the shim stack configurations for each:  
+
+	
+ Simple tapered stack for a linear damping force curve
+	
+
+	
+ Crossover shim stack to reduce low speed damping
+	
+	
+	
+ Ring shim preloaded stack to increase low speed damping
+	
+
+ [[IMG:8-shape-tuning.png|//cdn.thumpertalk.com/uploads/imageproxy/8-shape-tuning.png.5929838a1297006635dae5ac93d406c3.png]]
+
+ The tricky thing for tuning is there is no independent control of low and high speed damping. If you want more low speed damping you have to do two things: preload the shim stack AND soften the shim stack. Otherwise the stack just gets stiffer everywhere. Likewise a crossover reduces low speed damping, but you have to do two things: add a crossover AND increase the shim stack stiffness to get high speed back in the ballpark. Otherwise the stack just gets softer everywhere.
+
+  
+
+ That makes dyno tuning on the test stand a PIA. If you want to increase low speed damping by 10% you have to add a ring shim to preload the stack and then hack around through a couple of dyno tests to get the right ring shim thickness and preload to match the 10% target. After that a second series of dyno tests is needed softening the stack to get the high speed back to where it was. At the end, that softer stack needs a couple more dyno tests hacking around on the thickness of the ring shim to get low speed damping back to the 10% target. That may end up taking 7 to 10 dyno tests and gets expensive at $50 a stroke on the dyno.
+
+====================================================================================================
+POST #385 | author=Clicked | page=20 | id=13080018 | date=April 29, 2016
+====================================================================================================
+Damping force shape tuning secrets
+
+ Shim stack preload and crossover gaps give an unlimited tuning range once you understand how to use them. In the limit a crossover can have a single face shim and produce basically zero low speed damping. Changing the gap height controls when the high speed stack kicks in and tuning the high speed stack stiffness controls how stiff that is going to be. Alternatively large preload on a stiff shim stack will hold the shim stack closed, hydraulically lock the shock, making the shock infinitely stiff.
+
+  
+
+ Between those limits of zero and infinity there is a damping force curve that is going to work. But you have to know how to manipulate the shim stack to get those curves. That gets a little complicated because changing the damping force curve shape requires simultaneous changes to the crossover gap or stack preload AND the stack stiffness. You can't get there only changing one thing at a time in the usual tuning approach.
+
+====================================================================================================
+POST #386 | author=racerfmx450 | page=20 | id=13080691 | date=April 29, 2016
+====================================================================================================
+Thanks,  very good info!! 
+
+ Whats about a shimstack with a xo and preload at the same time? 
+
+ Faceshims
+
+ Xo
+
+ Faceshims
+
+ Preload ring. 
+
+ Hs stack
+
+====================================================================================================
+POST #387 | author=racerfmx450 | page=20 | id=13080692 | date=April 29, 2016
+====================================================================================================
+Thanks,  very good info!! 
+
+ Whats about a shimstack with a xo and preload at the same time? 
+
+ Faceshims
+
+ Xo
+
+ Faceshims
+
+ Preload ring. 
+
+ Hs stack
+
+====================================================================================================
+POST #388 | author=KBRPKENNY | page=20 | id=13080786 | date=April 29, 2016
+====================================================================================================
+Cool info Clicked... !!![emoji106]
+
+ Inspires me to buy my own dyno!!
+
+====================================================================================================
+POST #389 | author=KPRacing | page=20 | id=13081166 | date=April 30, 2016
+====================================================================================================
+Hey Clicked, thanks for the thread!
+
+====================================================================================================
+POST #390 | author=harrperf | page=20 | id=13081202 | date=April 30, 2016
+====================================================================================================
+Thanks, very good info!!
+
+ Whats about a shimstack with a xo and preload at the same time?
+
+ Faceshims
+
+ Xo
+
+ Faceshims
+
+ Preload ring.
+
+ Hs stack
+
+  
+
+ This is my favorite.
+
+ Penske has some great resources on their site as well.
+
+====================================================================================================
+POST #391 | author=GDI70 | page=20 | id=13081359 | date=April 30, 2016
+====================================================================================================
+Thanks,  very good info!! 
+
+ Whats about a shimstack with a xo and preload at the same time? 
+
+ Faceshims
+
+ Xo
+
+ Faceshims
+
+ Preload ring. 
+
+ Hs stack
+
+ I have been working with some of that style of p.l.r stacks. They work well in The two stroke yz's I've toned some down for enduro the way clicked described in the hs. They have been working well.
+
+====================================================================================================
+POST #392 | author=mog | page=20 | id=13081575 | date=April 30, 2016
+====================================================================================================
+I'm looking at working on a preload stack to get low speed,bleed shim to get rid  of ugly spike before shim stacks open with a soft single stage for less hs
+
+====================================================================================================
+POST #393 | author=EXC Yankee | page=20 | id=13082269 | date=April 30, 2016
+====================================================================================================
+I have been working with some of that style of p.l.r stacks. They work well in The two stroke yz's I've toned some down for enduro the way clicked described in the hs. They have been working well.
+
+Would you care to share your stack? PM me if you preferr not to post it. I'm trying to tune forks and shock on a 01 YZ250.
+ Thanks
+
+			
+				
+
+	Edited April 30, 2016 by YZ Yankee
+
+====================================================================================================
+POST #394 | author=mrmark809 | page=20 | id=13082284 | date=April 30, 2016
+====================================================================================================
+I use a set up similar to what you speaking of. Suzuki showa stuff. Unfortunately I surfaced the base valve flat. So I swapped out the tap to the older style with the shim stack covering the bleed holes. Firmed it right back up. It's super smooth now. At all the speeds and terrain I encounter.
+
+====================================================================================================
+POST #395 | author=Clicked | page=20 | id=13087259 | date=May 3, 2016
+====================================================================================================
+I'm looking at working on a preload stack to get low speed,bleed shim to get rid of ugly spike before shim stacks open with a soft single stage for less hs
+
+  
+
+ The only reason to preload a shim stack is to increase low speed damping. If that ends up creating too much low speed you either have a shim stack that is too stiff or too much ring shim preload.
+
+  
+
+ This preload discussion got started by MidlifeCrisisGuy looking for a way to soften high speed damping for square edge bump compliance. The problem he and 2grimjim had is they could not figure out how to soften high speed and keep enough low speed damping to prevent the chassis from wallowing around. Their solution was disarm the compression adjuster, imo cavitation from that mod causes other problems.
+
+  
+
+ It's easy to understand their frustration:
+
+ The stock stack had a crossover. By conventional thinking the crossover should soften low speed and get stiffer at high speed after the crossover closes
+
+ To get something with the same low speed and less high speed the fix should be a straight stack. With nothing but face shims a straight stack should be as stiff as possible at low speed. Using a straight stack and backing off on the stiffness should give less high speed damping and the maximum possible low speed
+
+ Something like this: Starting with the rmz450-1415c stack tested by Valving Logic.
+
+ [[IMG:9-straight-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/9-straight-stack.png.6122eea67c0c3975f1d11995ad078886.png]]
+
+ The above example shows the straight stack ends up with less low speed damping than the original crossover stack. Those results imply there is no way to back off high speed without loosing low speed damping. So you are stuck.
+
+  
+
+ Add a ring shim and things are different. With preload from the ring shim a softer stack can match the low speed damping of a stiffer stack and get softer at high speed simply because the stack is softer. For example:
+
+ [[IMG:10-ring-shim.png|//cdn.thumpertalk.com/uploads/imageproxy/10-ring-shim.png.974a8d254599d1dd96a5750629ea2224.png]]
+
+ Getting that to work takes some tuning:
+
+ Too much preload and you are going to end up with an ugly low speed damping force spike
+
+ Too stiff of a stack and there is going to be an ugly damping force spike at low speed and too much damping at high speed because the stack is stiffer
+
+ To get something that works it's got to be the right stack stiffness with the right preload. Mess up either one of those and it is not going to work. You can soften low speed damping a little bit with clicker adjustments or a valve port leak jet if you have to. But, either one of those mods is going to muck with rebound damping. So you would have to go fiddle with the rebound stack to make it a little stiffer, compensating for the added bleed, to get rebound back to where it was.
+
+  
+
+ The only reason to put a ring shim in the stack is to increase low speed damping. If that ends up producing too much low speed damping and an ugly low speed spike you either have a shim stack that is too stiff or a ring shim with too much preload. You need to back off on one or the other – no reason it has to be ugly.
+
+====================================================================================================
+POST #396 | author=Vietze | page=20 | id=13087386 | date=May 3, 2016
+====================================================================================================
+The real question on this matter is:
+Does less HS damping really enhance square edge bump compliance?
+
+====================================================================================================
+POST #397 | author=Clicked | page=20 | id=13087455 | date=May 3, 2016
+====================================================================================================
+Crank down your HS compression adjuster and ride up a rocky stream bead to find out for yourself.
+
+ Sometimes stiffer is stiffer.
+
+====================================================================================================
+POST #398 | author=GHILL28 | page=20 | id=13087525 | date=May 3, 2016
+====================================================================================================
+Crank down your HS compression adjuster and ride up a rocky stream bead to find out for yourself.
+
+ Sometimes stiffer is stiffer.
+
+  
+
+ My ever-reliable butt dyno has shown me over the years that slow rocky stuff like that tends to be MUCH more affected by low speed damping increases than high speed damping.  Occasional fully-weighted tall square edges probably generate high shaft speeds, but aren't most of those inputs that aren't massive being taken up by the tires or the bike being moved around to some degree?
+
+  
+
+ Not criticizing, I'm genuinely curious.  What I'd love to see is some footage of a rear suspension going through a chopped up section with those two setups just to see what it takes to overcome that LS knee.
+
+====================================================================================================
+POST #399 | author=harrperf | page=20 | id=13087631 | date=May 3, 2016
+====================================================================================================
+The real question on this matter is:
+
+ Does less HS damping really enhance square edge bump compliance?
+
+  
+
+ Too much low speed makes a bike really harsh.
+
+ MX is in a real quandry - good chassis control - and good bump compliance do not go hand in hand.  I think the trend from the OEM reflects this - as the majority of 450's are getting the stiffest spring rates they have ever had - despite the 450's getting lighter than ever.  Of course the KTM has an actual low spring rate - but it's rear wheel rate is of course high.
+
+====================================================================================================
+POST #400 | author=harrperf | page=21 | id=13087639 | date=May 3, 2016
+====================================================================================================
+to add - the real solution is a much lighter bike.  Then all things start to come around.
+
+It's funny - have a guy go ride a stone stock yz125 coming off any 450 and they all say the same - wow the suspension is good and the bike handles well.  Bike weight makes everythign worse.
+
+====================================================================================================
+POST #401 | author=GHILL28 | page=21 | id=13087643 | date=May 3, 2016
+====================================================================================================
+But it's rear wheel rate is of course high.
+
+  
+
+ Which means higher shaft speeds for the same event
+
+====================================================================================================
+POST #402 | author=Vietze | page=21 | id=13087986 | date=May 3, 2016
+====================================================================================================
+Crank down your HS compression adjuster and ride up a rocky stream bead to find out for yourself.
+
+ Sometimes stiffer is stiffer.
+
+ But your work shows quite clear that softening the cadj is not the same as softening the main stack...
+
+  
+
+ small/square bump compliance often is related to LS Damping even though it would be a HS movement.
+
+ We have to take DISPLACEMENT into account too in some cases.
+
+  
+
+ Small Bumps are HS movement without any doubt. However, the shock just moves short travel distances (low displacement).
+
+ It has to react FAST to give a compliant feeling.
+
+			
+				
+
+	Edited May 3, 2016 by Vietze
+
+====================================================================================================
+POST #403 | author=slotracer577 | page=21 | id=13088035 | date=May 3, 2016
+====================================================================================================
+I know there was a guy offering a spring loaded base valve a few years back that was supposed to cure the high speed hits. On that setup the high speed damping was pretty low so you could use travel to absorb square edge hits at high speed.  The primary users were desert racers.
+
+====================================================================================================
+POST #404 | author=harrperf | page=21 | id=13088272 | date=May 3, 2016
+====================================================================================================
+Which means higher shaft speeds for the same event
+
+  
+
+  
+
+ Yep.
+
+  
+
+ For supercross this was a big plus for the teams.  It's hard to create repeatable bleed circuits and tuning.  It's easy to adjust a shim stack.
+
+ I personally feel the rear of bike isn't that spectacular in stock form for motocross.  
+
+ A little less low speed damping on that bike goes a very long way in our testing.
+
+  
+
+ Big picture, people will always chase the "holy" grail of suspension - but no one has yet to define what that "holy" damping curve is.
+
+ I personally feel people don't understand that it's the front and the back working in unison to really makes a bike work well - and each chassis has it's own "harshness" character. 
+
+  
+
+ Design engineers are always up against a compromise - better suspension performance is as easy as more travel - at the sacrifice of handling.
+
+====================================================================================================
+POST #405 | author=JoeT | page=21 | id=13090529 | date=May 4, 2016
+====================================================================================================
+Clicked,
+
+  
+
+ I played with putting a ring stack in the mid, I find the whole thread very interesting and like to play with the restackor and it probably would lead to an unridable bike but......
+
+  
+
+ Anywho,  I can't wrap my head around getting the program to do what I want it to do which is.
+
+  
+
+ I want to have a ring stack in where rather than preloading the face shims, sets the float to zero. Essentially it would act as the spring in the mid vavle.  In the fork I would do this by making the stack height the same as the available collar height.
+
+====================================================================================================
+POST #406 | author=conton11 | page=21 | id=13090642 | date=May 4, 2016
+====================================================================================================
+Clicked,
+
+ You talked about a bleed messing with rebound too much or vice versa. 
+
+ What about asymmetric bleeds, if you have the space. Like a small bleed through one port on the compression side and nothing on rebound? Or the other way around.
+
+ I've seen kyb snowmobile shocks use a bleed slot molded into one of the rebound ports but no bleed on the compression side. Or bleed shims for the same effect.
+
+ Clicked,
+
+ You talked about a bleed messing with rebound too much or vice versa. 
+
+ What about asymmetric bleeds, if you have the space. Like a small bleed through one port on the compression side and nothing on rebound? Or the other way around.
+
+ I've seen kyb snowmobile shocks use a bleed slot molded into one of the rebound ports but no bleed on the compression side. Or bleed shims for the same effect.
+
+====================================================================================================
+POST #407 | author=conton11 | page=21 | id=13090674 | date=May 5, 2016
+====================================================================================================
+The real question on this matter is:
+
+ Does less HS damping really enhance square edge bump compliance?
+
+ Yes. This is talked about all the time. But how true is it, when is it true and by how much?
+
+ Plus when you talk to people, one man's high speed is another's low or mid speed. And I'm always surprised by people who neglect motion ratio. Saying that "oh, a shock will never see those speeds" when comparing a 3:1 dirt bike shock @ 45mph to a snowmobile front end at 1.8:1 at 80 mph, or a road bike at 80mph.
+
+ People also may neglect area under the curve leading up to high speed, as there is always acceleration of the shock from low to high.
+
+====================================================================================================
+POST #408 | author=GHILL28 | page=21 | id=13091146 | date=May 5, 2016
+====================================================================================================
+People also may neglect area under the curve leading up to high speed, as there is always acceleration of the shock from low to high.
+
+ This is exactly what I think does not get properly represented, or at least isn't commonly focused on, in a F-v curve.
+
+====================================================================================================
+POST #409 | author=JoeT | page=21 | id=13091833 | date=May 5, 2016
+====================================================================================================
+Clicked,
+
+ You talked about a bleed messing with rebound too much or vice versa.
+
+ What about asymmetric bleeds, if you have the space. Like a small bleed through one port on the compression side and nothing on rebound? Or the other way around.
+
+ I've seen kyb snowmobile shocks use a bleed slot molded into one of the rebound ports but no bleed on the compression side. Or bleed shims for the same effect.
+
+ Clicked,
+
+  
+
+  
+
+ The bleeds you have listed are all symmetrical, that is they work in both directions.  To get an asymmetrical bleed you have to put check valve in to control the flow in one direction or the other.
+
+====================================================================================================
+POST #410 | author=conton11 | page=21 | id=13092015 | date=May 5, 2016
+====================================================================================================
+The bleeds you have listed are all symmetrical, that is they work in both directions.  To get an asymmetrical bleed you have to put check valve in to control the flow in one direction or the other.
+
+ Thanks. I get that now that I look at the piston rather than just think about it.
+
+====================================================================================================
+POST #411 | author=Piney Woods | page=21 | id=13092178 | date=May 5, 2016
+====================================================================================================
+My ever-reliable butt dyno has shown me over the years that slow rocky stuff like that tends to be MUCH more affected by low speed damping increases than high speed damping.  Occasional fully-weighted tall square edges probably generate high shaft speeds, but aren't most of those inputs that aren't massive being taken up by the tires or the bike being moved around to some degree?
+
+  
+
+ Not criticizing, I'm genuinely curious.  What I'd love to see is some footage of a rear suspension going through a chopped up section with those two setups just to see what it takes to overcome that LS knee.
+
+ I think this issue is part of what I am fighting in my offroad use. I am starting to wonder about putting more emphasis on adjusting my LSC for better compliance on roots, etc. Maybe I've been doing it backwards using the traditional method of backing off on the HSC. I think that may be contributing to the severe bottoming. Thanks, great thread.
+
+			
+				
+
+	Edited May 5, 2016 by YHGEORGE
+
+====================================================================================================
+POST #412 | author=GHILL28 | page=21 | id=13092196 | date=May 5, 2016
+====================================================================================================
+I think this issue is part of what I am fighting in my offroad use. I am starting to wonder about putting more emphasis on adjusting my LSC for better compliance on roots, etc. Maybe I've been doing it backwards using the traditional method of backing off on the HSC. I think that may be contributing to the severe bottoming.
+
+  
+
+ I would take that a step further, and first optimize the REBOUND adjuster for your compression feel because that's your main piston bleed.  Might be a pogo stick or it might sit still like a rock through repeated hits, but pay attention to initial feel.  Then LSC for more/less bleed if you still need it.  Then HSC for additional high end relief.  After all that you'll have to valve the rebound around whatever setting you like the most from the clicker.  If you're picky about suspension (which....you are, and so am I), that's just how it has to be done if you're going to use the adjusters as an indicator for direction.
+
+  
+
+  
+
+ Remember, for a high speed event, the shaft still has to go through the low speed range.  It's not irrelevant, especially for very quick inputs where there's less impulse/energy being put into the system, which it sounds like you're trying to tune for.
+
+====================================================================================================
+POST #413 | author=Piney Woods | page=21 | id=13092230 | date=May 5, 2016
+====================================================================================================
+Thanks. I think the typically slower bike speeds in the woods make a big difference if that is what you are referring to with "impulse/energy" . ?
+
+====================================================================================================
+POST #414 | author=GHILL28 | page=21 | id=13092268 | date=May 5, 2016
+====================================================================================================
+Bike speed, and amplitude.  You're hitting rocks and roots, not missing the landing of a triple from 20ft up.
+
+			
+				
+
+	Edited May 5, 2016 by GHILL28
+
+====================================================================================================
+POST #415 | author=Piney Woods | page=21 | id=13092286 | date=May 5, 2016
+====================================================================================================
+Yep, thanks again.
+
+====================================================================================================
+POST #416 | author=GDI70 | page=21 | id=13095720 | date=May 7, 2016
+====================================================================================================
+To jump back on the preload ring stack...we tested a 2010 crf450 last week. The rider really likes the way the bike is working. There are differences in hoop shim placement hc or lc. I've been working on these stacks a bunch as of late. Brings much more questions; leverage ratios, chain torque, application mx or off road. But, we have been having good results so far.
+
+====================================================================================================
+POST #417 | author=GHILL28 | page=21 | id=13320262 | date=September 13, 2016
+====================================================================================================
+Clicked - Was there anything further you were going to dive into with this topic, or was that your conclusion on page 20?  In either case, many many thanks for the testing and analysis and being kind enough to make it public.
+
+====================================================================================================
+POST #418 | author=Clicked | page=21 | id=13324365 | date=September 15, 2016
+====================================================================================================
+Clicked - Was there anything further you were going to dive into with this topic, or was that your conclusion on page 20?  In either case, many many thanks for the testing and analysis and being kind enough to make it public.
+
+  
+
+In short: Ran out of dyno data.
+
+ 
+
+The dyno data on TT ranges by a factor of 6 from the softest to stiffest damping force. That pretty much covers the practical range of tuning and shows the shape of the damping force curve does not change a whole lot between a soft and stiff curve. To change the curve shape you have to do something else like preload the stack as MXScandinavia showed in his dyno testing. The dyno tests also checked out at a couple of different valve port geometries showing how that effects the damping force curve as well.
+
+ 
+
+So the data here covers the range, you just have to interpolate  [[IMG::banghead:|https://www.thumpertalk.com/uploads/emoticons/default_banghead.gif]]
+
+ 
+
+The basic conclusion of the dyno testing imo was it’s not always easy to guess how changes to the shim stack are going to effect the damping force curve. But if you work through how the shim stack structure deflects and how changes to the stack clamp and taper effect deflection of the stack structure you can eventually get an understanding of the why of the data. The dyno tests here show those results are often a little different then you might expect from basic approaches like shim factors.
+
+ 
+
+Back from pg. 9.............
+
+  
+
+ Shim Stack Tuning Webology:
+
+ So far, this thread has looked at six points of shim stack tuning webology. Some theories have worked out, others have not. Here is a summary of webology theories verified with dyno data so far:  
+
+ Shims become stiffer at edge lifts greater than one shim thickness
+
+ False: The MXScandinavia finger press data shows shim stiffness is nearly linear out to edge lifts of 7 shim thicknesses. For a shock that is equivalent to a wheel speed of 38 m/sec and well beyond the 7 to 10 m/sec speeds generally considered to be the extremes of MX suspension velocities. If you can not see any effect at 38 m/sec it just is not going to show up in a suspension system
+
+ Shim stiffness becomes nonlinear at high lift
+
+ False: The MXScandinavia finger press data shows shim stiffness is nearly linear out to edge lifts of 7 shim thicknesses. Data from that test is equivalent to hitting a 7 inch bump at 140 mph 
+
+ A second point here: the data shows shim stiffness is “nearly” linear. It is not “exactly” linear, but far close to linear than the strong non-linear effects commonly expected based on Belleville springs
+
+ A tall stack of thin shims is stiffer than a short stack of thick shims
+
+ False: The stacked bowl theory and fulcrum theory both assert tall stacks are stiffer. Those theories made sense against the first two MXScandinavia dyno tests modifying the low and high speed stack. Further tests changing the height of the high speed stack did not support the theory. So “sometimes” tall stacks are stiffer, sometimes they are not. Rules that only work sometimes just aren't very useful for suspension tuning
+
+ A tall stack of thin shims is more progressive than a short stack of thick shims
+
+ True: The stacked bowl theory asserts shims added to the top of the stack are force to bend around a sharper bend radius. That theory supports the dyno data showing tall stacks of thin shims are stiffer, demonstrated by the SF4/SF14 finger press data comparison
+
+Stiffer high speed stacks increase high speed damping
+False: Increasing the stiffness of the high speed stack makes the damping stiffer everywhere, not just at high speed. The Ohlins dyno data, the MXScandinavia dyno data and the FEA analysis all show that effect
+
+ A straight stack is stiffer than a tapered stack
+
+ False: Shim stacks can be straight, tapered or an upside down Christmas tree. All that matters is the stiffness the stack structure produces at the face shim. The Valving Logic data and MXScandinavia data both demonstrate there is no difference in the shape of the damping force curve between a straight or tapered stack
+
+ There may be other dyno data out there showing some of these webology theories work. The dyno data here shows they do not work. Theories that only work sometimes just aren't very useful for suspension tuning.
+
+  
+
+ This thread is not dead, just resting.....
+
+ Pound Like a couple of times to keep the thread moving.
+
+			
+				
+
+	Edited September 15, 2016 by Clicked
+
+====================================================================================================
+POST #419 | author=vince46 | page=21 | id=13333007 | date=September 20, 2016
+====================================================================================================
+Why dont we just back it all up to basics.
+
+ The idea of suspension is to take the energy produced from an event such as a bump or jump and neutralize that energy through pressure that is generated by the restriction of oil to flow  mainly.
+
+ . Ive been making my own pistons and doing some data logging and I feel that it gets made to be more complicated than it really is. &%$#@! the shims and just think about a shock piston with no shims for a minute. This is still speed sensitive isn't it? the faster you move the piston (with no shims) through the oil the the more Dampening. Why do you ask? Because no matter how fast the shock shaft moves the the amount of oil that needs to be displaced is relative to the amount of stroke used. If we use 100mm of travel at slow speed we have more time to displace the oil. This means that the oil flows through the holes in the piston with less velocity and in return generates less pressure in the shock. If we doubled the speed of the shaft we need to displace the same amount of oil in half the time. This means the oil will have to move through the port at twice the velocity and in return generate even more pressure in the shock, it is the pressure that dampens the shock movement. Low speed, high speed we have become obsessed with these terms. Shims don't know the difference they open as far as they can relative to their stiffness and the pressure of the shock. If you have less shims on a piston the shock will accelerate faster (this is most people idea of plush, Bad Bad Bad) in turn the shaft will reach a higher velocity and it turn become harsher quicker. I am trialing my very own shock piston tonight will see how it goes.
+
+====================================================================================================
+POST #420 | author=vince46 | page=22 | id=13333618 | date=September 21, 2016
+====================================================================================================
+So I rode with the large port piston I had cnc'ed. My bike is a 2012 RMZ 450 that I have had for four years and had done plenty of suspension mods on over the years. It rides really well but I am always trying new things.
+
+ Stock shock has a Titanium nitrate shaft 6.3 kg spring with thrust washer and large port piston (ride concepts) with 1.2mm bleed . Today I rode with my spare shock. Standard shaft 6.3 kg spring no thrust washers identical shim stack as the other set up but no bleed on custom piston. Piston geometery is also different.
+
+ The result was a very plush ride on the rough parts of the track (plusher than the other shock) but a some what dead feeling in the shock at ride height. 
+
+ Most in part to the lack of bleed and trust washer I'd say, but as I stated in my first post if I make it move faster from the start I believe it will get inherently stiffer at the other end that's logical. I will try though and get back to every one.
+
+====================================================================================================
+POST #421 | author=vince46 | page=22 | id=13398165 | date=October 29, 2016
+====================================================================================================
+Data logging
+
+ 
+Setup
+
+ [[LINK:|https://www.thumpertalk.com/uploads/monthly_10_2016/post-243981-14777689099129.jpg]]
+
+ [[LINK:|https://www.thumpertalk.com/uploads/monthly_10_2016/post-243981-14777689546592.jpg]]
+
+====================================================================================================
+POST #422 | author=ShouldHaveBraked | page=22 | id=17479273 | date=February 26, 2023
+====================================================================================================
+On 9/16/2016 at 1:13 AM, Clicked said:
+	
+
+	
+
+		
+ 
+			 
+		
+
+		
+
+			In short: Ran out of dyno data.
+		
+
+		
+
+			 
+		
+
+		
+
+			The dyno data on TT ranges by a factor of 6 from the softest to stiffest damping force. That pretty much covers the practical range of tuning and shows the shape of the damping force curve does not change a whole lot between a soft and stiff curve. To change the curve shape you have to do something else like preload the stack as MXScandinavia showed in his dyno testing. The dyno tests also checked out at a couple of different valve port geometries showing how that effects the damping force curve as well.
+		
+
+		
+
+			 
+		
+
+		
+
+			So the data here covers the range, you just have to interpolate  [[LINK:|https://www.thumpertalk.com/uploads/emoticons/default_banghead.gif]]
+		
+
+		
+
+			 
+		
+
+		
+
+			The basic conclusion of the dyno testing imo was it’s not always easy to guess how changes to the shim stack are going to effect the damping force curve. But if you work through how the shim stack structure deflects and how changes to the stack clamp and taper effect deflection of the stack structure you can eventually get an understanding of the why of the data. The dyno tests here show those results are often a little different then you might expect from basic approaches like shim factors.
+		
+
+		
+
+			 
+		
+
+		
+
+			Back from pg. 9.............
+		
+
+		
+ 
+			 
+		
+
+		
+ 
+			 
+		
+
+		
+ 
+			This thread is not dead, just resting.....
+		
+
+		
+ 
+			Pound Like a couple of times to keep the thread moving.
+		
+
+	
+
+ 
+	Fascinating thread Clicked.
+
+ 
+	I am left wondering how shim deformation could vary with different stack structures and different port configurations, and be interested to physically see this with transparent shock bodies.
+
+ 
+	I guess the question I'm really asking is could we come up with a stack/port configuration that would deflect differently and again compare them to shimstack stiffness theories again and potentially get a different result.
+
+====================================================================================================
+POST #423 | author=Clicked | page=22 | id=17479945 | date=February 27, 2023
+====================================================================================================
+7 hours ago, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			Fascinating thread Clicked.
+		
+
+		
+ 
+			I am left wondering how shim deformation could vary with different stack structures and different port configurations, and be interested to physically see this with transparent shock bodies.
+		
+
+		
+ 
+			I guess the question I'm really asking is could we come up with a stack/port configuration that would deflect differently and again compare them to shimstack stiffness theories again and potentially get a different result.
+		
+
+	
+
+ 
+	If you could identify some unusual valve port geometry that performed outside the range of conventional physics how would you ever tune the thing? 
+
+ 
+	And with no physics based logical explanation of how the thing worked  could you ever develop confidence the thing would work the same way on a day-to-day basis?
+
+ 
+	Basically, you are searching for what some call a snake-bite setup.
+
+====================================================================================================
+POST #424 | author=ShouldHaveBraked | page=22 | id=17479997 | date=February 27, 2023
+====================================================================================================
+5 hours ago, Clicked said:
+	
+
+	
+
+		
+ 
+			snake-bite setup
+		
+
+	
+
+ 
+	Not sure understand that one. We dont have snakes in NZ so there's a chance I've missed out on some good sayings :)
+
+ 
+	Thanks for the reply, I just ran a small finger test and was surprised. I was initially thinking we may be able to get shims to flex more like a reed valve under certain conditions, it was pretty obvious with a 0.1mm shim that that it would still behave like said finger test.
+
+ 
+	My apologies. 
+
+ 
+	 
+
+			
+				
+
+	Edited February 27, 2023 by ShouldHaveBraked
+
+====================================================================================================
+POST #425 | author=Clicked | page=22 | id=17480321 | date=February 27, 2023
+====================================================================================================
+A two port valve also bends the shims into a wave shape. But that wave is more simply described as a "taco" shape.
+
+ 
+	Two, three or four port valves all bend the shims into a wave shape, but the distance between wave peaks is different which effects the stiffness of the shim stack.
+
+====================================================================================================
+POST #426 | author=DEATH_INC. | page=22 | id=17481119 | date=February 27, 2023
+====================================================================================================
+23 hours ago, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			I guess the question I'm really asking is could we come up with a stack/port configuration that would deflect differently and again compare them to shimstack stiffness theories again and potentially get a different result.
+		
+
+	
+
+ 
+	If you look at that beginners guide thread, near the bottom of the first post I ran the Showa setup (4 port) compared to the WP (3 twin ports) with the same stack (if that's what you're talking about).
+
+ 
+	A true twin port piston as Clicked referred to needs a huge stack to get any stiffness compared to the others. The shim can bend without applying any tension to the circumference, where the others are trying to make a wavy cone under pressure and do.
+
+			
+				
+
+	Edited February 27, 2023 by DEATH_INC.
+
+====================================================================================================
+POST #427 | author=mog | page=22 | id=17481125 | date=February 27, 2023
+====================================================================================================
+2 minutes ago, DEATH_INC. said:
+	
+
+	
+
+		
+ 
+			If you look at that beginners guide thread, near the bottom of the first post I ran the Showa setup (4 port) compared to the WP (3 twin ports) with the same stack (if that's what you're talking about).
+		
+
+		
+ 
+			A true twin port piston as Clicked referred to needs a huge stack to get any stiffness compared to the others. The shim can bend without applying any tension to the circumference, where the others are trying to make a wavy cone under pressure and do.
+		
+
+	
+
+ 
+	What about tons of small holes all the way around the edge ?
+
+====================================================================================================
+POST #428 | author=DEATH_INC. | page=22 | id=17481129 | date=February 27, 2023
+====================================================================================================
+23 hours ago, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			I am left wondering how shim deformation could vary with different stack structures and different port configurations, and be interested to physically see this with transparent shock bodies.
+		
+
+		
+ 
+			 
+		
+
+	
+
+ 
+	The best way to see it would be to attach a cylinder to a pump, and seal the top with a valve with the top exposed. That way you could push a constant fluid flow through it and observe it in a stationary state.
+
+====================================================================================================
+POST #429 | author=GHILL28 | page=22 | id=17481131 | date=February 27, 2023
+====================================================================================================
+Just now, mog said:
+	
+
+	
+
+		
+ 
+			What about tons of small holes all the way around the edge ? 
+		
+
+	
+
+ 
+	Then you'd have an older Fox mtb main piston.  Or a rudimentary off-road truck shock piston.  Can make it on a drill press with a rotary stage.
+
+====================================================================================================
+POST #430 | author=DEATH_INC. | page=22 | id=17481137 | date=February 27, 2023
+====================================================================================================
+4 minutes ago, mog said:
+	
+
+	
+
+		
+ 
+			What about tons of small holes all the way around the edge ? 
+		
+
+	
+
+ 
+	Like some of the old crap had? It would try to cone still, and try to make the wavy shape over each hole. There would be a point it would bend the whole shim into a bit of a cone of course.
+
+			
+				
+
+	Edited February 27, 2023 by DEATH_INC.
+
+====================================================================================================
+POST #431 | author=DEATH_INC. | page=22 | id=17481147 | date=February 27, 2023
+====================================================================================================
+The one I'd like to see operation is a 360 deg valve/shim. My guess is it wouldn't bend in a nice cone either, it would distort to some form of waves to allow the pressure to escape. But that's just my thought on that, I don't actually know.
+
+====================================================================================================
+POST #432 | author=ShouldHaveBraked | page=22 | id=17481787 | date=February 28, 2023
+====================================================================================================
+5 hours ago, DEATH_INC. said:
+	
+
+	
+
+		
+ 
+			The one I'd like to see operation is a 360 deg valve/shim. My guess is it wouldn't bend in a nice cone either, it would distort to some form of waves to allow the pressure to escape. But that's just my thought on that, I don't actually know.
+		
+
+	
+
+ 
+	The trampoline setup would be similar in function to this wouldn't it?
+
+ 
+	Wouldn't that be easier to test statically since the fluid force would be 360deg? If so maybe you could apply force to it in place on the trampoline setup with a nut and washer.
+
+====================================================================================================
+POST #433 | author=GHILL28 | page=22 | id=17481793 | date=February 28, 2023
+====================================================================================================
+Isn't this kind of how a KYB compression adjuster stack works?
+
+====================================================================================================
+POST #434 | author=ShouldHaveBraked | page=22 | id=17481805 | date=February 28, 2023
+====================================================================================================
+6 hours ago, DEATH_INC. said:
+	
+
+	
+
+		
+ 
+			(4 port) compared to the WP (3 twin ports) with the same stack (if that's what you're talking about).
+		
+
+		
+ 
+			A true twin port piston as Clicked referred to needs a huge stack
+		
+
+	
+
+ 
+	Interesting to note here is I had a fairly good setting on a RaceTech G2R valve then put that stack on another SuspensionTech 3 port valve and it was softer. 
+
+ 
+	But I think there was some unintentional preload with those G2R valves even when aiming for zero.
+
+			
+				
+
+	Edited February 28, 2023 by ShouldHaveBraked
+
+====================================================================================================
+POST #435 | author=ShouldHaveBraked | page=22 | id=17481823 | date=February 28, 2023
+====================================================================================================
+24 minutes ago, GHILL28 said:
+	
+
+	
+
+		
+ 
+			Isn't this kind of how a KYB compression adjuster stack works?
+		
+
+	
+
+ 
+	In the shock?
+
+====================================================================================================
+POST #436 | author=GHILL28 | page=22 | id=17481955 | date=February 28, 2023
+====================================================================================================
+1 hour ago, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			In the shock?
+		
+
+	
+
+ 
+	Yes, the interface of the face shim in the adjuster/bridge valve.  The face shim rests against a ring washer.  The piston is spaced away from that interface and has flow ports to it.
+
+====================================================================================================
+POST #437 | author=DEATH_INC. | page=22 | id=17481967 | date=February 28, 2023
+====================================================================================================
+2 hours ago, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			The trampoline setup would be similar in function to this wouldn't it?
+		
+
+		
+ 
+			Wouldn't that be easier to test statically since the fluid force would be 360deg? If so maybe you could apply force to it in place on the trampoline setup with a nut and washer.
+		
+
+	
+
+ 
+	No, because it leans against a cup which is solid. With oil once 1 part started to lift, the oil would all flow out that point. I think.
+
+			
+				
+
+	Edited February 28, 2023 by DEATH_INC.
+
+====================================================================================================
+POST #438 | author=DEATH_INC. | page=22 | id=17481971 | date=February 28, 2023
+====================================================================================================
+2 hours ago, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			Interesting to note here is I had a fairly good setting on a RaceTech G2R valve then put that stack on another SuspensionTech 3 port valve and it was softer. 
+		
+
+		
+ 
+			But I think there was some unintentional preload with those G2R valves even when aiming for zero.
+		
+
+	
+
+ 
+	Weren't they also a full perimeter valve?
+
+====================================================================================================
+POST #439 | author=ShouldHaveBraked | page=22 | id=17482037 | date=February 28, 2023
+====================================================================================================
+1 hour ago, DEATH_INC. said:
+	
+
+	
+
+		
+ 
+			Weren't they also a full perimeter valve?
+		
+
+	
+
+ 
+	Yeh technically although the "restrictor" stack that also sets preload I suspect might negate that "full perimeter" effect to a degree.[[LINK:|https://www.thumpertalk.com/uploads/monthly_2023_02/16775715177605172225189876114867.jpg.0ed6fd4dff8d5fd57a10d57811c2b7c2.jpg]]
+
+====================================================================================================
+POST #440 | author=ShouldHaveBraked | page=23 | id=17485569 | date=March 2, 2023
+====================================================================================================
+Is there any point in trying to refine port edges to reduce friction losses or any of that jargon? Would the losses increase with higher velocities? 
+
+ 
+	If that was the case could you expect to remove progression to a degree with refinement?
+
+ 
+	Even if that was the case and we couldn't model the change on Restackor would it be something worth chasing physically?
+
+ 
+	I don't imagine it would be the easiest thing to fair test with stock valves, rounding the edge to then change have to recalculate the active port window size, to then have to adjust the shim stacks again to meet the target curve again... I find learning leads to more questions.
+
+ 
+	@Clicked
+
+====================================================================================================
+POST #441 | author=GDI70 | page=23 | id=17490401 | date=March 4, 2023
+====================================================================================================
+I spoke with a supplier (Solid Performance) and they offer dyno time. Not cheap, but having just gotten into the new wp shock, I have some ideas I'd like to test. It would be nice to see the numbers with different valving and equal comp port size. Also, I've been revisiting bleeds in pistons as well. Would be valuable to see the reb numbers with it.
+
+====================================================================================================
+POST #442 | author=DEATH_INC. | page=23 | id=17490787 | date=March 4, 2023
+====================================================================================================
+On 3/2/2023 at 1:41 PM, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			Is there any point in trying to refine port edges to reduce friction losses or any of that jargon? Would the losses increase with higher velocities? 
+		
+
+		
+ 
+			If that was the case could you expect to remove progression to a degree with refinement?
+		
+
+		
+ 
+			Even if that was the case and we couldn't model the change on Restackor would it be something worth chasing physically?
+		
+
+		
+ 
+			I don't imagine it would be the easiest thing to fair test with stock valves, rounding the edge to then change have to recalculate the active port window size, to then have to adjust the shim stacks again to meet the target curve again... I find learning leads to more questions.
+		
+
+		
+ 
+			@Clicked
+		
+
+		
+ 
+			 
+		
+
+	
+
+ 
+	Only in certain situations. There aren't many pistons now that don't flow more than enough, and those that don't seem to mostly be restricted by the deck height on the inlet side. If you think about it, this is the worst area for flow as it has the highest velocity (other than the active shim face) in the port, and the fluid has to flow over the sharp edge of the shimstack/check valve to get there, which will create far more restriction/turbulence than any small edge in the port. I've said it before, the flash gold valve pistons only flow more without a shim stack on them.
+
+ 
+	I've considered radiusing the corners every time I have a piston out, but it just doesn't add up so I've never bothered doing it.
+
+ 
+	If you really want to improve flow use delta shims everywhere (3 port pistons obviously) to give the fluid a straighter shot into the ports.
+
+			
+				
+
+	Edited March 4, 2023 by DEATH_INC.
+
+====================================================================================================
+POST #443 | author=ShouldHaveBraked | page=23 | id=17492809 | date=March 5, 2023
+====================================================================================================
+On 3/5/2023 at 8:07 AM, DEATH_INC. said:
+	
+
+	
+
+		
+ 
+			Only in certain situations. There aren't many pistons now that don't flow more than enough, and those that don't seem to mostly be restricted by the deck height on the inlet side. If you think about it, this is the worst area for flow as it has the highest velocity (other than the active shim face) in the port, and the fluid has to flow over the sharp edge of the shimstack/check valve to get there, which will create far more restriction/turbulence than any small edge in the port. I've said it before, the flash gold valve pistons only flow more without a shim stack on them.
+		
+
+		
+ 
+			I've considered radiusing the corners every time I have a piston out, but it just doesn't add up so I've never bothered doing it.
+		
+
+		
+ 
+			If you really want to improve flow use delta shims everywhere (3 port pistons obviously) to give the fluid a straighter shot into the ports.
+		
+
+	
+
+ 
+	Seems impossible to fair test either way as you are changing the metering area if you do try. 
+
+ 
+	Restackor doesn't take into account weather delta shims are on the rebound side when calculating the comp side does it?
+
+ 
+	If not using delta shims you would expect to get more progression up in the higher velocities where we probably can't verify with a dyno either.
+
+			
+				
+
+	Edited March 5, 2023 by ShouldHaveBraked
+
+====================================================================================================
+POST #444 | author=DEATH_INC. | page=23 | id=17492821 | date=March 5, 2023
+====================================================================================================
+2 minutes ago, ShouldHaveBraked said:
+	
+
+	
+
+		
+ 
+			Restackor doesn't take into account weather delta shims are on the rebound side when calculating the comp side does it?
+		
+
+		
+ 
+			If not using delta shims you would expect to get more progression up in the higher velocities where we probably can't verify with a dyno.
+		
+
+	
+
+ 
+	Yes it does, it's all in the h.deck calculations. H.deck often isn't as simple as just a measurement, it uses the width of the port you're running multiplied by the h.deck measurement you input, which often isn't actually correct. So, sometimes you must calculate the size of the inlet, then adjust the deck height to give the correct size using the width X h.deck formula. This is definitely the case with Delta shims.
+
+ 
+	I'm not sure what would be more progressive with a delta shim? You just run them as .7 of their thickness.
+
+====================================================================================================
+POST #445 | author=DEATH_INC. | page=23 | id=17492823 | date=March 5, 2023
+====================================================================================================
+On 3/5/2023 at 4:15 AM, GDI70 said:
+	
+
+	
+
+		
+ 
+			 It would be nice to see the numbers with different valving and equal comp port size.
+		
+
+	
+
+ 
+	Are you talking about drilling the smaller port to match the larger one? Yes, that would be interesting to see if it makes a difference, though obviously with no valving change.
+
+			
+				
+
+	Edited March 5, 2023 by DEATH_INC.
+
+====================================================================================================
+POST #446 | author=GDI70 | page=23 | id=17493143 | date=March 6, 2023
+====================================================================================================
+I was hoping to test different stack configuration maybe with stock ports first, then modded to same size. I think the piston has potential, as well as working in other 50mm shocks.
+
+====================================================================================================
+POST #447 | author=ShouldHaveBraked | page=23 | id=17493193 | date=March 6, 2023
+====================================================================================================
+4 hours ago, DEATH_INC. said:
+	
+
+	
+
+		
+ 
+			Yes it does, it's all in the h.deck calculations
+		
+
+	
+
+ 
+	Ahh I see. That makes sense now.
+
+====================================================================================================
+POST #448 | author=ShouldHaveBraked | page=23 | id=17493201 | date=March 6, 2023
+====================================================================================================
+4 hours ago, DEATH_INC. said:
+	
+
+	
+
+		
+ 
+			I'm not sure what would be more progressive with a delta shim?
+		
+
+	
+
+ 
+	I think you pretty much answered my question, I just haven't seen it explained like that in the manual.
+
+====================================================================================================
+POST #449 | author=DEATH_INC. | page=23 | id=17493269 | date=March 6, 2023
+====================================================================================================
+1 hour ago, GDI70 said:
+	
+
+	
+
+		
+ 
+			I was hoping to test different stack configuration maybe with stock ports first, then modded to same size. I think the piston has potential, as well as working in other 50mm shocks.
+		
+
+	
+
+ 
+	I like the uneven size ports, I think they have a small advantage over even sized ones, but it would be cool to see if it does. I don't know if the dyno will go fast enough to show it, and they can't be modeled in Restackor with the uneven sizes unfortunately.
+
+			
+				
+
+	Edited March 6, 2023 by DEATH_INC.
+
+====================================================================================================
+POST #450 | author=GDI70 | page=23 | id=17493337 | date=March 6, 2023
+====================================================================================================
+I would like to see how it works as well. Also, on the reb side. 38mm face, and dual xovers was what I thought I measured on that stack. I assume more low speed comp is the goal of the port differences.

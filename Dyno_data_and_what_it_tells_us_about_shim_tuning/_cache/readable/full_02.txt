@@ -1,0 +1,1444 @@
+
+====================================================================================================
+POST #070 | author=Clicked | page=4 | id=12316572 | date=April 1, 2015
+====================================================================================================
+Backer Limit Dyno Testing
+
+  
+
+ MXScanindavia used a backer shim on an Ohlins three port valve to figure out how far the shim stack deflects during a dyno test:
+
+ [[IMG:27-ohlins-3pc.png|//cdn.thumpertalk.com/uploads/imageproxy/27-ohlins-3pc.png.7b79727ea884eb372e0e3aa1d11a239f.png]]
+
+  
+
+ [[IMG:28-ct2025-backer.png|//cdn.thumpertalk.com/uploads/imageproxy/28-ct2025-backer.png.3bd663a28265b65002c03907ac8d49fc.png]]
+
+  
+
+ In the dyno test the stack with the thinner 0.2 mm clamp (ct2025) hit the backer at a suspension velocity between 30 and 35 in/sec. The second stack with the thicker 0.3 mm clamp (ct3025) did not.
+
+ [[IMG:29-ct2025-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/29-ct2025-dyno.png.7a2b8c757619dc3bffd1767a4c42499d.png]]
+
+ Backer limit tests give a way to figure out when events occur like closing a crossover gap. The tests deflect the shim stack in a natural way using the shock fluid pressure instead of the point load applied by a finger press. That avoids the uncertainties involved in interpreting finger press data, but backer limit tests only gives you info at low stack lifts – like a shim height or two.
+
+  
+
+ Valving Logic has used this same dyno testing approachto measure shim stack lift. We will look at some of the Valving Logic dyno data posted on TT next to get some more stack stiffness measurements to compare with the shim factor equation.
+
+====================================================================================================
+POST #071 | author=Clicked | page=4 | id=12323838 | date=April 4, 2015
+====================================================================================================
+Valving Logic Backer Limit Dyno Data
+
+  
+
+ Valving Logic has used that same approach to measured stack lift in a thread here (linky) for one of Mog's stacks. The Valving Logic dyno has more power then the dyno MXScandinavia was using and can go to shaft velocities that are about 50% higher. That gives max shaft speeds in the 60 in/sec range.  
+
+ [[IMG:30-rmz250-152-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/30-rmz250-152-stack.png.ec76fd44213bf2fefc3d09d8ba577b93.png]]
+
+ The rmz250 test was run on a kyb 46mm shock valve.
+
+ [[IMG:31-kyb46wc.png|//cdn.thumpertalk.com/uploads/imageproxy/31-kyb46wc.png.a0f55d7c010b42c730b362737116b189.png]]
+
+  
+
+ The FEA calculations show the stack hit the backer at a shaft velocity around 53 in/sec. The PVP dyno data from Valving Logic only collects data at discrete points. So we have data at 50 in/sec and 60 in/sec. The stack hit the backer somewhere between those two data points, but not as hard as the FEA calculations predicted.  
+
+ [[IMG:32-rmz250-152-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/32-rmz250-152-dyno.png.b5b1172717aeccaf2471693962a08491.png]]
+
+ So far this thread has looked at dyno data of four shim stack configurations. For those shim stacks the stack deflection was measured four different ways:
+
+ Dyno measurements on 4 shim stacks
+
+ FEA analysis of 4 shim stacks
+
+ Finger press measurements on 2 shim stacks
+
+ Backer limits on 2 stacks
+
+ That gives 12 measurements of shim stack deflection for those 4 shim stack configurations run on three different valve port geometries.
+
+  
+
+ The big question MXScandinavia was after, and the reason he went out and collected all of the data, was to try and figure out how well shim factors compare to these basic shim stack deflection measurements. We will compare those measurements next.
+
+			
+				
+
+	Edited April 4, 2015 by Clicked
+
+====================================================================================================
+POST #072 | author=Clicked | page=4 | id=12330243 | date=April 7, 2015
+====================================================================================================
+Shim Factors Compared to Dyno Data
+
+  
+
+ The thickness cubed relationship used to create shim factors is basically an estimate of the stack spring constant. To figure out the actual value of the spring constant is we need some measurement of the force required to deflect the stack some specified distance. The MXScandinavia finger press data gives those measurements.
+
+ [[IMG:33-sf14-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/33-sf14-stack.png.ac4aa6a5fe63a024218332028b81bf4e.png]]
+
+ For the 14x40.2 stack the finger press used a maximum force of 520 lbf and produced a maximum shim stack lift of 7 h/t. Those measurements are after correction for fluid torque and referencing the finger press lift to the valve port edge. The data works out to a stack spring constant of 9,500 lbf/in. Base on the finger press measurements multiplying the tapered stack shim factor by 40 gives a pretty good estimate of the stack spring constant. The finger press data shows the 4x40.3 tested softer than expected by shim factors. For that stack the spring constant works out to be 35. The equation below uses 40 because that centers the data better.
+
+[[IMG:34-tsf-eqn.png|//cdn.thumpertalk.com/uploads/imageproxy/34-tsf-eqn.png.72b5afc07609fea44615cd331e2530f1.png]]
+
+ The above equation uses shim thickness and diameters in mm and computes the tsf spring constant in lbf/in. So it's mixed units.
+
+====================================================================================================
+POST #073 | author=Clicked | page=4 | id=12330267 | date=April 7, 2015
+====================================================================================================
+Shim Factors Compared to Measured Shim Stack Lift
+
+  
+
+ To estimate the shim stack spring constant multiply the tapered shim factor by 40. Divide the spring constant into the force applied to the stack and you get an estimate of shim stack lift. The plot below compares stack lift estimated by shim factors to the measured data for these four shim stack configurations. Shim factor estimates are off by +/- 30%.    
+
+ [[IMG:36-tsf-data-comp.png|//cdn.thumpertalk.com/uploads/imageproxy/36-tsf-data-comp.png.890d739f276e31ede3777d9709bb8c89.png]]
+
+ The above comparison only looks at four shim stack configurations. Two of those stacks were tapered the other two were straight stacks. The data scatter for those four stacks is in the +/- 30% range.  
+
+  
+
+ What if you only looked at tapered stacks? If you only compared stacks with more similar shim stack structures would shim factors work better?
+
+====================================================================================================
+POST #074 | author=Clicked | page=4 | id=12331978 | date=April 8, 2015
+====================================================================================================
+More Dyno Data
+
+  
+
+ From the dyno tests we have looked at so far there is more data out there we can use to test the shim factor equation. The MXScandinavia thread shows dyno data for seventeen different shim stack configurations from the Ohlins factory testing. Those configurations all use a tapered shim stack with a similar stack structure. To get stack stiffness out of that dyno data we need to run the FEA calculations on each shim stack and compare the results to the dyno data to make sure the FEA calculations got the stack stiffness right.  
+
+ Here is the factory data for the compression shim stack configurations:
+
+ [[IMG:37a-ohlins-comp.png|//cdn.thumpertalk.com/uploads/imageproxy/37a-ohlins-comp.png.6902945381f3ba7459ce8d5abf973ef8.png]]
+
+====================================================================================================
+POST #075 | author=Clicked | page=4 | id=12356351 | date=April 18, 2015
+====================================================================================================
+Rebound Dyno Data
+
+  
+
+ On the rebound side there are five more shim stack configurations.  
+
+ [[IMG:38-ohlins4pr.png|//cdn.thumpertalk.com/uploads/imageproxy/38-ohlins4pr.png.a53c2a5b660d6b08a205be0f3ffd9359.png]]
+
+ [[IMG:39-ohlins-rbnd.png|//cdn.thumpertalk.com/uploads/imageproxy/39-ohlins-rbnd.png.6af2dc683c0f8b10109a5212e8c8c1c4.png]]
+
+ Adding those 5 rebound shim stack configurations and the 12 compression stacks gives 17 more dyno runs to compare against the shim factor equation to test it's accuracy.
+
+====================================================================================================
+POST #076 | author=Clicked | page=4 | id=12365020 | date=April 22, 2015
+====================================================================================================
+Shim Factors Compared To Dyno Data
+
+  
+
+ [[IMG:40-tsf-data-comp2a.png|//cdn.thumpertalk.com/uploads/imageproxy/40-tsf-data-comp2a.png.e810b5aacbb147fb17d1f85985fc7066.png]]
+
+ Adding the additional 17 dyno runs to the shim factor comparison only fills in the +/- 30% error band comparing measured shim stack deflections to values predicted using shim factors. There isn't any obvious trend where the shim factors are too high or too low. Shim factors are just off and the error randomly floats over the +/- 30% range.  
+
+  
+
+ The fact that shim factors are off is not a big surprise, shim factors are just a rough approximation, everyone knows that. I am surprised the error is +/- 30%. I expected something more in the 15 or 20%, but have never seen a comparison of shim factors to the measured stack stiffness before.
+
+  
+
+ The comparison shows there are some problems with shim factors. That does not mean shim factors are worthless. Shim factors are derived from the pretty sound basic theory of linear springs. Comparing shim factors to the actual stack stiffness determined from dyno testing makes some sense in terms of developing an understanding of why one shim stack structure behaves differently than another. For that reason you will see a lot of comparisons in this thread of shim factors and dyno data. Not because there is a “surprise” that shim factors don't work, that is widely known. The comparisons simply emphasizes the difference between basic linear spring theory and the actual behavior of shim stacks. That gives some insight into the magnitude of the difference and starts discussion of the why one shim stack structure is softer or stiffer than another and why dyno testing shows results that are opposite of the basic expectation of linear spring theory used in shim factors.
+
+====================================================================================================
+POST #077 | author=mog | page=4 | id=12365162 | date=April 22, 2015
+====================================================================================================
+Clicked would you look at this thread
+
+ 
+https://www.thumpertalk.com/index.php?/topic/1113476-KYB-SSS-fork-reb-stack-tuning-principles
+
+====================================================================================================
+POST #078 | author=Clicked | page=4 | id=12369443 | date=April 24, 2015
+====================================================================================================
+Looks like numroe has a bunch of questions on how different crossover gap configurations behave.
+
+ TT has a bunch of dyno data evaluating behavior of crossover gaps. We'll look at some of those dyno test latter.
+
+====================================================================================================
+POST #079 | author=Clicked | page=4 | id=12369450 | date=April 24, 2015
+====================================================================================================
+For that dyno comparision above why are shim factors so far off from the dyno data?
+
+  
+
+ There are probably a bunch of reasons, here are a couple:
+
+ Clamp: The clamp diameter sets the location where the stack starts to bend. Tall stiff stacks don't change much with clamp diameter since they are already stiff. But a stiff clamp on a soft stack creates a large change creating what some call nonlinear effects.
+
+  
+
+ Stack Structure: The shim factor equation makes the assumption the stack stiffness is simply the sum of the stiffness of each shim. A simple sum does not provide any way to account for local changes in the shim bend profile due to the stack structure. Accounting for stack structure effects requires some way to parses up the stack into separately analyzed sections and account for soft and stiff sections of the stack. The Valving Logic shim program does that. For shim factors there is no easy way to do that using a simple equation.
+
+  
+
+ Shim Friction: For the MXScandinavia finger press data, shim factors expected the 14x40.2 stack to have the same stiffness as the shim factor scaled 4x40.3 stack. If shim factors are going to match anything it should have been this simple case of replacing face shims.
+
+ But, the finger press data shows the 14x40.2 stack was 20% stiffer than the 4x40.3 stack. Professor Darling's observation of shim friction increasing stack stiffness by 17% is a potential explanation. The 14x40.2 stack has more shims, more surface area and potentially more shim friction. Shim factors don't account for that effect. But what about the other 18 shim stack configurations?
+
+====================================================================================================
+POST #080 | author=Clicked | page=5 | id=12369453 | date=April 24, 2015
+====================================================================================================
+Shim Factors
+
+  
+
+ The dyno data we have looked at so far shows shim factors can be off by +/- 30%. What does a 30% error mean in terms of shim stack tuning? Like, how many face shims would you have to add to a stack to be off by 30%?
+
+  
+
+ For the MXScandinavia's baseline 14x40.2 shim stack you would have to add 10 face shims to increase the stiffness by 30%. That means using shim factors to scale one shim stack to another you could end up being off by 10 face shims. Missing your setup by 10 face shims just isn't much help for suspension tuning.
+
+  
+
+ For suspension tuning we need a better shim factor equation.
+
+ [[IMG:41-tsf-error.png|//cdn.thumpertalk.com/uploads/imageproxy/41-tsf-error.png.d77370872aee2378b402b4e62988607b.png]]
+
+====================================================================================================
+POST #081 | author=mog | page=5 | id=12369581 | date=April 24, 2015
+====================================================================================================
+Clicked when you say 30% equals 10 face  shims ,that's a  huge amount of extra shims , I had no idea it took that many face shims on this stack to make a 30% stiffness change
+
+====================================================================================================
+POST #082 | author=GHILL28 | page=5 | id=12370657 | date=April 25, 2015
+====================================================================================================
+Could the same change be achieved by going from .10 thickness shims to .11 thickness shims, all else being equal?  Approx 30% change in stiffness with that change in thickness on an individual level.
+
+====================================================================================================
+POST #083 | author=Clicked | page=5 | id=12372173 | date=April 25, 2015
+====================================================================================================
+Clicked when you say 30% equals 10 face shims ,that's a huge amount of extra shims , I had no idea it took that many face shims on this stack to make a 30% stiffness change
+
+  
+
+ For that shim factor plot above missing a setup by ten face shims is a lot....
+
+ That MXScandinavai stack has 14 face shims. To make the face shims 30% stiffer you would have to add about 5 more shims. The tapered section in that stack turns out to have about the same stiffness as the face shims. To make the tapered section 30% stiffer you have to add another 5 face shims.
+
+ Add that up an you get 10 shims. For that stack anyway, would not take that as a universal rule.
+
+ [[IMG:42-scandi14-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/42-scandi14-stack.png.a0ce435e1268995820739b23401421e6.png]]
+
+  
+
+ Could the same change be achieved by going from .10 thickness shims to .11 thickness shims, all else being equal?  Approx 30% change in stiffness with that change in thickness on an individual level.
+
+  
+
+ Thinking of that in terms of thickness cubed that would work out. If you used a kyb shim at 0.114 versus a showa shim at 0.10 the stack would be (0.114/0.1)^3= 1.48, 48% stiffer.
+
+ For the MXScandinavia stack most of the shims are 0.20 mm. To make those 30% stiffer you would have to find some 0.218 mm shims.
+
+====================================================================================================
+POST #084 | author=Clicked | page=5 | id=12376143 | date=April 27, 2015
+====================================================================================================
+Shim Stiffness Theory
+
+  
+
+ Talk to your average “hands on engineer” about structural stiffness and there are two basic theories in engineering:
+
+ Thickness cubed “beam theory”
+
+ Non-linear “Belleville washer” spring theory
+
+ The wave shaped deflection of shim stacks partially relieves internal stress in the shim. That makes the stiffness of shim stacks softer than non-linear theory of Belleville springs.
+
+  
+
+ The alternative theory from basic engineering is the linear thickness cubed relationships of “beam theory”. The wave shaped stack deflection relieves stress, but only partially. That makes shim stacks stiffer then the simple linear thickness cubed relationships of beam theory. Shim stacks are their own thing somewhere in between the basic structural stiffness theories of Belleville springs and linear beam theory.
+
+  
+
+ MXScandinavia shows the actual behavior of shim stacks gets even more complex. Not only is the stiffness of a shim stack non-linear, the non-linear stiffness behavior of the 4x40.3 shim stack was different then the 14x40.2 stack. The 14x40.2 stack got stiffer faster. That resulted in a 20% difference in stack stiffness at high lift for these two shim factor equivalent stacks. Creating a shim factor relationship that works for all of those configurations will probably end up with a more complex expression then the typical back of the envelope “hands on engineer” calculation.
+
+ [[IMG:22-belleville-stiffness.png|//cdn.thumpertalk.com/uploads/imageproxy/22-belleville-stiffness.png.dbf4b995848c6d41252fd4b29e10c259.png]]
+
+ So far we have only looked at four dyno tests:  
+
+ The two MXScandinavia shim factor scaled stacks
+
+ A backer limit test from MXScandinavia
+
+ A backer limit test from Valving Logic
+
+ There are a bunch more dyno tests scattered through the suspension forms of TT. We need to start looking at some of that data over a wider range of shim stack configurations to see if some better form of the shim factor equation can be developed through comparison with data.
+
+			
+				
+
+	Edited April 27, 2015 by Clicked
+
+====================================================================================================
+POST #085 | author=Clicked | page=5 | id=12378588 | date=April 28, 2015
+====================================================================================================
+Stack Taper Tuning
+
+ The MXScandinavia shim factor test replacing face shims did not work out. The stacks were supposed to be matched. Turns out the 14x40.2 stack was 8% stiffer at 40 in/sec on the dyno and 20% stiffer at high speed on the finger press. That was for replacing face shims on the stack. What about the tapered section of a stack, do shim factors work better there?
+
+  
+
+ MXScandinavia ran a second series of dyno tests to see how shim factors worked out for tuning the tapered section of the shim stack. From thickness cubed theory a pair of 0.15 mm shims should be 19% softer than a single 0.2 mm shim.  
+
+ [[IMG:1-shim-fac.png|//cdn.thumpertalk.com/uploads/imageproxy/1-shim-fac.png.ab71ee09a49038e0fd9c635d86784f0b.png]]
+
+ To test that theory MXScandinavia replaced all of the 0.2 mm shims in the stack taper with a pair of 0.15 mm shims. Those changes are in the “high speed” stack so the stack using the softer shim pairs should end up producing less high speed damping.
+
+ [[IMG:2-stacks.png|//cdn.thumpertalk.com/uploads/imageproxy/2-stacks.png.11035d16894b5f6c3247722aa16488bd.png]]
+
+ The other thing going on here, from Kawamaha's theory (linky), is thicker 0.2 mm shims should produce a more progressive high speed damping profile compared to the thinner shims used in the modified stack.
+
+  
+
+ There are a couple of theories for the dyno to work out in this test:  
+
+ If you replace a 0.2 mm shim with a pair of 0.15mm shims is the stack 19% softer?
+
+ Webology: If you soften the high speed stack does the high speed damping get softer?
+
+ Webology: Is a short stack of thick shims more progressive than a tall stack of thin shims?
+
+====================================================================================================
+POST #086 | author=Clicked | page=5 | id=12386073 | date=May 1, 2015
+====================================================================================================
+Shim Factor Theory
+
+ From shim factor theory, sum up the tapered section and the baseline stack of 0.2 mm shims has a shim factor of 119. The replacement stack using 0.15 mm shim pairs has a shim factor of 106. So the high speed stack should be 11% softer. That value is different than thickness cubed theory because MXScandinavia also replaced the 38.25 and 36.25 shims at the start of the stack tapper with a softer pair of 0.2 mm shims. Sum all of those up and the modified stack should be 11% softer instead of 19% expected from thickness cubed theory.  
+
+  
+
+ Sum up the entire stack, including the face shims, gives a tsf of 238 for the baseline stack of 0.2 mm shims. The thinner shim pairs in the modified stack reduce the tapered shim factor to 225. So the modified stack should be 5% softer.  
+
+  
+
+ There is a wide range of results here depending on how you apply shim factors:
+
+ Thickness Cubed Theory: Tapered section should be 19% softer
+
+ Shim Factor Theory: Tapered section should be 11% softer
+
+ Tapered Shim Factor Theory: Overall stack should be 5% softer
+
+ And there are some shim stack tuning webology points being tested:
+
+ Webology: A softer high speed stack produces less high speed damping
+
+ Webology: A short stack of thick shims is more progressive than a tall stack of thin shims
+
+ Either way, shim stiffness theory says the modified stack using replacement shim pairs should be softer. Add to that the webology theory and the shorter stack of thick shims should get progressively stiffer as the stack is deflected.  
+
+  
+
+ That's the arm chair theory anyway, what does the dyno say?
+
+ [[IMG:3-mod-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/3-mod-stack.png.aa6ef36ff3fc4bac793cc371e542c054.png]]
+
+ Any ideas on how the dyno test for these two stacks is going to turn out?
+
+====================================================================================================
+POST #087 | author=Clicked | page=5 | id=12394416 | date=May 5, 2015
+====================================================================================================
+MXScandinavia Dyno Data
+
+ The dyno data shows the actual stack stiffness is opposite of the stiffness difference expected by shim factors. The theoretically softer stack using the replacement shim pairs produces more damping force. The data shows no difference in high or low speed damping. The theoretically softer stack is just stiffer and it is stiffer everywhere. There is no difference in high speed or low speed damping and no stiffness progression expected by webology for the short stack of thick shims.  
+
+ [[IMG:4-mod-stack-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/4-mod-stack-dyno.png.2122f10c4089a3e9d5d06a97a9c6815b.png]]
+
+ Shim Factor Theory: 
+
+ The stack using pairs of the thinner 0.15mm shims should have been 5% softer based on shim factor theory. The dyno shows the stack was about 3% stiffer. Shim factors missed the change in damping force by 8%. The bigger problem is shim factors got the direction wrong. The stack was supposed to be softer, turns out the stack was stiffer. The dyno data and FEA calculations both show that stack was stiffer.  
+
+  
+
+ Webology:
+
+ From the webology of shim stack tuning, the softer 0.15 mm shim pairs was supposed to soften high speed damping somewhere between 11% to 19%. That's a bunch. The dyno shows no difference in high speed damping. The theoretically softer stack was stiffer and it was stiffer everywhere through the velocity range.
+
+ Webololgy also asserted the thicker 0.2 mm shims were supposed to be more progressive at high speed. The dyno shows no progression at all. The 0.2 mm stack starts out softer and remains softer over the entire velocity range.
+
+  
+
+ This dyno test was supposed to be a simple example demonstrating effects of tuning the high speed stack. Shim factory theory and the basic webology principles of high speed stack tuning just aren't working out. We need some better theories.....
+
+  
+
+ Digging around I've found four different theories trying to explain why these two stacks give results opposite of the effect expected by shim factors.
+
+The clamp fulcrum effect
+
+ Non-linear shim stiffness
+
+ Shim Friction
+
+ The stacked bowl theory
+
+ We need to look at each of those theories and see if any of them make any sense compared to the dyno data and the performance differences the dyno measured for these two stacks.
+
+====================================================================================================
+POST #088 | author=Clicked | page=5 | id=12398886 | date=May 7, 2015
+====================================================================================================
+Fulcrum Effect
+
+ Each shim added to the stack increases the clamp effective “fulcrum” diameter. Project the clamp fulcrum all the way through the stack to the face shim and the effective “fulcrum” diameter becomes larger making the face shims stiffer than expected. Jake Z describes the theory here.
+
+ mog expands on the theory here (linky), and DaveJ introduces the idea the fulcrum diameter shifts with stack deflection here (linky).
+
+  
+
+ The “fulcrum” idea is each shim added to the stack tapered section adds more support to the pivot shim. That support makes the pivot shim effective “fulcrum” diameter larger. Project the clamp fulcrum all the way through the stack to the face shim and the face shims become stiffer then expected due to the larger projected clamp “fulcrum” diameter. Tall stacks are stiffer because the clamp “fulcrum” is projected through a longer distance.  
+
+ [[IMG:5-fulcrum.png|//cdn.thumpertalk.com/uploads/imageproxy/5-fulcrum.png.b2ba90c02de64303dfae397ac3c3221a.png]]
+
+ Replacing nine 0.20 mm shims with a theoretically softer pair of 0.15 mm shims made the stack 50% taller. That gives the taller stack a larger projected clamp “fulcrum” diameter making the tall stack stiffer. Bushmechanic points out (linky) this same effect also comes into play when using thicker shims in a stack as well.
+
+  
+
+ An oddity I am not sure about is how the projected clamp fulcrum diameter changes with stack lift. If the fulcrum moves inward the stack would become softer as lift increases. That would make the stiffness digressive and opposite of the MXScandinavia finger press data.
+
+====================================================================================================
+POST #089 | author=Clicked | page=5 | id=12406681 | date=May 11, 2015
+====================================================================================================
+Internal Shim Strain
+
+ The Almen and Laszlo Belleville spring equations were discussed a bit at the top of this thread. One of the parameters in that equation is the ratio of shim edge lift (h) to shim thickness (t). That ratio of h/t is used in the Belleville spring equations to estimate the increase in internal strain in the shim material and its effect on stiffness. The effect is a function of shim thickness.
+
+ A stack of 0.2 mm shims with an edge lift of 0.2 mm has a h/t strain ratio of 1.0
+
+ A stack of 0.1 mm shims at the same edge lift of 0.2 mm has a h/t strain ratio of 2.0
+
+ From Almen and Laszlo, a tall stack of thin shims is going to be stiffer than a short stack of thick shims because the edge lift h/t ratio, and internal strain, is larger for thin shims. MXScandinavia mentions that effect in his thread here.
+
+====================================================================================================
+POST #090 | author=Clicked | page=5 | id=12411383 | date=May 13, 2015
+====================================================================================================
+Shim Friction
+
+ The modified stack used pairs of 0.15 mm shims to replace the 0.2 mm shims in the stack taper. The replacement shim pairs doubles the number of shims in the tapered section, doubles the shim surface area and increases effects from shim friction.
+
+  
+
+ Professor Darling at the University of Bath, The Aerospace Corp and the Schnorr handbook all show shim friction can increase the stiffness of a stack of Belleville springs by 15 to 30%.  
+
+  
+
+ Replacing the 0.2 mm shims with pairs of 0.15 mm shims was supposed to make the stack 19% softer based on shim factor theory. But, doubling the number of shims in the stack taper increases the shim surface area and shim friction making friction one of the factors that may have swung the actual stiffness of the modified stack back the other way to end up being stiffer. That is what the data shows.
+
+====================================================================================================
+POST #091 | author=mog | page=5 | id=12411522 | date=May 13, 2015
+====================================================================================================
+It goes to show how theory can get it very wrong and how a dyno would show actual results
+
+====================================================================================================
+POST #092 | author=Clicked | page=5 | id=12417989 | date=May 16, 2015
+====================================================================================================
+If shim factors work for anything you'd think it would be these simple stack mods MXScandinavia is making. The test here put softer shims in the stack taper, that should have made the high speed stack 11% to 19% softer. Seemed pretty straight forward. Instead the stack dyno tested 3% stiffer. FEA showed the same thing, stiffer stack.
+
+  
+
+ Other stuff seems to be going on in the stack that are not accounted for by shim factors. Shim friction, non-linear stiffness and the fulcrum theory are possible explanations.
+
+ Here's another theory why shim factors got it wrong: 
+
+  
+
+ Stacked Bowl Theory
+
+ Stack up a set of kitchen bowls, all with the same diameter, and the bowls don't fit. To make the bowls fit, each bowl has to have a diameter slightly smaller than the bowl below it.  
+
+ [[IMG:6-stacked-bowls.png|//cdn.thumpertalk.com/uploads/imageproxy/6-stacked-bowls.png.fa030f1784e930dd8cbb6c06b966067e.png]]
+
+ In terms of shims stacks the “stacked bowl theory” asserts shims at the top of the stack are forced to bend around a sharper radius to fit into the shim below it. Forcing shims to bend around a smaller radius obviously requires more force and that makes shims at the top of the stack stiffer then expected by shim factor theory. The stacked bowl theory is consistent with Mog's theory (linky) that a tall stack of thin shims gives more damping then a short stack of thick shims.
+
+  
+
+ The stacked bowl theory also gives some insight into why shim stacks become progressively stiffer at high lift. At low deflection the bend radius is large so all of the shims are bent about the same. As the deflection increases the shims at the top of the stack are forced to bend around a progressively sharper radius making the stack progressively stiffer as lift increases.
+
+			
+				
+
+	Edited May 16, 2015 by Clicked
+
+====================================================================================================
+POST #093 | author=mog | page=5 | id=12418114 | date=May 16, 2015
+====================================================================================================
+Wow that's a great old thread
+
+====================================================================================================
+POST #094 | author=Clicked | page=5 | id=12425773 | date=May 20, 2015
+====================================================================================================
+Some good stuff there, trying to dig out the dyno data from those old threads and compare it with shim stack tuning theories to see if any of those theories make any sense. There are four theories on why tall stacks are stiffer. Each theory is a little different.
+
+  
+
+ From the Belleville spring equation the stiffness of shims increase with deflection due to the build up of internal strain within the shim material. At the same edge lift thin shims create larger internal strains making thin shims stiffer.  
+
+ From the stacked bowl theory, the stack structure becomes stiffer due to the forced sharper bend radius at the top of the stack. The stiffness of the individual shims remains the same.
+
+ The fulcrum theory shows the face shims become stiffer due to the larger projected clamp diameter through a tall stack.
+
+  
+
+ In that respect the fulcrum theory is opposite of the stacked bowl theory. The stacked bowl theory asserts the sharper bend radius at the top of the stack makes the top of the stack stiffer. The fulcrum theory asserts the larger projected clamp diameter makes the face shim stiffer. Either way, tall stacks are stiffer but for opposite reasons.
+
+ Both of those theories are based on things going on in the stack structure that make the structure stiffer then the sum of the individual shims assumed by shim factors. The Belleville spring theory asserts thin shims are just flat stiffer regardless of the stack structure.
+
+  
+
+ Which ever theory you chose, the MXScandinavia dyno data shows there are things going on in the shim stack that cause the stiffness of the structure to be different than the sum of the individual shim stiffness. The projected clamp fulcrum and stacked bowl effect caused shim factors to under estimated the stiffness of thin face shims, over estimate thick shims and get the change in stiffness direction wrong for the stacks dyno tested here.  
+
+Shim stack stiffness depends on two things:
+The stiffness of the shims
+
+The stiffnesss of the stack structure.
+
+ When the stack structure interacts with the stiffness of the individual shims it makes it hard to figure out the actual stiffness of a shim stack using shim factors. The MXScandinavia dyno data has shown examples of that.
+
+====================================================================================================
+POST #095 | author=Clicked | page=5 | id=12436838 | date=May 26, 2015
+====================================================================================================
+Webology: A tall stack of thin shims is stiffer than a short stack of thick shims
+
+  
+
+ True. The fulcrum theory, internal shim strain, shim friction, stacked bowl theory and the MXScandinavia dyno data all show a tall stack of thin shims is stiffer than a short stack of thick shims. Differences in stack surface area, non-linear shim stiffness and the way forces are transferred through the shim stack structure alter the shim bend profile and the effective stiffness of shims making tall stacks stiffer. Those effects are not included in shim factor theory.
+
+====================================================================================================
+POST #096 | author=Clicked | page=5 | id=12444741 | date=May 30, 2015
+====================================================================================================
+Webology: A short stack of thick shims is more progressive than a tall stack of thin shims
+
+  
+
+ False. The stacked bowl theory and the fulcrum theory both claim a tall stack of thin shims is stiffer. The stacked bowl theory also asserts shims at the top of the stack are forced to bend around a sharper bend radius as lift increases. That makes tall stacks become progressively stiffer as lift increases. 
+
+  
+
+ That theory is backed up by the MXScandinavia dyno data and finger press data. Both show a tall stack of thin shims is stiffer than a theoretically equivalent short stack of thick shims scaled by shim factors. The finger press data also shows shim stacks become progressively stiffer as lift increases backing up the progressive stiffness increase expected by the stacked bowl theory.
+
+ [[IMG:7-finger-press.png|//cdn.thumpertalk.com/uploads/imageproxy/7-finger-press.png.cddd06f58c12317a07ef9ef4aa85ded8.png]]
+
+====================================================================================================
+POST #097 | author=racerfmx450 | page=5 | id=12445506 | date=May 30, 2015
+====================================================================================================
+Sounds interesting.
+
+ Would you say the stock (EU) shock stack it's n ot as stiff as it seems to be?
+
+ Stock.
+
+ 23.3
+
+ 24.2
+
+ 26.2
+
+ 28.2
+
+ 30.2
+
+ 32.2
+
+  34.2
+
+ 36.2
+
+ 38.2
+
+ 40.2
+
+ 42.2
+
+ 44.25 7x
+
+ So this stack would be ~ 20% stiffer with 14 44.20 faceshims?
+
+====================================================================================================
+POST #098 | author=Clicked | page=5 | id=12450932 | date=June 2, 2015
+====================================================================================================
+I don't think the stiffness difference would be 20% for those stacks.
+
+  
+
+ The stacks MXScandinavia dyno tested replaced a stack of 14x40.2 face shims with a shorter stack of 4x40.3 thicker shims. That reduced the face shim stack height by 57%. Based on the thickness cubed rule the replacement stack was supposed to be 4% softer. The dyno data, finger press data and FEA analysis all showed the stiffness difference was larger than that. At high lift (7 h/t) that difference was 20% stiffer. Shim factors and the thickness cubed rule both messed up the stiffness estimates for those two stacks. 
+
+  
+
+ [[IMG:8-racerfmx-stack-height.png|//cdn.thumpertalk.com/uploads/imageproxy/8-racerfmx-stack-height.png.d317b39375a326c5d38265b88342bb2d.png]]
+
+ For the stacks you're showing, replacing 7x44.25 face shims with a taller stack of 14x44.2 shims gives a 2% stiffer stack based on the thickness cubed rule. That mod increases the face shim stack height by 38% compared to 57% for the MXScandinavia case. 
+
+ [[IMG:9-racerfmx-eu-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/9-racerfmx-eu-stack.png.06d85ccda0426e3789240caa5d20eb1f.png]]
+
+ If you buy the “tall stacks are stiffer” webology deal then the 14x44.2 stack is going to be stiffer than estimated by the thickness cubed rule or shim factor theory because it is taller. Simple enough. The stacks MXScandinavia dyno tested had a 57% difference in face shim stack height compared to 38% for the EU stack you are showing. Since the stack height difference is less I would expect the stiffness difference would be less as well, but by how much?
+
+====================================================================================================
+POST #099 | author=Clicked | page=5 | id=12450941 | date=June 2, 2015
+====================================================================================================
+Tall Stacks Are Stiffer
+
+ The first two dyno test series from MXScandinavia checked out the use of shim factors for tuning a stack. The first test modified the face shims and the second test modified the stack taper. Results of those tests demonstrated an important point: Simple changes to a shim stack do not produce a simple result. The actual stiffness of a shim stack structure is different than a simple sum of the individual shim stiffness.
+
+ Now that we know a little more about the influence of a shim stack structure on the overall stiffness of a shim stack based on the fulcrum and stacked bowl theory we need to go back and look at the test data from the first MXScandinavia dyno test again.
+
+ [[IMG:7-finger-press.png|//cdn.thumpertalk.com/uploads/imageproxy/7-finger-press.png.cddd06f58c12317a07ef9ef4aa85ded8.png]]
+
+ Based on shim factors those two stacks were setup to be theoretically equivalent. The dyno test data, finger press and FEA analysis all showed the SF14 stack was stiffer with a difference in the 20% range at high lift. Review of that test data was focus on verifying the MXScandinavia dyno data against the Ohlins factory data and verifying both of those data sources against the finger press measurements. Data from each of those tests provided an independent validation of the other giving some confidence in the measurements and the result. All of that test data and the FEA results showed the SF14 stack was stiffer then expected by shim factor theory. The “why” of that difference and the “why” of shim factors mucking up the stack stiffness estimate was left hanging.
+
+ Now that we know a little more about shim stack theory we can go back and look at those two stacks and understand the SF14 stack was stiffer because it was taller. That difference is a result of the fulcrum theory, stacked bowl theory, non-linear shim stiffness, shim friction or some combination of all four effects. The bottom line is tall stacks are stiffer. The dyno data from that first test series is a second example demonstrating that point and a second example demonstrating the structural stiffness of a shim stack is different than a simple sum of the individual shim stiffness. That difference was 20% at high lift, so it is an important effect.
+
+ The other important thing to point out here is data from the first MXScandinavia test demonstrated a tall stack of face shims is stiffer than a short stack. Dyno data from the second test series demonstrated a tall tapered section of the stack is stiffer than a short one. It makes no difference what section of the stack is taller. Tall stacks are just flat stiffer.
+
+====================================================================================================
+POST #100 | author=Clicked | page=6 | id=12450945 | date=June 2, 2015
+====================================================================================================
+High Speed Stack
+
+ Enough theory, lets look at some dyno data for practical suspension tuning problems
+
+ 
+
+“Loosen up high speed damping by pulling the even number shims from the high speed stack, unless you be fast – then pull the odd.”
+
+  
+
+ That statement is spread all over suspension forums. Others say shim stacks don't work that way, the high speed stack effects damping force everywhere, not just at high speed.
+
+ So whats the deal? Do high speed stack changes make a difference or not?
+
+  
+
+ MXScandinavia posted some dyno data on TT showing what modification to the high speed stack do in terms of changing the shape of the damping force curve. This first example keeps the same low speed stack and replaces five 0.25 mm shims in the high speed stack with softer 0.20 mm thick shims. That mod keeps the same number of shims in the stack so the shim surface area and friction should be the same for both stacks.
+
+ [[IMG:1-mx3c.png|//cdn.thumpertalk.com/uploads/imageproxy/1-mx3c.png.0b11fd3a975be189a79826b663e5976e.png]]
+
+ By the thickness cubed rule 0.20 mm shims have 51% of the stiffness of a 0.25 mm shim. The stack has ten shims in the stack taper and this mod replaces five of them with 51% softer shims. So half of the shims in the stack taper were replaced with shims that were half as stiff. So maybe that loosens up the high speed stack by 25% or so?
+
+  
+
+ Does softening the high speed stack loosen up high speed damping or not?
+
+====================================================================================================
+POST #101 | author=mog | page=6 | id=12450979 | date=June 2, 2015
+====================================================================================================
+Yes but it affects the low speed by a smaller margin
+
+====================================================================================================
+POST #102 | author=Clicked | page=6 | id=12464627 | date=June 9, 2015
+====================================================================================================
+Tapered Shim Factors
+
+  
+
+ To get a guess on how the dyno test might turn out here is some tapered shim factor info. Both stacks have the same number of face shims so the low speed stiffness of the two stacks should be the same, at least some think that way. The high speed tapered section of the mx4c stack uses thicker 0.25 mm shims. Sum up the shim factors for the high speed stack and the mx4c configuration has a tapered shim factor of 126.
+
+ The modified configuration, mx3c, replaces the 38 through 30 mm shims in the stack taper with thinner 0.20 mm shims. That drops the shim factor for the high speed tapered section to 88. Compare that to 126 for the baseline stack and the modified high speed stack should be 30% softer.
+
+ [[IMG:2-mx3c.png|//cdn.thumpertalk.com/uploads/imageproxy/2-mx3c.png.283f45e3159cc4e28368fb426aafe7eb.png]]
+
+ Sum up the entire stack and the tapered shim factor for the baseline stack is 219. That gets reduced to 180 with the replacement shims in the mx3c stack making the overall stack 18% softer.
+
+ Tapered Stack Shim Factors
+
+ Same low speed stack
+
+ High speed stack 30% softer
+
+ Overall stack 18% softer
+
+ Nothing subtle there, those are some big changes to the stack. Does loosening up the high speed stack soften high speed damping and change the shape of the damping force curve or not?
+
+====================================================================================================
+POST #103 | author=Clicked | page=6 | id=12479088 | date=June 17, 2015
+====================================================================================================
+Dyno Test Results:
+
+ The goal here was loosen up high speed damping by replacing five 0.25 mm shims in the stack taper with softer 0.20 mm shims. By shim factors that should soften the high speed stack by 30%. The dyno shows damping force was only reduced by 9%. Shim factors missed the change in high speed damping by a factor of 3.
+
+  
+
+ Sum up shim factors for the entire stack and the overall stack stiffness should have been reduced by 18%. The dyno shows 9% softer compression damping. Shim factors missed the change in overall damping force by a factor of 2.
+
+  
+
+ What about the shape of the damping force curve? The dashed blue line on the plot below takes the mx3c dyno data points and multiplies by 1.088. That dashed line runs right through the mx4c data points and the FEA curve for that stack. The data shows no difference in the shape of the damping force curve between those two stacks. Modifying the high speed stack just made the damping force softer and it was softer everywhere, not just at high speed.
+
+ [[IMG:3-mx3c-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/3-mx3c-dyno.png.a4d3bb71ecfc58359009c3c6b6fae63c.png]]
+
+ The general webology thinking is replacing those five 0.25 mm shims in the stack taper with softer 0.20 mm shims should have really loosened up the high speed stack and high speed damping for better wheel compliance. The dyno shows the 30% shim factor change in the high speed stack only produced a 9% difference in damping force and the damping force got softer everywhere, not just at high speed. The dyno data shows the high speed stack works a whole lot different than the general webology thinking of high speed shim stack tuning.
+
+====================================================================================================
+POST #104 | author=Clicked | page=6 | id=12492958 | date=June 24, 2015
+====================================================================================================
+High Speed Dyno Data
+
+ The dyno data from that test goes out to shaft speeds of 120 in/sec. For a 3:1 shock linkage that shaft speed works out to a suspension wheel velocity of 360 in/sec (9.1 m/sec). From the bump velocity plot we looked at earlier (linky) a dyno shaft speed of 120 in/sec is equivalent to hitting an 8” bump at 30 mph, or a 4” bump at about 50 mph. That's definitely in the high speed range where modifications to the high speed stack should have shown up in the dyno data. The dyno did not show that. Instead, the dyno shows modifying the high speed stack just makes the damping force softer and it was softer everywhere over the entire speed range, not just at high speed.
+
+ [[IMG:4-hs-mods.png|//cdn.thumpertalk.com/uploads/imageproxy/4-hs-mods.png.03642a52e1c8104ff578ecf3e4d9ff9f.png]]
+
+ Both of those stacks had a crossover, so you'd think changes to the high speed stack would have been separate from changes to the low speed stack. They are not. Changing the high speed stack changes the damping force everywhere, not just at high speed.
+
+ It is possible to setup a crossover to separate low speed and high speed damping. To separate the speed ranges you have to use a special crossover configuration Jeremy Wilkey (linky) on dirt rider defines as a non-interactive crossover. TT has a bunch of dyno data comparing different crossover configurations and the effect different crossover styles have on the shape of the damping force curve. We will look at that dyno data later and try to figure out what crossover configuration modifications you have to make to separate the speed ranges.
+
+====================================================================================================
+POST #105 | author=mog | page=6 | id=12493002 | date=June 24, 2015
+====================================================================================================
+It makes you wonder why we bother with cross overs that don't in any way separate high and low speed ,and for the most part are acting like a single stage ?
+
+====================================================================================================
+POST #106 | author=harrperf | page=6 | id=12494511 | date=June 25, 2015
+====================================================================================================
+It makes you wonder why we bother with cross overs that don't in any way separate high and low speed ,and for the most part are acting like a single stage ?
+
+  
+
+  
+
+ I do believe the ultra low speed is affected - and it may provide an "out" for friction...separating the upper and lower enough to remove the friction component some.
+
+ If the "low" speed cross over is smaller than clamp shim I also feel it's more pronounced of a cross over.
+
+  
+
+ Lastly, We run preloaded stacks in some cases - however to precisely get a small amount of preload that does what we want is hard the way i do it.  Instead I feel it's more consistent to run a little more preload/taper for machining purposes but then use a cross over to prevent the entire stack from being preloaded.  Of course this requires the cross over thickness be sufficient to leave room for the upper stack to flex the preloaded amount before hitting the lower stack - and in many cases the cross over be smaller than the clamp shim.
+
+  
+
+  
+
+ I've actually found a very good level of success with "soft" stacks with decent preload for faster riders in outdoors...getting the balance of high speed bump absorption but enough area under the damping curve to handle these guys speed is tough without boosting the early parts of the curve - but not the bleed circuits which will often translate to harshness.  I think forks for fast guys are different - Decent low speed bleed (soft) but limited peak mid valve deflection adn relatively stiff midvalve seems to work well.
+
+====================================================================================================
+POST #107 | author=GDI70 | page=6 | id=12494812 | date=June 25, 2015
+====================================================================================================
+So you are creating a digressive curve? Are you achieving this with mod to stock piston? Or, in the stack itself? Preload rings are something ive used in shock stax. In forks, controlling initial port growth, while respecting the limited amount of fluid to be "metered" in the base is always a challenge with softer multi staged stacks.imo. speaking to the modern kyb/showa pistons.
+
+ obviously the mv is key. But an over dampened mv can create harshness even with a light or open bleed. From my testing.
+
+====================================================================================================
+POST #108 | author=Clicked | page=6 | id=12498979 | date=June 27, 2015
+====================================================================================================
+Good discussion. From the dyno data it is not clear if the crossover gap in those two stacks does anything. Maybe, on an ultra high speed impulse blow, the gap allows the outside edge of the stack to blow off. But the dyno curve shows no evidence of that and no evidence of the stiffer stiffer high speed shims making the damping force stiffer at high speed.
+
+  
+
+ Tall Stacks Are Stiffer (Sometimes)
+
+ The “tall stacks are stiffer” theory is worth thinking about here. The first MXScandinavia dyno test replaced a stack of 14x40.2 face shims with a shim factor equivalent stack of 4x40.3 face shims. That reduced the overall shim stack height by 29%. The shorter stack was supposed to have the same stiffness but tested to be 20% softer at high lift on the finger press. That gave some credibility to the fulcrum theory, stack bowl theory and the idea that “tall stacks are stiffer”.
+
+  
+
+ The second test replaced eleven 0.20 mm shims in the stack taper with softer pairs of 0.15 mm shims. Based on shim factors that stack was theoretically 5% softer but dyno tested to be 3% stiffer. The change in stack height for that test was 22% and gave a second example verifying the “tall stacks are stiffer” theory.
+
+  
+
+ The dyno test above replaced five 0.25 mm shims in the high speed stack tapered section with softer 0.20 mm shims. By shim factors that should have made the stack 18% softer. The thinner 0.20 mm shims also made the stack 5% shorter. The shorter stack should have been even more than 18% softer based on the “tall stacks are stiffer” theory.
+
+  
+
+ But the dyno did not show that. The dyno showed the difference in damping force was only 9%. Not the 18% estimated by shim factors, or an even greater difference based on the “tall stacks are stiffer” theory. Apparently, a 5% change in stack height is not enough to bring the “tall stacks are stiffer” theory into play compared to the 29% and 22% stack height change of the first two tests. There is something else going on in the stack structure of those two shim stacks that makes the stiffness difference less than expected by shim factors and in the opposite direction expected by the “tall stacks are stiffer” theory.
+
+====================================================================================================
+POST #109 | author=mog | page=6 | id=12498982 | date=June 27, 2015
+====================================================================================================
+Basically mostlywhat we think about stacks is not based in reality ,softer tall stacks are not softer ,stiffer short stacks are not stiffer ,softer hs stacks only give us softer overall stacks ,kevin stillwell tried to show this many times ,but I think most tuners are so stuck in the idea ,a softer  hs stack gives a softer hs ride , that's why we can struggle to get really good stacks ,we need to establish firstly what part of the damping is incorrect (very tricky )then we have to change the stack correctly to fix it ,even harder as the ideas we have are fundamentally flawed
+
+====================================================================================================
+POST #110 | author=Clicked | page=6 | id=12506299 | date=July 1, 2015
+====================================================================================================
+Basically mostlywhat we think about stacks is not based in reality ,softer tall stacks are not softer ,stiffer short stacks are not stiffer ,softer hs stacks only give us softer overall stacks ,kevin stillwell tried to show this many times ,but I think most tuners are so stuck in the idea ,a softer hs stack gives a softer hs ride , that's why we can struggle to get really good stacks ,we need to establish firstly what part of the damping is incorrect (very tricky )then we have to change the stack correctly to fix it ,even harder as the ideas we have are fundamentally flawed
+
+ 
+
+ That pretty much sums it up. The only way to figure that out is:
+
+  Dig out the ideas of shim stack tuning webology
+
+  Compare them to dyno data
+
+  Try and figure out what it means
+
+  In this case changes to the high speed stack looks to effect both high and low speed damping. That is different then the high speed stack tuning expectations of webology. The differences looks to be caused by interactions of the crossover with the high speed stack. Getting a grip on that gives a little insight into shim stack tuning and harrperf's comments on stack preload above gives a little more insight into how to actual go about changing the shape of the damping force curve.
+
+ TT has some data demonstrating the effect of stack preload. We will get into that dyno data later.....
+
+  
+
+ High Speed Stack Stiffness
+
+ Here is a second dyno test (linky) trying to demonstrate the same thing. This second test goes the other way making the high speed stack stiffer by replacing four 0.20 mm shims in the high speed stack with stiffer 0.25mm shims. That change should stiffen the high speed stack and by webology thinking stiffen high speed damping.
+
+ [[IMG:5-mx9c.png|//cdn.thumpertalk.com/uploads/imageproxy/5-mx9c.png.771d9b07302389702ad9b4cad88da6af.png]]
+
+ Sum up the shims in the high speed stack and the stiffer 0.25 mm shims have a tapered shim factor of 116. That is a 40% stiffness increase over the baseline stack that sums up to 83.
+
+ Sum up the entire stack, including the face shims, and the modified stack sums up to a tapered stack shim factor of 246 compared to 212 for the baseline stack. That is a 16% increase in overall stiffness.
+
+  
+
+ Tapered Stack Shim Factor high speed stack tuning:
+
+ 40% stiffer at high speed
+
+ 16% stiffer overall
+
+====================================================================================================
+POST #111 | author=harrperf | page=6 | id=12507506 | date=July 2, 2015
+====================================================================================================
+I wrote a long post only to have a TT issue and it get lost.
+ 
+
+  
+
+ But I heard in an interview the JGR shock  guy mention they run a specific shaft diameter, piston diameter, and of course CADJ set up to get the pressure balance they desire.
+
+I assume this interaction and target pressures requires a "known" or desired damping curve they settled on via testing in rider preference.
+
+But it must play a crucial role in getting the shock to achieve what is desired - more than the stack itself - as shown by clicked.
+
+====================================================================================================
+POST #112 | author=Clicked | page=6 | id=12509054 | date=July 2, 2015
+====================================================================================================
+Clicker bleed, the shaft diameter, compression adjuster and mid-valve have to all work together to pressure balance a shock. I don't understand why their flow circuits could not be retuned to get the shock to work with different shaft diameters.
+
+ 
+
+For the shocks here all of the configurations are pretty close to pressure balanced. I'm sure we will find a few that aren’t as we look at more dyno data.
+
+====================================================================================================
+POST #113 | author=harrperf | page=6 | id=12510366 | date=July 3, 2015
+====================================================================================================
+Clicker bleed, the shaft diameter, compression adjuster and mid-valve have to all work together to pressure balance a shock. I don't understand why their flow circuits could not be retuned to get the shock to work with different shaft diameters.
+
+ 
+
+For the shocks here all of the configurations are pretty close to pressure balanced. I'm sure we will find a few that aren’t as we look at more dyno data.
+
+  
+
+  
+
+  
+
+ He quoted a specific combination of all three - meaning they run a specific shaft diameter and piston diameter.
+
+ My guess they want a very specific bleed through the shaft and the compression adjuster - and a very specific transition into the stack that requires a quantity of fluid flow and velocity to achieve that.
+
+  
+
+ I think tuning at early stack opening and bleed circuits pays the most dividends for rider feedback - and the high speed areas tuned correctly offer better control than if not.
+
+ But the percentage of time the shaft spends at low to moderate speeds is far greater than the percentage of time at the peak velocities it encounters - so I feel this area of tuning obviously contributes to the majority of rider feedback.
+
+====================================================================================================
+POST #114 | author=GDI70 | page=6 | id=12510980 | date=July 4, 2015
+====================================================================================================
+Hopefully the image loaded up. Cool hsc over stock one. 
+
+ Ill upload spec later this weekend. At bar now lol. 
+
+ Happy America's birthday!
+
+ [[LINK:|https://www.thumpertalk.com/uploads/monthly_07_2015/post-294745-0-83968600-1435973426.jpg]]
+
+====================================================================================================
+POST #115 | author=Clicked | page=6 | id=12524541 | date=July 11, 2015
+====================================================================================================
+One week and no word from GD. He must have gotten lucky, or really unlucky, at the bar.
+
+ Here is where we are at: Replaced five shims in the stack taper with thicker 0.25mm shims. Based on shim factors the replacement shims should increase the stiffness of the high speed stack by 40%.
+
+ [[IMG:5-mx9c.png|//cdn.thumpertalk.com/uploads/imageproxy/5-mx9c.png.771d9b07302389702ad9b4cad88da6af.png]]
+
+ FEA Analysis
+
+ So what about FEA analysis? If you ran FEA on the two stacks what does that say about the difference in stiffness between the two stacks?
+
+ FEA computes the shim stack deflection as a function of force applied to the stack. At a given force you can integrate around the perimeter of the valve port seat and get a measure of the fluid flow area between the shim stack and valve seat at the computed stack deflection. Do that over a range of stack forces and you get a curve showing how the fluid flow area changes with stack force.
+
+ For the stacks here FEA shows the shim stack deflection profile is pretty linear for both stacks. The difference in stiffness is also nearly constant. That means there is not going to be any difference in the shape of the damping force curve between the two stacks. The mx10c stack is just stiffer and produces about 10% less flow area over the deflection range. That's a whole lot different than shim factors that expected a 40% increase in stack stiffness at high speed.
+
+ [[IMG:6-mx9c-fea.png|//cdn.thumpertalk.com/uploads/imageproxy/6-mx9c-fea.png.d34e47de94fa3fee3997288dd886d6ac.png]]
+
+ The FEA calculations show the mx9c stack is about 10% softer. That means when the shock is producing the same damping force, with the same pressure drop across the valve, the softer mx9c stack is going to deflect to a 10% larger flow area. With 10% more flow area the shock is going to have to operate at a 10% higher shaft speed to produce 10% more fluid flow to fill that increased area. With that thinking the mx9c stack should match the damping force of the mx10c stack when the mx9c stack is operated at a 10% higher shaft velocity.
+
+ FEA Stack Analysis
+
+ 10% change in shaft velocity for same damping force
+
+ Tapered Stack Shim Factors
+
+ 40% stiffer at high speed
+
+ 16% stiffer overall
+
+ That’s the theory anyway, what does the dyno say?
+
+====================================================================================================
+POST #116 | author=Clicked | page=6 | id=12529877 | date=July 14, 2015
+====================================================================================================
+Dyno Test Results:
+
+ This second dyno test shows the same thing. Increasing the stiffness of the high speed stack increases the damping force everywhere, not just at high speed. Shim factors expected the high speed stack stiffness to increase by 40%. The dyno shows no increase in high speed damping. Instead the damping force just got stiffer and it was stiffer everywhere across the entire speed range. FEA calculations show the same thing, stiffer everywhere.  
+
+ [[IMG:7-mx9c-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/7-mx9c-dyno.png.706785f2290f49a3a56c53ffa956db76.png]]
+
+FEA analysis expected the shaft speed would have to be 10% higher for the mx9c stack to match the damping force of the mx10c stack. The dyno data shows that result.
+
+Shim factors expected the mx10c high speed stack to be 40% stiffer and by webology thinking that was supposed to really stiffen up high speed damping. Instead, modifying the high speed stack just made the damping force stiffer everywhere, not just at high speed.
+
+ Dyno results of this test, and the previous test, both show the same thing. Increasing the stiffness of the high speed stack increases damping force everywhere, not just at high speed.
+
+====================================================================================================
+POST #117 | author=harrperf | page=6 | id=12531356 | date=July 15, 2015
+====================================================================================================
+Something of note - while it is 10 percent everywhere - let's make a point here - 
+
+  
+
+ 1000000 * 0 = 0
+
+  
+
+ 10 percent of nothing is nothing.
+
+So at lower shaft speeds - the actual FORCE difference felt to the riders is minimal.  Yes it's 10 percent - but visually until 40inch/sec the reality is a rider could make clickers adjustments and get a very similar feeling.
+
+ Whats odd here - I have run FEA on some simple stacks using ansys - and if I recall correctly the thickness cubed rule held very true.  What have I missed?
+
+====================================================================================================
+POST #118 | author=GDI70 | page=6 | id=12532386 | date=July 15, 2015
+====================================================================================================
+sorry, i'll get that spec out. I have rediscovered the weber, and food comas are commonplace.
+
+====================================================================================================
+POST #119 | author=GDI70 | page=6 | id=12534382 | date=July 16, 2015
+====================================================================================================
+18.2,17.2,16.2,15.2,14.2,13.2,12x1mm plate,(4)12.25,12.3,9.3,10.1,11.1,12.1,13.1,(2)14.1,8.25
+
+ the shock had a piggy-back nitro canister as well.
+
+ shock was a pro circuit piston with the larger mx comp ports. I replaced the piston band and oring, as they fade faster than the stockers.
+
+			
+				
+
+	Edited July 16, 2015 by GDI70
+
+====================================================================================================
+POST #120 | author=Clicked | page=7 | id=12540185 | date=July 20, 2015
+====================================================================================================
+Webology:
+
+The low speed stack controls low speed damping
+
+The high speed stack controls high speed damping
+
+ Those basic shim stack tuning webology ideas make a lot of sense when you look at the structure of a shim stack with a crossover. The face shims control low speed damping and the tapered section controls high speed damping. Simple. But, most shim stack don't work that way.
+
+ [[IMG:8-crossover.png|//cdn.thumpertalk.com/uploads/imageproxy/8-crossover.png.0d95d6630948e9c16c2b79a9bc20fc5e.png]]
+
+ Most crossovers use a shim diameter that is larger than the stack clamp. The larger crossover transfers some of the force from the low speed stack directly into the high speed stack before the crossover closes. That forces the high speed stack to start deflecting before the crossover closes.
+
+  
+
+ Crossovers are configured that way on purpose. Force transfer through the crossover into the high speed stack smooths the crossover closure transition, so there is no sharp kink in the damping force curve when the crossover closes. That smooths the crossover closure transition and creates a shim stack structure where everything interacts and there is no separate low speed or high speed stack. Dyno data from the last two test series demonstrate that point.  
+
+			
+				
+
+	Edited July 20, 2015 by Clicked
+
+====================================================================================================
+POST #121 | author=GHILL28 | page=7 | id=12540305 | date=July 20, 2015
+====================================================================================================
+Ever done a study to characterize the effect in damping force from change in shaft nut torque?
+
+====================================================================================================
+POST #122 | author=Clicked | page=7 | id=12540851 | date=July 20, 2015
+====================================================================================================
+Valving Logic has done those kind of tests, but that proprietary data has not been posted on TT as far as I know.
+
+  
+
+ From an analytical standpoint there are two components to stack torque: If any shim is not analytically flat it is going to take some clamp torque to flatten the bent, warped or pretzeled shims. Flip any of those bent shims over and the stack is going to go from preloaded to floated and change the damping force measured on a dyno.
+
+  
+
+ The other component is dirt or lint trapped in the stack. To test for that run the first test as a baseline. Disassemble, re-torque the stack and repeat the test. Any dirt or lint in the stack is partially ground up by the first test so the second test clamps the stack a little better. Of coarse, dirt or lint trapped in the stack has nothing to do with damping force repeatability. It just bad test technique.
+
+  
+
+ The bottom line is trying to A/B shim stack configurations on a dyno requires a good test technique run in a clean environment. The other way to insure the data integrity is combine dyno testing with analysis as this thread is doing. When the dyno data lines up with analysis you have some confidence the data is good. When they don't line up you need to spend a little bit of time trying to figure out the why of that.
+
+  
+
+ For the MXScandinavia tests the dyno data for changes to the face shims or the high speed stack line up with the changes expected from FEA analysis. Test and analysis are all consistent. Whats not working out is all of these webology rules of thumb – like the high speed stack controls high speed damping. That's not analysis - its just folk lore and it does not work. The dyno data from both MXScandinavia and Valving Logic show that.
+
+====================================================================================================
+POST #123 | author=Clicked | page=7 | id=12540856 | date=July 20, 2015
+====================================================================================================
+Mog Dyno Tests:
+
+ Mog hooked up on the idea of crossovers interacting with the high speed stack in the MXScandinavia thread and proposed a series of shim stack configurations for MXScandinavia to test and demonstrate the effect. The proposed stack configurations change the number of face shims, stack clamp and high speed stack to try and figure out how each of those changes effect the overall shape and magnitude of the damping force curve, both at low speed and at high speed.  
+
+ [[IMG:9-mog.png|//cdn.thumpertalk.com/uploads/imageproxy/9-mog.png.d046e42c06efd8e3a8d224f9051b434e.png]]Here was the thinking: Comparing everything to mog01; the mog02 stack has 7 more face shims. That was estimated to increase the low speed damping by about 2%. On the high speed side the mog02 stack removes the 24.25 shim backing the clamp. That should decrease high speed damping making the stack about 4% softer compared to mog01. With those differences the mog02 stack should have more low speed damping and less high speed compared to mog01.
+
+ For the mog03 stack: The stack is identical to mog02 with the single change of a 17.3 clamp shim on the top of the stack. Compared to mog01 that makes mog03 4% softer at low speed and 12% softer at high speed.  
+
+[[IMG:10-mog-table.png|//cdn.thumpertalk.com/uploads/imageproxy/10-mog-table.png.ba73f6bd612413ba7728585a858a13ef.png]]
+
+====================================================================================================
+POST #124 | author=Vietze | page=7 | id=12540994 | date=July 20, 2015
+====================================================================================================
+Valving Logic has done those kind of tests, but that proprietary data has not been posted on TT as far as I know.
+
+  
+
+ From an analytical standpoint there are two components to stack torque: If any shim is not analytically flat it is going to take some clamp torque to flatten the bent, warped or pretzeled shims. Flip any of those bent shims over and the stack is going to go from preloaded to floated and change the damping force measured on a dyno.
+
+  
+
+ The other component is dirt or lint trapped in the stack. To test for that run the first test as a baseline. Disassemble, re-torque the stack and repeat the test. Any dirt or lint in the stack is partially ground up by the first test so the second test clamps the stack a little better. Of coarse, dirt or lint trapped in the stack has nothing to do with damping force repeatability. It just bad test technique.
+
+  
+
+ The bottom line is trying to A/B shim stack configurations on a dyno requires a good test technique run in a clean environment. The other way to insure the data integrity is combine dyno testing with analysis as this thread is doing. When the dyno data lines up with analysis you have some confidence the data is good. When they don't line up you need to spend a little bit of time trying to figure out the why of that.
+
+  
+
+ For the MXScandinavia tests the dyno data for changes to the face shims or the high speed stack line up with the changes expected from FEA analysis. Test and analysis are all consistent. Whats not working out is all of these webology rules of thumb – like the high speed stack controls high speed damping. That's not analysis - its just folk lore and it does not work. The dyno data from both MXScandinavia and Valving Logic show that.
+
+ I like to add that the torque can also influence float height on midvalves.
+
+====================================================================================================
+POST #125 | author=GHILL28 | page=7 | id=12541203 | date=July 20, 2015
+====================================================================================================
+I like to add that the torque can also influence float height on midvalves.
+
+  
+
+ Correct.  Always best to measure float after torque is applied.
+
+  
+
+  
+
+ Actually, what would be REALLY neat to see is the difference in damping curve/consistency with a shimstack built from a meticulously clean workbench and the same stack built after having the shims scattered around a typical grimey dusty dirty workbench.  Same torque, same stack, etc etc.  Just the cleanliness as the control variable.
+
+			
+				
+
+	Edited July 20, 2015 by GHILL28
+
+====================================================================================================
+POST #126 | author=GDI70 | page=7 | id=12542143 | date=July 21, 2015
+====================================================================================================
+The difference between 25ft lb and 30ft lb of torque does have an effect on damping curve. Kevin actually measures his in inch lb. But, ill let him state the measurement.
+
+ We spent a ton of time testing crossover influnce on damping curve. Diameter and gap were areas we covered. For example, identical stacks with .2 total transition gap vs. .3 transition gap, and the effects on lc / hc .
+
+====================================================================================================
+POST #127 | author=Clicked | page=7 | id=12545269 | date=July 22, 2015
+====================================================================================================
+Tapered Stack Shim Factors:
+
+ In this thread we have been trying to use the tapered shim factor equation to figure out differences between shim stacks. Using the tapered shim factor equation things work out a little different compared to mog's original estimates for the stacks: Adding 7 face shims to mog02 increases the low speed damping by 17%. Couple that with removing the 24.25 shim in the stack taper and mog02 turns out to be a little bit softer in overall stack stiffness, -2% compared to mog01.  
+
+ [[IMG:11-mog-tsf.png|//cdn.thumpertalk.com/uploads/imageproxy/11-mog-tsf.png.8cad02d3b2356038c18dbbb4f76e5b61.png]]
+
+ The mog03 stack has the same number of face shims as mog02, but the stack clamp diameter is reduced from 23 mm to 17mm. That reduces the stiffness of the face shims by 7% based on the tapered shim factor equation. At high speed the smaller 17mm clamp on the mog03 stack reduces the overall stack stiffness by 15% compared to mog01.
+
+ [[IMG:12-tsf-table.png|//cdn.thumpertalk.com/uploads/imageproxy/12-tsf-table.png.8e1929445b765f61159765e4d7381d08.png]]
+
+ That's the theory, what does the dyno say?
+
+====================================================================================================
+POST #128 | author=Clicked | page=7 | id=12545278 | date=July 22, 2015
+====================================================================================================
+Something of note - while it is 10 percent everywhere - let's make a point here - 
+
+  
+
+ 1000000 * 0 = 0
+
+  
+
+ 10 percent of nothing is nothing.
+
+ So at lower shaft speeds - the actual FORCE difference felt to the riders is minimal.  Yes it's 10 percent - but visually until 40inch/sec the reality is a rider could make clickers adjustments and get a very similar feeling.
+
+ Whats odd here - I have run FEA on some simple stacks using ansys - and if I recall correctly the thickness cubed rule held very true.  What have I missed?
+
+  
+
+ harrper says he's got the thickness cubed rule figured out for shim stacks. It would be interesting to see what he gets for these three stacks. Do the stack mods actually effect low speed and high speed damping differently as expected by webology or is it just a couple of clicks different that could easily be tuned out by the rider?
+
+====================================================================================================
+POST #129 | author=Clicked | page=7 | id=12576000 | date=August 8, 2015
+====================================================================================================
+Dyno Test Restuls
+
+ The mog02 stack was supposed to produce somewhere between 2% and 17% more low speed damping and then drop off at high speed to match the mog01 stack. The dyno shows mog02 was about 28% stiffer at 10 in/sec and held that stiffness across the entire speed range to end up 25% stiffer at high speed. Adding face shims to the mog02 stack increased the damping force everywhere, not just at low speed.
+
+ [[IMG:13-mog-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/13-mog-dyno.png.d0f6a7f39adf87412c828b983636e1e8.png]]
+
+ The mog03 stack used a smaller clamp. The thinking there was the smaller clamp should offset the added face shims and drop the low speed damping to be 4% to 7% softer then mog01. Then at high speed the smaller clamp should have made mog03 12% to 15% softer compared to mog01. Test results show mog03 was about 15% softer at low speed and stayed softer to end up 17% softer at high speed. The dyno shows the mog03 stack was softer everywhere, not just at high speed.
+
+ [[IMG:14-dyno-table.png|//cdn.thumpertalk.com/uploads/imageproxy/14-dyno-table.png.1fe9164916301f452acc8b38d2ba329e.png]]
+
+ Neither stack matches the changes expected from webology or the tapered shim factor equation. Increasing the low speed stack stiffness or decreasing the high speed stack makes little difference in the shape of the damping force curve. The stacks were either softer or stiffer and that difference remained relatively constant over the entire speed range. Here's Mog's conclusion:
+
+"You have shown to a reasonable degree that if we add face shims we get a similar curve moved up, and if we remove damping via the clamp we move the curve down, the shape and angle is similar, so overall conclusion is it doesn't matter which end of the stack you work with, the effects are similar for the curve."
+
+  
+
+ Results of the TT MXScandinavia dyno thread was from six years ago. Today, six years latter, nothing much has changed in the webology of shim stack tuning. The high speed stack and low speed stack are still talked about and tuned as if they were separate things that can be independently tuned to separately control high speed and low speed damping. Shim stack don't work that way, the dyno data and FEA results both show that.
+
+ 
+
+ There is an exception. On dirt rider, Jeremy Wilkey defines two separate styles of crossover shim stacks: interactive and non-interactive. It is possible to separate low speed and high speed damping but you have to use a special crossover configuration Wilkey defines as a non-interactive crossover. TT has a whole bunch of dyno data demonstrating effects of different crossover styles. We will look at that data latter as well as stack preload effects. With stack preload, low speed damping and the shape of the damping force curve can be modified far more than most tuners realize.
+
+====================================================================================================
+POST #130 | author=harrperf | page=7 | id=12579416 | date=August 10, 2015
+====================================================================================================
+The biggest issue is people dont often see shims as a spring..
+
+ But if thought about as a single rate coil spring... Then adjusting the damping curve is a matter of spring rate, preload, and bleed, then lastly piston port effects and inlet conditions, seal drag, mechanical drag... Viscous drag, which of course is damping of its own variety.
+
+ I watched a nice promotional video from penske shocks... They work mostly to produce dampers with minimal seal drag, minimal hysterisis, and if course the damping curves and shapes they need via piston and stack design.
+
+ The bigger picture questions for me have become honing in on damping settings that match a specific bike and chassis, linkage and leverage ratio.. And then of course a rider. 
+
+ Identical forks made to fit different brands of bikes feel different on each bike. The chassis plays a critical role.
+
+ Then the linkages role in my opinion can not be overlooked. What velocity region the shock shaft sees... Most notably at low wheel speeds plays a tremendous role in feel and performance to the rider
+
+ An example is two extremes... If a linkage has very large leverage.. As an example lets say 10:1... The shaft velocity range is reduced by a factor of 10.
+
+ This could be desireable if the damper had a large progression of damping force vs velocity.
+
+ By limiting shaft velocity range we keep damping force in a range we want.
+
+ But a negative could be at low shaft speeds... With a lack of fluid velocity we dont have good control and precision of tuning.
+
+ I think finding the perfect blend of damper characteristics and leverage ratio could make all the difference
+
+====================================================================================================
+POST #131 | author=yamaha227 | page=7 | id=12582855 | date=August 11, 2015
+====================================================================================================
+Great thread, keep it going ?
+
+====================================================================================================
+POST #132 | author=Clicked | page=7 | id=12584208 | date=August 12, 2015
+====================================================================================================
+Webology: Pull the even number shims from the high speed stack to loosen up high speed damping, unless you be fast - then pull the odd.
+
+  
+
+ False. Dyno data shows changing the low speed stack; high speed stack (linky1, linky2); or clamp makes no difference in the shape of the damping force curve. Stiffer stacks are stiffer and they are stiffer everywhere, that is a dyno fact. Pulling shims out of the high speed stack just makes the stack and damping force softer. And it's softer everywhere, not just at high speed.
+
+ The exception are shim stacks using a non-interactive crossover. Most shim stacks use interactive crossovers like the stacks reviewed here. We will look at dyno data demonstrating the difference between those two crossover configurations latter.
+
+====================================================================================================
+POST #133 | author=GDI70 | page=7 | id=12585342 | date=August 13, 2015
+====================================================================================================
+We will look at dyno data demonstrating the difference between those two crossover configurations latter.
+
+  
+
+ would you like some stacks for the comparison of the crossover influence? the two identical stacks will have different transition gaps. the two gaps I would (already have done this on the dyno) compare would be a .3 vs. a .2. the reason being, the dramatic change in stiffness factors of the crossover shims, and in the total transition gap.  just a thought. but, the numbers on the force curves are pretty interesting.
+
+  
+
+ there are certain "shim strategies" in softening/stiffening stacks in various areas. i.e. the h.s. and the l.s. and crossover (if desired) also, another aspect is the "stepping" of the shims.
+
+====================================================================================================
+POST #134 | author=harrperf | page=7 | id=12586394 | date=August 13, 2015
+====================================================================================================
+I think the big picture point being "made" by clicked, is that will it show influence on the SHAPE of the curve, or just the WHOLE curve.
+
+I think if we measure ultra precisely we may see small difference in the shape of the curve from various cross over arrangements at the low shaft speeds until the "gap" is bridged - but when looked from a macro perspective - again the whole curve will be softer, or stiffer - at an almost set percentage.
+
+====================================================================================================
+POST #135 | author=Clicked | page=7 | id=12586617 | date=August 13, 2015
+====================================================================================================
+would you like some stacks for the comparison of the crossover influence? the two identical stacks will have different transition gaps. the two gaps I would (already have done this on the dyno) compare would be a .3 vs. a .2. the reason being, the dramatic change in stiffness factors of the crossover shims, and in the total transition gap.  just a thought. but, the numbers on the force curves are pretty interesting.
+
+  
+
+ there are certain "shim strategies" in softening/stiffening stacks in various areas. i.e. the h.s. and the l.s. and crossover (if desired) also, another aspect is the "stepping" of the shims.
+
+  
+
+  Sometimes, changes to a crossover gap will create unexpected effects due to interactions going on in the shim stack structure. Dyno data demonstrating some of those effects would be useful.
+
+  
+
+ For example: increasing the crossover thickness from 0.2 to 0.3 mm creates a larger gap and softer stack. Nothing surprising for this example.
+
+ [[IMG:15-gd-co.png|//cdn.thumpertalk.com/uploads/imageproxy/15-gd-co.png.2d4cb5f84a817e02d30d365a6aeade23.png]]
+
+  Making that same crossover mod on an interactive crossover can create some surprising effects. For the example below the thicker 0.3 mm crossover ends up increasing the stiffness of the low speed stack making the overall stack stiffer even though the crossover gap is larger.
+
+ [[IMG:16-gd-co2.png|//cdn.thumpertalk.com/uploads/imageproxy/16-gd-co2.png.6fdc5239ba8c6a5ec345618e3cc941e8.png]]
+
+  Mapping those effects out through direct testing is difficult because the behavior depends on the stiffness of the low speed stack relative to the high speed stack and the way those two interact with the stack clamp and crossover gap. That creates a four dimensional space that is very difficult to map out through direct test.
+
+  
+
+ An analysis tool can be useful in those situations to help “see” what is going on in the shim stack, understand how that effects the stack stiffness and overall damping force of the shock. Those effects are not always obvious as in the above example.
+
+====================================================================================================
+POST #136 | author=GDI70 | page=7 | id=12586688 | date=August 13, 2015
+====================================================================================================
+I was using .2 and .3 as gap. But i was not using single shim crossover schemes. Rather two .10 shims and two .15s.
+
+ Kevin and i ran the stacks for a side by side comparison. 34.15 and 32.15 for example.
+
+====================================================================================================
+POST #137 | author=Clicked | page=7 | id=12587915 | date=August 14, 2015
+====================================================================================================
+I think you get the point. The larger gap of a 28.3 crossover shim is going to be softer than a 28.2 shim for simple non-interactive crossover.
+
+ Interactive crossovers create more complex configurations where a 28.3 crossover shim can end up being stiffer then a 28.2 crossover gap as demonstrated by the above example. Take that same stack and substitute a stack of 3x28.1 shims for the single 28.3 crossover shim and the stack ends up being softer even though the crossover gap is the same.
+
+ [[IMG:17-gd-co3.png|//cdn.thumpertalk.com/uploads/imageproxy/17-gd-co3.png.e9cbeb504c6fdd9abbb596fa336aedf2.png]]
+
+====================================================================================================
+POST #138 | author=Clicked | page=7 | id=12587920 | date=August 14, 2015
+====================================================================================================
+The above stacks are examples where mapping out the behavior of interactive crossover configurations with direct dyno measurements gets complex. Those interactions become even more convoluted if you begin contemplating the different ways the low speed stack can interact with the high speed stack as the stiffness of each stack is varied. That creates a complex four dimensional space that is difficult to understand through simple shim stack design rules. You really need the combination of theory, test and analysis to make sense of the shim stack behaviors.
+
+====================================================================================================
+POST #139 | author=Clicked | page=7 | id=12587925 | date=August 14, 2015
+====================================================================================================
+Is a straight stack stiffer than a tapered stack?
+
+ On TT there is a long debate on the difference between a straight and tapered stack. The debate centers around the question: Does the ride “feel” of a straight stack “feel” different then a tapered stack? In other words, what is the difference in the shape of the damping force curve? There are three separate dyno tests on TT comparing the differences of straight and tapered stacks:
+
+ Kawamaha yz250 fork tests
+
+ MxScandinavia Ohlins shock tests
+
+ Valving Logic rmz250 shock tests
+
+====================================================================================================
+POST #140 | author=Clicked | page=8 | id=12587929 | date=August 14, 2015
+====================================================================================================
+MXScandinavia Straight v. Tapered Stack Dyno Test
+
+  
+
+ For the MXScandinavia test, Jake test rode the stacks while MXScandinavia dyno tested the stacks to measure the difference. Jake refers to the tapered stack as the “Normal stack” and the straight stack as the “Abnormal stack”. The Abnormal stack is basically a straight stack with a large stack of clamp shims.  
+
+ [[IMG:1-straight-v-taper-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/1-straight-v-taper-stack.png.8d3725f989c8a5c50656c78c0d265dc4.png]]
+
+ Apply the tapered shim factor equation to those stacks and the straight stack should be about 4% stiffer than the tapered stack.
+
+====================================================================================================
+POST #141 | author=mxaniac | page=8 | id=12590266 | date=August 15, 2015
+====================================================================================================
+Wow, great data aggregation and analysis.  More work is involved in this post than some people do to earn an advanced degree.
+
+ It's looking like you have to go back to page 1 and look at the effects of shim thicknesses to control the progression of the stack instead of the location of the change.
+
+====================================================================================================
+POST #142 | author=harrperf | page=8 | id=12593505 | date=August 17, 2015
+====================================================================================================
+Wow, great data aggregation and analysis. More work is involved in this post than some people do to earn an advanced degree.
+
+ It's looking like you have to go back to page 1 and look at the effects of shim thicknesses to control the progression of the stack instead of the location of the change.
+
+  
+
+ Progression as in progressive damping force?
+
+  
+
+ If so I think the point of the thread has shown this not the be the case...
+
+====================================================================================================
+POST #143 | author=mxaniac | page=8 | id=12593547 | date=August 17, 2015
+====================================================================================================
+Progression as in progressive damping force?
+
+  
+
+ If so I think the point of the thread has shown this not the be the case...
+
+  
+
+ He's shown that when you stiffen the stack, regardless of where you added the shims it affects the entire stack.  I should go back and read this from the beginning but I'm at work right now, but I thought the first thing that was shown was that when you switched to an equivalent stack using different thickness shims you didn't get a result that was equivalent.  Wasn't one stack more progressive than the other?
+
+====================================================================================================
+POST #144 | author=harrperf | page=8 | id=12593598 | date=August 17, 2015
+====================================================================================================
+He's shown that when you stiffen the stack, regardless of where you added the shims it affects the entire stack.  I should go back and read this from the beginning but I'm at work right now, but I thought the first thing that was shown was that when you switched to an equivalent stack using different thickness shims you didn't get a result that was equivalent.  Wasn't one stack more progressive than the other?
+
+  
+
+  
+
+ If talking truly progressive in "technical speak" I don't think so.
+
+ If talking is it stiffer all the way through - yes.
+
+====================================================================================================
+POST #145 | author=Clicked | page=8 | id=12594307 | date=August 18, 2015
+====================================================================================================
+Wow, great data aggregation and analysis. More work is involved in this post than some people do to earn an advanced degree.
+
+ It's looking like you have to go back to page 1 and look at the effects of shim thicknesses to control the progression of the stack instead of the location of the change.
+
+  
+
+ MXScandinavia, Valving Logic, Kawamaha and John Curea did the hard work in running these dyno test. I am just putting words to their results. Those guys deserve the credit along with the TT forum.
+
+  
+
+ MXScandinavia in particular ran some really good dyno tests looking at the basics of shim factors and tuning of the high speed and low speed stack. And then, backing those dyno tests up with finger press data that goes out to insane values of shim stack lift. Those tests answer a bunch of basic tuning questions that come up around here all the time. MXScandinavia has not gotten the credit he deserves for those tests. I think a part of the reason for that is MXScandinavia was handicapped by a language barrier.
+
+			
+				
+
+	Edited August 18, 2015 by Clicked
+
+====================================================================================================
+POST #146 | author=mxaniac | page=8 | id=12594603 | date=August 18, 2015
+====================================================================================================
+If talking truly progressive in "technical speak" I don't think so.
+
+ If talking is it stiffer all the way through - yes.
+
+ If I look at the graphs in post 130 on page 7 the force vs velocity graph looks like the slope changes however in the damping coefficient vs velocity after 10 inches/sec not so much.  Since in the ideal system the force is just the damping coefficient x velocity i’d expect the damping coefficient to change just like the slopes in the force plot but they didn't.  I'm assuming the force is shaft force and not force to lift the shims.  So no big surprise, it's not a text book simplified ideal system.  It still appears to me though that the force plot is a slight curve, not a straight line.  So some effect is being had, just maybe not enough and perhaps not in the way that is predicted.
+
+ I'm not a suspension expert and haven't done my own analysis on a system so don't be surprised if I'm misunderstanding something.
+
+====================================================================================================
+POST #147 | author=Clicked | page=8 | id=12597131 | date=August 19, 2015
+====================================================================================================
+Damping Force Curve Shape
+
+ There are three shapes to a damping force curve. The shape refers to whether damping force increase more or less than a linear curve.
+
+ Linear: Damping force increases linearly with shaft speed (straight line)
+
+ Progressive: Damping force increases more than a linear curve (curve hooks upward)
+
+ Digressive: Damping force increases less than a linear curve (curves downward)
+
+ [[IMG:18-curve-shape.png|//cdn.thumpertalk.com/uploads/imageproxy/18-curve-shape.png.b0dd02106a7c988be87e8350f7efc977.png]]
+
+ The three curves above are simply the shaft velocity raised to some power (pow= 0.7, 1.0 and 1.3) and were setup so damping force matches at 20 in/sec. That makes the digressive curve produce more damping force at low speed and less damping force at high speed. The progressive curve does the opposite.
+
+ Shocks are setup to produce a digressive damping force curve. The reason for that is the shock needs to produce heavy damping force at low speed for control of the chassis and light damping forces at high speed to allow the wheels to float over bumps.
+
+  
+
+ With that understanding of damping force curve shape the damping coefficient data for mog's stacks shows the shock was progressive from zero to 5 in/sec and then went digressive at higher shaft speeds.  
+
+ [[IMG:19-mog-coeff.png|//cdn.thumpertalk.com/uploads/imageproxy/19-mog-coeff.png.f0fd9db5d3a65c33210b95eda5a947cf.png]]
+
+ The reason for the shift in curve shape is the shim stack is closed at zero velocity and all of the flow is force through the clickers. The fixed orifice flow circuit of the clickers makes the low speed curve progressive. Above 5 in/sec the shim stack cracks open and the damping force curves went digressive.
+
+ Hack around on the shim stack configurations and you could make those curves above 5 in/sec progressive or even more digressive.
+
+  
+
+ If you followed that you can understand the discussion of curve shape can get really confusing. Shocks are going to start out with a progressive curve when on the bleed circuits and then transition to some other shape as the bleed circuits fight it out with the shim stack/valve port configuration.
+
+ That is where plotting out the data as a damping coefficient really helps out to understand the curve shape as well as what is going on in the shock. If the damping coefficient increases with shaft speed the curve is progressive. If it decreases the curve is digressive. Simple.
+
+			
+				
+
+	Edited August 19, 2015 by Clicked
+
+====================================================================================================
+POST #148 | author=Clicked | page=8 | id=12607854 | date=August 25, 2015
+====================================================================================================
+Straight Versus Tapered Stack MXScandinavia Dyno Testing
+
+ MXScandinavia ran back to back dyno tests on a straight and tapered stack to measure the difference in the shape of the damping force curve. MXScandinavia dyno tested the stacks on a Ohlins four port valve while Jake test rode the stacks on a kx250 shock with a kyb 46 mm valve. From MXScandinavia:
+
+“this is for a Ohlins 46 mx damper and the piston is a 4-port wery similar to the kyb piston.”
+
+ [[IMG:2-valves.png|//cdn.thumpertalk.com/uploads/imageproxy/2-valves.png.94fdf61ae92fc22267f297c2c8f3b142.png]]
+
+ “wery similar”; what the heck does that mean? Click on Google translator and “wery similar: Scandinavian dyno term quantifying valve port geometries as similar, yet different.”
+
+ I make a joke. The thing is, if you are looking for kx250 dyno data this is not it. Wrong valve. The port geometry is similar and the shape of the dyno damping force curve is similar as MXScandinavia says. But the magnitude of the damping force is different, so the dyno data from this test can not be compared to other kx250 data run on an actual kyb valve.
+
+====================================================================================================
+POST #149 | author=Clicked | page=8 | id=12607861 | date=August 25, 2015
+====================================================================================================
+Dyno Test Results
+
+ By shim factors: the tapered stack has a shim factor of 238 and the straight stack 248. The straight stack should be about 4% stiffer. The MxScandinavia dyno data shows the two stacks tested out to give about the same damping force.  
+
+ [[IMG:3-jake-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/3-jake-dyno.png.6d95c41e24bb3db03e64d35fe44d6e0c.png]]
+
+ The biggest difference between the two stacks is right around 10 in/sec. At that point the tapered stack is slightly stiffer then the straight stack. That result is odd. Both stacks have the same number of face shims and the same 34.1/28.1 split crossover pair backing the face shims. With everything the same you'd think the stacks would have the same low speed damping, they don't. What the heck is going on there?
+
+====================================================================================================
+POST #150 | author=Clicked | page=8 | id=12620412 | date=September 1, 2015
+====================================================================================================
+Tapered stack stiffer at low speed
+
+ The straight stack 34.1 mm transition shim has nothing backing it so the stack is clamped on the 28 mm shim. Pretty straight forward.
+
+ On the tapered stack, the 34.1 mm transition shim gets trapped in the crossover gap as the gap closes. So the face shims start out with a 28 mm clamp, just like the straight stack, and transition to a 34 mm clamp as the crossover gap closes. The “trapped” 34.1 crossover makes the tapered stack get stiffer as the crossover closes. In this case the stack is about 8% stiffer at 10 in/sec.  
+
+ [[IMG:4-trapped-co.png|//cdn.thumpertalk.com/uploads/imageproxy/4-trapped-co.png.a0c2d17464f2ea0bef35614a26c3df80.png]]
+
+ As the dyno goes out to higher speeds beyond 10 in/sec the tapered stack gets softer and lines up again with the straight stack around 25 in/sec. What the heck is going on there?
+
+====================================================================================================
+POST #151 | author=mog | page=8 | id=12620863 | date=September 1, 2015
+====================================================================================================
+That just sounds backwards to me ?
+
+====================================================================================================
+POST #152 | author=Clicked | page=8 | id=12621327 | date=September 2, 2015
+====================================================================================================
+That just sounds backwards to me ?
+
+  
+
+ Yes, it's completely backwards.
+
+ Normally a crossover would be softer at low speed and stiffer at high speed after the crossover gap closes. MXScandinavia demonstrates in the above test a crossover can actually be tuned to be stiffer at low speed through clever use of a “trapped” crossover configuration.
+
+ The stack is only 8% stiffer so no big deal. On the other hand, if you where expecting the crossover to be ~8% softer and it tests out to be 8% stiffer then there is a 16% mystery there. MXScandinavia is showing the “why” of that which I thought was some interesting data.
+
+  
+
+ The more important point here is there is no inherent difference between the shape of the damping force curve for a straight or tapered stack. Both stacks produce a digressive damping force curve with nearly identical damping force values.
+
+ [[IMG:3-jake-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/3-jake-dyno.png.6d95c41e24bb3db03e64d35fe44d6e0c.png]]
+
+====================================================================================================
+POST #153 | author=Clicked | page=8 | id=12627172 | date=September 5, 2015
+====================================================================================================
+High Speed Stack Stiffness
+
+ Visually, you might expect the big chunk of shims in the tapered stack high speed section (the 38.25 through 28.25 shims) to be stiffer than the corresponding shims in the straight stack (6x28.25). They are not.  
+
+ [[IMG:5-tapered-section.png|//cdn.thumpertalk.com/uploads/imageproxy/5-tapered-section.png.f831935e7fd5f4cb77aa06f6d2c9c65c.png]]
+
+ By shim factors the tapered stack high speed section (38.25 through 28.25) sum up to a shim factor of 94. The corresponding shims in the straight stack (6x28.25) sum up to a shim factor of 104. That makes the tapered section of the high speed stack 11% softer. So the tapered stack gets progressively softer as the stack is further deflected into the high speed range. That causes the tapered stack damping force to drop down and line up with the straight stack at high speed.
+
+====================================================================================================
+POST #154 | author=mog | page=8 | id=12627182 | date=September 5, 2015
+====================================================================================================
+So if we put a stack of 22s under the cross it should be even stiffer ?instead of the 28s

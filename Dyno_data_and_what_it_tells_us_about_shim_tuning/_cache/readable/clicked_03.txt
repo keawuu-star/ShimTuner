@@ -1,0 +1,1333 @@
+
+====================================================================================================
+POST #205 | author=Clicked | page=11 | id=12791553 | date=December 9, 2015
+====================================================================================================
+All of the dyno tests above have links to the original threads so you can check out the dyno data for yourself. It's real dyno data from real shocks.  
+
+  
+
+ For the shocks tested here 30 HP is not going to get you to 3.5 m/s. As an example the Ohlins factory dyno data above produced 3,000 lbf of damping force at a shaft velocity of 80 in/sec. That works out to 30 HP delivered at the shock shaft at 2 m/s. But that test was only at 2 m/s, pushing the shock out to 3.5 m/s is going to require nearly double the HP you're talking about.  
+
+  
+
+ Extending the shock travel does not make sense to me. Power is force x distance/time. Extending the travel to 6” just requires you to push the same force through a longer distance. But with the longer stroke you get more time to do it. In the end 1000 lbf of damping force at 2 m/s requires the same power on a 4 inch or 6 inch stroke. 
+
+  
+
+ For you extended stroke setups could you show us some of those shocks? I would like to see how you adapted the reservoir pressurization system and shaft bleed circuits on the longer shock body.
+
+  
+
+ This thread is all about swaping data and trying to figure out what it means.
+
+ Thanks for the info.
+
+			
+				
+
+	Edited December 9, 2015 by Clicked
+
+====================================================================================================
+POST #213 | author=Clicked | page=11 | id=12795279 | date=December 11, 2015
+====================================================================================================
+What about removing reb stack to increase comp velocities? Would that yield good information?
+
+  
+
+ Remove Rebound Stack:
+
+ What GD170 is getting at is shocks are tuned to produce more force on rebound than compression.
+
+  
+
+ When your dyno bumps against the power limit you can extend the test range a bit by removing the rebound stack. That makes compression damping the limiting load, and sense that is softer, you can push the dyno out to a slightly higher shaft velocity – but you're only getting data on the compression side. That technique mucks up the shock operation a bit because high chamber pressures generated in the rebound stroke don't get a chance to “clear” foamed oil from the shock.
+
+  
+
+ As a dyno owner / operator I am curious as to how much of this data is extrapolated mathmatically vs real world? Very little of this data actually looks like it is dyno generated as opposed to computor generated.
+
+ Our dyno operates at 3.5 metres per second  at 150mm of stroke with nearly 30 hp behind it. In order to test shocks at this speed we have had to have shocks made with longer travel in both 46 and 50mm configurations.
+
+ We have an enormous amount of data on hand. It is surprising to see exactly how much effect shim thickness actually has compared to the supposed mathmatical value. There is a huge anomaly here.
+
+  
+
+ Race Tech Extended Shock Bodies:
+
+ Matthew Wiley, Race Tech's Operations Manager, put out some info on the G3-S extended shock bodies Terry Hay is using for dyno testing. From the Race Tech info:
+
+"What we have found is the adjusters on these G3 shocks, based on dyno testing, have a much much greater percentage, or range of adjustability, then anything else that is presently available on the market."
+
+ "Extended adjustability" means Race Tech drilled out the bleed circuits in those G3-S shocks to get the clickers to operate over a wider range. Testing kyb 46mm or 50 mm valves in those shock bodies is going to produce a damping force curve very much different than OEM because of the modified bleed circuits.
+
+  
+
+ Terry Hay: I think you need to look at this problem the other way around. You say your dyno results “look” different than the theoretical mathematical curves and the dyno data everybody else is measuring for these shocks. To resolve those differences I think you need to take a hard look at the bleed circuit configurations you have in those G3-S shocks and shaft and try to figure out what you can do to modify those circuits to emulate the OEM setup. If your damping force curves don't lineup with the OEM curve you are just plain old testing something different. Worse, the shim stack configurations developed in those G3-S shock bodies are going to be worthless to an OEM shock because of the bleed circuit configuration differences.
+
+  
+
+ If you can't get the OEM valve with the OEM stack to line up with the OEM dyno data, those G3-S shock bodies just aren't going to be very useful for shim stack tuning.
+
+			
+				
+
+	Edited December 11, 2015 by Clicked
+
+====================================================================================================
+POST #219 | author=Clicked | page=11 | id=12795891 | date=December 11, 2015
+====================================================================================================
+I've always felt two types of dynos are needed for the "budget" conscious.
+
+ In order to hit the velocities we want - without huge sustainable HP...an impact type single shot dyno would be neat.
+
+  
+
+ Use a large amount of potential energy with an adjustable linkage into the shock and be ready to record the "damping" decay
+
+  
+
+ Then a conventional rotary type that is common for most dyno owners who aren't donald trump to get bleed and transition data.
+
+  
+
+ For a low budget approach I've got to give some prop's to Kawamaha and his hydraulic dyno. With a high pressure hydraulic pump and pressure gauges Kawamaha can get some really good measurements of the pressure drop across the piston as a function of shim stack configuration and valve design at velocities beyond conventional dyno testing. That's all steady state stuff, but it's high quality, accurate and repeatable.
+
+ Hydraulic testing will not give you the transient response or the effect of back pressure interactions from the base valve/compression adjuster in a shock. All of that is important stuff, but it take a whole lot more equipment and expense to make those transient measurements.
+
+====================================================================================================
+POST #220 | author=Clicked | page=12 | id=12795946 | date=December 11, 2015
+====================================================================================================
+MXScandinavia Mog's Stack:
+
+ Back to the dyno data. Mog's yz250 stack tested by MxScandinavia is another example of an interactive crossover. This stack and the Jake01 stack tested above were both tested on an Ohlins MX valve and produce digressive damping force curves.
+
+ [[IMG:19-mog01c.png|//cdn.thumpertalk.com/uploads/imageproxy/19-mog01c.png.e1d5d874fd2e54fb6fc86153a8582b24.png]]
+
+ As you would expect for an interactive crossover there is no kink in the stack deflection curve at the point where the crossover closes and that results in a smooth dyno curve with no “event” at the crossover closure point.
+
+====================================================================================================
+POST #226 | author=Clicked | page=12 | id=12796788 | date=December 12, 2015
+====================================================================================================
+Your right I said remove, should have said replace.
+
+  
+
+ Sorry for the confusion.
+
+====================================================================================================
+POST #237 | author=Clicked | page=12 | id=12804443 | date=December 16, 2015
+====================================================================================================
+I've said before on this thread the re stacker is a good tool to have in the tool box but it's not the only tool to have
+
+ One of the biggest limitations I have is that it (re stacker) won't run all circuits at once as a dyno does but it was never designed to do that, and so I general use re stacker to try different ideas simply because it's quick and saves tear down time but I still use the dyno to get the overall picture and confirm
+
+ But I have been enjoying the discussion the info has been detailed and well argued and let's face it even failure is a learning result
+
+  
+
+ Multiple Active Flow Circuits
+
+ All of the shocks dyno tested on TT have compression adjusters. That means the shock has multiple active flow circuits in the compression stroke. To make comparisons with dyno data you have to combine the forces produced by the mid-valve with the force from the base valve compression adjuster along with the companion bleed circuits for each and evaluate the effect of the gas reservoir back pressure on suppressing cavitation in the flow circuits as augmented by the compression adjuster over the velocity range of the shock stroke. Combining forces from those five components gives the overall shaft force from the shock and that is the measurement made by the dyno.
+
+ [[IMG:b7-flow-circuits.png|//cdn.thumpertalk.com/uploads/imageproxy/b7-flow-circuits.png.5e0b9cfe103bfedea56b37b04fe2d514.png]]
+
+ Those are the details – all you really do is click on the “mv_Analysis” button and the calculations combined the forces from all of those components for you to give the overall shaft damping force.
+
+  
+
+ In the end, you end up with a damping force from the base valve, mid-valve and the overall combined force from the shock. The MXScandinavia Jake01 dyno test, back on pg. 11, shows an example of the break down of component forces. The bulk of the damping force is produced by the mid-valve, but you are not going to match up with the dyno data until you add in the additional force produced by the base valve compression adjuster. The blue line on the plot below shows the combined damping force from the two valves. The plot also shows the data points measured for the shock during the dyno test.  
+
+ [[IMG:b7a-flow-circuits.png|//cdn.thumpertalk.com/uploads/imageproxy/b7a-flow-circuits.png.4ca79cf492867d1ce82e5d4c47cf40bb.png]]
+
+ Dyno testing only measures the overall damping force of the shock. To keep things simple I have only been showing that data along with the overall computed damping force. That skips over the internal details of the forces produced by each valve. Dyno data provides no way to verify those values other than they sum up to match the overall measured force.
+
+  
+
+ The exception is rebound data. On the rebound stroke only the mid-valve shim stack and bleed circuits are active. So interpreting dyno data on the rebound stroke you only have to figure out the flow loss through the clicker bleed circuits to get a measure of the forces produced by the mid-valve shim stack.
+
+  
+
+ Analysis Tools:
+
+ As you stated ReStackor is just a tool. For the tests here the dyno has already given a measure of the shocks damping performance so there is no big mystery there. What ReStackor analysis adds to the conversation is an estimate of the shaft velocity where the crossover gap closes and the damping force events that occur at that point.
+
+  
+
+ There is a general expectation that the damping force kicks up at the point where the crossover closes. The data here shows that is not the case. A part of the reason for that is the shim stacks in these tests use an interactive crossover. Forces transferred through an interactive crossover cause the high speed stack to start deflecting before the crossover closes. So the face shims do not slam into a stationary high speed stack, instead the face shim kiss against a moving high speed stack and that softens the crossover closure event.
+
+  
+
+ The other thing to realize is the fluid flow through the shock isn't stupid. When the face shims top out against the high speed stack the fluid does not sit there and hammer against the stiff high speed stack. Instead the flow simply switches direction sending a larger portion through the clicker bleed circuits taking the path of least resistance. That further smooths out the crossover closure event so the damping force produces a smooth transition into the high speed range instead of a sharp event suggested by the sharp change in stack stiffness at the crossover closure point.
+
+  
+
+  
+
+ Never-the-less I see a lot of threads around where tuners expect sharp changes in damping force at the crossover closure point. Shim stack stiffness does that, damping force does not.
+
+====================================================================================================
+POST #238 | author=Clicked | page=12 | id=12804448 | date=December 16, 2015
+====================================================================================================
+We say "Biker" as well
+
+ "Bikie" = gang member
+
+ "Biker" = rider
+
+ We did an Ohlins TTX shock for Aaron Gobert from his Yamaha R6. Stock compression valving consisted of a descending stack of .15mm shims.
+
+ It had been revalved previously by another tuner with .30 mm shims. I explained that this was way too stiff and that this valve stack was "theoretically" 8 times stiffer than standard. We ran it up on the dyno......twice as much damping. Very surprising. The TTX has small pistons and large bleeds to be fair. But I was expecting much more.
+
+ We have a lot of info from top level Australian Road Racers. Josh Brookes (my first apprentice.....just won British Superbike Championship), Glenn Allerton, Kevin Curtain and heaps from my sons superbikes and supersport machines.
+
+  
+
+ Not sure where this idea got started but there is definitely some “tribal knowledge” around that shim stack stiffness is somehow directly proportional to damping. Clearly, stiffer shim stacks generate stiffer damping – but the ratio is not one to one as Terry Hay points out based on the results of his dyno testing.
+
+  
+
+ That should probably get elevated to one of those Webology myths listed earlier in this thread.
+
+====================================================================================================
+POST #239 | author=Clicked | page=12 | id=12804456 | date=December 16, 2015
+====================================================================================================
+GD170
+
+ You're right. The dyno is just another weapon in our arsenal against ignorance and definitely limited by its capacity.... But I would rather have one than not. Mine cost over $60k. A big investment at the time. It would be nice to have something bigger, but hard to justify. It is very useful in that it paints a picture of what is going on but in no way competes with the track for data. We are very priviledged to be situated on 120 acres with MX, SX and enduro tracks right out the door. As for higher velocities....we start to get to a point where the data gets beyond what is worthwhile. Dealing with several road racers...moments of traction and control are more important than heavy impact managemet and these are seen at lower velocities. Its the same with dirtbikes. Grip and control are more important than bottoming resistance when it comes to analysis. Its easy to make something hard enough. Its harder to make it track.
+
+  
+
+ Suspension systems have a bunch of options for bottoming control:
+
+Springs
+
+Oil level
+
+Bottom cones
+
+Bump rubber
+
+Damping
+
+ Damping is definitely a part of the mix but as Terry Hay points out a lot of bottoming discussions prematurely turn to damping at the expense of chassis control and traction. Figuring out the damping values needed for chassis control and traction, and the shaft speed ranges where those components are critical really needs a whole lot more discussion. 
+
+  
+
+ Tuning for those parameters in the end comes down to visualizing the shape of the damping curve and controlling the shape of that curve to get the damping force transitions at the shaft velocities of interest.
+
+  
+
+ With that thinking we can come back around to the topic at hand:
+
+How do you modify a shim stack to change the shape of the damping force curve?
+
+If you knew how to change the curve shape what would the optimum shape be?
+
+ This thread is focused on the first step, compiling dyno data demonstrating how to go about changing the damping force curve shape. After we get a handle on that and the practical range damping force curves can be tuned over we can start the debate over what the optimum curve shape might look like. 
+
+  
+
+ .... and if that question ever got answered we could just close this forum, eh?
+
+			
+				
+
+	Edited December 16, 2015 by Clicked
+
+====================================================================================================
+POST #240 | author=Clicked | page=13 | id=12804469 | date=December 16, 2015
+====================================================================================================
+Kawamaha '06 yz250 fork mid-valve dyno test
+
+  
+
+ Kawamaha tested an interactive crossover configuration for a '06 yz250 fork rebound stack. The crossover closes at a shaft velocity of about 40 in/sec. This stack also produces a slightly digressive damping force profile.
+
+ [[IMG:20-kawa-rbnd.png|//cdn.thumpertalk.com/uploads/imageproxy/20-kawa-rbnd.png.9ae9dc8a592b635edaf49f3843b6af95.png]]
+
+ Since Yz295 was just talking about the uncertainty associated with interpreting dyno data from shocks due to the multiple flow circuits it's worthwhile pointing out this data from Kawamaha's hydraulic dyno feeds high pressure hydraulic fluid directly to the valve. That direct feed eliminates the uncertainty associated with interpreting flow splits between multiple active flow circuits.
+
+  
+
+ On the other hand, this particular test is for a rebound stack so there are only two active flow circuits (stack and bleed) and less mystery to interpret if this stack had been tested in an assembled fork on an actual dyno.
+
+====================================================================================================
+POST #247 | author=Clicked | page=13 | id=12812527 | date=December 21, 2015
+====================================================================================================
+Clicked,
+
+ If I understand the question of "how do we modify a shim stack to change the curve." You are asking what area affects what portion of the curve? Going with that assumption, my experience is:
+
+ A larger/smaller clamp or thinner/thicker shims in the high speed & (in forks, valve stack "float" ) would affect the high speed portion.
+
+ More/less or thicker/thinner face shims would change the overall stiffness of the curve.
+
+ The crossover shim position would change the low speed portion of the curve as well as oil viscosity & bleeder orifice diameter (clicker or bleed hole).
+
+ Crossover gap or diameter to alter the transition/arc from low to high.
+
+ I know there is more to tuning a suspension (port size, nitrogen pressure, ics spring rates, ics float, proper chamber pressures, fork oil levels, spring rates, ect) than "just" shim stacks but my answer was in regards to shims only. My apologies if I misunderstood the question.
+
+ Also, thank you for this thread. It is very enlightening. My favorite thread I've come across.
+
+  
+
+ KPRacing:
+
+ Thanks for the input. Those are the classic shim stack tuning rules. Through comparison with dyno data we've found those rules only apply to the special case of a non-interactive crossover. For anything else the rules don't work and that does not seem to be widely known. That is how this thread got started.
+
+"A larger/smaller clamp or thinner/thicker shims in the high speed & (in forks, valve stack "float" ) would affect the high speed portion."
+No. The MXScandinavia dyno data here and here shows increasing the high speed stack stiffness makes the damping force stiffer everywhere, not just at high speed. To understand “the why” of that we adopted Jeremy Wilkey's definition of interactive and non-interactive crossovers.
+
+[[IMG:c1-co-styles.png|//cdn.thumpertalk.com/uploads/imageproxy/c1-co-styles.png.a58847cd71f0057537939e6e201224b1.png]]
+
+Interactive crossovers have a shim diameter larger than the stack clamp. That allows force transfer directly through the crossover shim into the high speed stack before the crossover closes. Direct force transfer makes the stiffness of the low speed stack a function of high speed stack stiffness. Under those conditions changes to the high speed stack or clamp end up effecting low speed damping as well.
+
+​"More/less or thicker/thinner face shims would change the overall stiffness of the curve."
+True that. We've also found a tall stack of thin shims is more progressive than a short stack of thick shims setup to be shim factor equivalent. That creates some discrepancies when A/B'ing damping force values from shim stacks with different stack heights.
+
+​"Crossover gap or diameter to alter the transition/arc from low to high."
+Increasing the crossover diameter will make low speed damping stiffer. At some point, increasing the crossover diameter will shift the stack from a non-interactive to interactive crossover and chang the stack behavior. Further increases will eventually cause the crossover to become “fo” and the gap will do nothing at all.
+
+ Every one of those comments above are nit-picky little details and I apologize for that. But the thing is, stacking up the rules against dyno data has shown all of those nit-picky little details come into play and end up generating dyno results that just don't line up with the expectations of the standard shim stack tuning rules. Those differences generate discrepancies when compared against the reality of a test ride.
+
+  
+
+ Getting a handle on the cause of those discrepancies gets complicated. I think the combination of theory, test and analysis applied in this thread has demonstrated some progress on getting to “the why” of those discrepancies and made some progress on identifying the range of shim stack configurations where those standard rules don't apply.
+
+====================================================================================================
+POST #248 | author=Clicked | page=13 | id=12816638 | date=December 23, 2015
+====================================================================================================
+Valving Logic rmz250 dyno testing
+
+ Valving Logic dyno tested an interactive crossover in a thread here. The stack tested is from mog and uses a complex staged interactive crossover on a Showa 50 mm shock valve. The large crossover gap at the bottom of the stack creates a closing “event” in the shim stack port edge lift curve at a fluid force of around 70 lbf on the stack. The fluid force on the stack does not reach that level until the shock shaft velocity is beyond 100 in/sec.
+
+  
+
+ In the dyno test the maximum shaft velocity was 70 in/sec, so effects of closing the lower crossover gap were never seen in the dyno data. Over the tested range the shim stack produced a nearly linear damping profile.
+
+ [[IMG:23-showa50ovalC.png|//cdn.thumpertalk.com/uploads/imageproxy/23-showa50ovalC.png.e19b7973459ba7a76cfa34449ee9b5ca.png]]
+
+ [[IMG:22-rmz250-874c.png|//cdn.thumpertalk.com/uploads/imageproxy/22-rmz250-874c.png.401d9a02b87b228be8cf0768e09c15ff.png]]
+
+ All of the interactive crossover gap shim stack configurations tested by MXScandinavia produced digressive damping force profiles. The stack tested here produced a linear damping force profile demonstrating an important point. Interactive crossovers do not necessarily produce a digressive damping force curves. The shape of the curve depends on the stiffness of the low speed stack, high speed stack, stack clamp diameter and path forces transferred through the crossover shim. How each of those four components interact within the stack structure is hard to guess and that makes it hard to guess if the stack is going to be progressive, digressive or linear.
+
+  
+
+ The other important thing, and it makes sense after you look at the stack, the top crossover gap closed first, followed by the bottom crossover at a higher shaft velocity. So the stack did not start deflecting at the outside edge and peel back as is commonly thought. Instead, the entire bottom structure deflected forcing the upper crossover gap to close. Then the low speed stack mashed out against the high speed stack eventually forcing the lower crossover gap to close last at a higher shaft velocity.
+
+			
+				
+
+	Edited December 23, 2015 by Clicked
+
+====================================================================================================
+POST #250 | author=Clicked | page=13 | id=12821996 | date=December 26, 2015
+====================================================================================================
+[[IMG:8a-styles.png|//cdn.thumpertalk.com/uploads/imageproxy/8a-styles.png.8cf2ff660b4a731970c6835cf25b3d73.png]]
+
+ Trapped Crossovers
+
+ Trapped crossovers use a pair of shims with different diameters to form the crossover gap. As the crossover closes the larger shim gets trapped in the closing crossover gap. The trapped shim changes the effective clamp diameter on the face shims forcing the stack to become stiffer as the crossover gap closes.  
+
+ [[IMG:24-trapped-cross.png|//cdn.thumpertalk.com/uploads/imageproxy/24-trapped-cross.png.70ffd132e6543e86485ef6492b240510.png]]
+
+ MXScandinavia Jake Normal Stack
+
+ The MXScandinavia Jake-normal dyno test demonstrates use of a trapped crossover. Comparing test results of the Jake-normal dyno test to a conventional crossover used in the Jake 01 stack demonstrates the effect of a trapped crossover. Both dyno tests were run on an Ohlins four port MX valve.  
+
+ [[IMG:25-jake-norm-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/25-jake-norm-stack.png.87d2550ba8ddf369fc6e4f24ebc3592d.png]]
+
+ Accept for the crossover, the two stacks are identical. The Jake01 stack uses a single 28.15 mm shim to form the crossover. The Jake-normal stack uses a pair of 34.1, 28.1 mm shims to create a trapped crossover. By the thickness cubed rule the single 0.15mm shim in the Jake01 stack is 1.7 times stiffer than a pair of 0.1mm shims. In terms of shim stiffness the Jake01 stack should be stiffer.
+
+  
+
+ In terms of gap: the pair of shims in the Jake-norm crossover creates a 0.2 mm crossover gap. The single shim in the Jake01 stack creates a 0.15 mm gap. The smaller crossover gap should make the Jake01 stack stiffer.  
+
+ A single 0.15mm shim is stiffer than a pair of 0.1 mm shims making the Jake01 stack stiffer
+
+ The smaller 0.15mm crossover gap makes the Jake01 stack stiffer
+
+ Dyno test shows the opposite result
+
+ The theoretically stiffer Jake01 stack dyno tests softer
+
+ Theoretically, the Jake01 stack should be stiffer because the single 0.15mm crossover shim is stiffer and the crossover gap is smaller. But the dyno test shows the opposite result, the theoretically stiffer Jake01 stack turns out to be softer.
+
+ [[IMG:26-jake-norm-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/26-jake-norm-dyno.png.415389689765bdf933af86a8379f888d.png]]
+
+ The cause of the backward result is the pair of crossover shims used in the Jake-normal stack forms a trapped crossover. As the crossover closes the larger 34.1mm crossover shim gets trapped in the closing crossover gap. The trapped shim shifts the effective clamp diameter on the face shims making the face shims stiffer and causes the theoretically softer Jake-normal stack to dyno test stiffer.
+
+  
+
+ While that sounds complicated, looking at how the stack deflects makes it pretty easy to understand how a trapped crossover works. The trapped shim simply transfers more force into the high speed stack.  
+
+ [[IMG:24-trapped-cross.png|//cdn.thumpertalk.com/uploads/imageproxy/24-trapped-cross.png.70ffd132e6543e86485ef6492b240510.png]]
+
+ The above test is a good example where three things (theory, test and analysis) are needed to make sense out of the data. Those three are like the pillars of a three legged stool, each supports the other. Data is needed to validate theory, theory to develop analysis tools and analysis tools to understand the data. Working together those three create a sum that is greater than the parts.
+
+  
+
+ In this case the Jake01 stack is clearly stiffer in terms of shim stiffness and crossover gap. In that sense the test data makes no sense. Take it to the next level applying the more thorough theories of FEA stack deflections and the action of the trapped crossover forcing the Jake-normal stack to become stiffer makes sense, which in turn validates the test data – and makes sense out of the test data that initially made no sense at all.
+
+  
+
+ Got to give some “cred” to MXScandinavia for not throwing that test away as a simple example of bad dyno data.
+
+====================================================================================================
+POST #253 | author=Clicked | page=13 | id=12827685 | date=December 29, 2015
+====================================================================================================
+Valving Logic Split Crossover Testing
+
+ Many shim stacks use a split crossover pair and don't form trapped crossovers. Valving Logic shows some examples.  
+
+  
+
+ The first two configurations, rmz250-54c and kxf450-753c, were tested on a 46 mm kyb valve. The shim pair used to form the crossover gap in the rmz250-54c stack have similar diameters. In that configuration the lower shim does not reach far enough into the crossover gap to become trapped. The next stack, kxf450-753c, demonstrates the same thing with the lower crossover shim pretty much at the limit of just kissing the high speed stack when the crossover closes. That shim is almost trapped, but not enough to make a difference in stiffness of the stack.
+
+ [[IMG:27-fo-trapped.png|//cdn.thumpertalk.com/uploads/imageproxy/27-fo-trapped.png.058e498898d928ca6e97ec3127f87a68.png]]
+
+ The third configuration demonstrates the same thing but in a different way. The rmz250-875c stack, tested on a Showa 50 valve, uses a shim pair with different thicknesses. The thicker top shim creates a larger crossover gap and does not trap the lower shim even though the diameter of that shim is much larger reaching far into the crossover gap.
+
+  
+
+ The above stacks demonstrate classic examples of the “it depends” exceptions to crossover tuning. The stacks tested use split crossover pairs with staggered shim diameters. So the stacks “could” behave as trapped crossovers. But the specifics of the stack configuration, shim diameter ratio and thickness of the upper shim relative to the bottom shim, end up preventing the stacks from behaving as a trapped crossover.
+
+  
+
+ Many shim stacks use a split crossover pair for the simple reason of softening low speed damping. By the thickness cubed rule, a pair of 0.1 mm shims if four times softer than a single 0.2 mm shim. So replacing a 0.2 mm crossover shim with a pair of 0.1 mm shims makes the stack softer. Staggering shim diameters of the crossover pair also spreads out the corner load on the face shims so the shims don't kink when bending around the sharp corner of a single crossover shim. In that sense using a staggered pair of crossover shims makes the stack structure more robust.
+
+  
+
+ With that in mind, replacing a 0.2mm crossover shim with a pair of 0.1mm shims should make the stack slightly softer. The MXScandinavia trapped crossover test shows the important exception where a split crossover gets trapped in the gap and actually ends up making the stack stiffer. So, “it depends”.
+
+====================================================================================================
+POST #254 | author=Clicked | page=13 | id=12831085 | date=December 31, 2015
+====================================================================================================
+Valving Logic kxf250 Shock Compression
+
+ Another dyno example from Valving Logic of a trapped crossover. This test was run on a Showa 50mm valve for a kxf250 shock. Two stacks were tested: One with a conventional crossover and the second using a split crossover pair.
+
+ [[IMG:28-VL-kxf250.png|//cdn.thumpertalk.com/uploads/imageproxy/28-VL-kxf250.png.f66ba0b07e8a48eafcba9dc6a885d170.png]]
+
+ By the thickness cubed rule of shim factors the kxf250-1467c stack should be stiffer at low speed because the thicker pair of 44.25 face shims are 1.95 times stiffer than the 44.2 face shims used in the kxf250-1469c stack. The kxf250-1467c stack also uses a larger crossover shim diameter with a thinner crossover gap. The combination of stiffer face shims and a smaller crossover gap should make the kxf250-1467c stack stiffer at low speed.
+
+  
+
+ But the kxf250-1469c stack uses a trapped crossover and that crossover is pushing against a much stiffer high speed stack. So after the face shims lift 0.1mm to close the 26.1 crossover the trapped 36.15 shim is going to be working against a much stiffer high speed stack and clamp potentially making that stack stiffer.
+
+  
+
+ So is the split crossover used in the kxf250-1469c stack stiffer or not?
+
+ [[IMG:29-VL-kxf250-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/29-VL-kxf250-dyno.png.c128d62cd2ec8a6a889ac05bd0cf43bd.png]]
+
+ Both FEA analysis and the dyno data show the two stacks were close at low speed but the split crossover pair in the kxf250-1469c stack was slightly softer. The crossover in that stack closes earlier, transitions into the high speed range sooner and becomes stiffer at high speed. All of those differences were expected, but not big enough to overcome the larger crossover gap of the split crossover pair. The larger crossover gap ends up making the kxf250-1469c stack softer at low speed. That might have turned out different if the stack had used a 36.1/26.1 crossover pair to match the crossover gap of the kxf250-1467c stack.
+
+====================================================================================================
+POST #255 | author=Clicked | page=13 | id=12848903 | date=January 9, 2016
+====================================================================================================
+[[IMG:8a-styles.png|//cdn.thumpertalk.com/uploads/imageproxy/8a-styles.png.8cf2ff660b4a731970c6835cf25b3d73.png]]
+
+ "fo" Crossovers
+
+ Four different crossover styles are demonstrated in the dyno data posted on TT. The final style is a “fo” crossover. Like “fo” fur, “fo” crossovers are fake and don't do anything but cause confusion determining if the crossover does anything or not. “fo” crossovers are created by interactive crossover shim diameters that are too large or a high speed stacks that are too soft. In either case, the high speed stack deflects at the same rate as the face shims so the “fo” gap never closes. “fo” gaps really screw up test-to-test comparisons when crossovers are assumed active but end up producing the same damping force as a simple tapered stack with no crossover at all.
+
+  
+
+ The MXScandinavia 14x40.2 stack, used to test shim factors at the top of this thread, is an example of a “fo” gap. Over the velocity range tested the crossover gap never moved. That stack was tested to shaft velocities of 120 in/sec (9.1 m/s wheel speed) which is equivalent to hitting a 4 inch bump at 50 mph. High speed stuff, yet the impact produced no motion of the crossover gap. Take it further and apply several hundred pounds of force to the stack and you can get the crossover gap to close but at that point the stack is deflected so far the valve port throat area is controlling the flow, not the shim stack.
+
+ [[IMG:30-fo-shimfac14.png|//cdn.thumpertalk.com/uploads/imageproxy/30-fo-shimfac14.png.c1b1d41c815dbf8541e324cad9e79ca3.png]]
+
+====================================================================================================
+POST #259 | author=Clicked | page=13 | id=12850798 | date=January 10, 2016
+====================================================================================================
+So, I would be interested to see if that stack behaved exactly the same as this:
+
+  
+
+ 40.2 (14)
+
+ 36.1
+
+ 32.15
+
+ 32.2
+
+ 32.25
+
+ 32.25
+
+ 32.2
+
+ 32.2
+
+ 30.2
+
+ 28.2
+
+ 26.2
+
+ ....
+
+  
+
+  
+
+ Basically, if you lopped off the part of the HS taper that was outside of that crossover diameter, and kept it as a constant diameter stack, same thicknesses.  Same behavior?  Different?  If different, how?
+
+ Think I get the question: The SF 14x40.2 stack is suspected to have a “fo” crossover. If that crossover really is “fo” you should be able to lop off the high speed stack and replace it with a stack of 32mm shims and get the same result.
+
+ Like this:
+
+ [[IMG:30a-ghill28.png|//cdn.thumpertalk.com/uploads/imageproxy/30a-ghill28.png.1c3ae90c3328de9f411e207bac6363c3.png]]
+
+ The other way to go, is take the crossover shims and redistribute them through the stack to get rid of the crossover gap. That way the stack is using all the same shims but reconfigured into a simple tapered stack with no crossover.
+
+ Like this:
+
+ [[IMG:30b-redist.png|//cdn.thumpertalk.com/uploads/imageproxy/30b-redist.png.ef149d158a39fba8113d5368f64f9d04.png]]
+
+ Running those three configurations I get this:
+
+ [[IMG:30c-damping.png|//cdn.thumpertalk.com/uploads/imageproxy/30c-damping.png.6bc780bf829d9c0f79bfedb177159aff.png]]
+
+ The FEA curve for stack edge lift shows the GHILL28 and CO redistribution stacks are a little bit stiffer. That difference is small and didn't make any real difference in the damping force curves which are pretty much line-on-line for the three stacks. Zoom in and the damping force at 40 in/sec is about 2% different.
+
+  
+
+ For the naysayers: the above is only an “engineering guess”. To get anything useful you've got to have “real world data” that unambiguously demonstrates the crossover gap was “fo” to generate any kind of useful result that can actually be used to tune practical suspension systems in real shocks.
+
+  
+
+ For this case you are in luck because MXScandinavia had that same question tuning the stacks Jake was test riding in the MXScandinavia thread:
+
+ [[IMG:30d-jake.png|//cdn.thumpertalk.com/uploads/imageproxy/30d-jake.png.46e496a33956f26ae557f248158b694c.png]]
+
+ The stack there lopped off the high speed stack replacing it with a stack of 6x28.25 shims to get rid of the crossover gap. In test, those two stacks produced the same damping force.
+
+  
+
+ But there's a catch: The Jake Normal stack turned out to be running a trapped crossover. That's a little different then the “fo” crossovers we are talking about here. So if you have to rely on nothing but your dyno library you've got to go debate the difference between a “fo” crossover and a trapped crossover in terms of how those are going to “feel” on a real world suspension systems. Or, cough up another $50 bucks and go run the test.
+
+====================================================================================================
+POST #260 | author=Clicked | page=14 | id=12850807 | date=January 10, 2016
+====================================================================================================
+Thank you for posting this, might be a little beyond my current suspension knowledge
+
+ but it gets my curiosity going into further experimenting.
+
+  
+
+ Most difficult part is pinpointing exactly what these changes do on track.
+
+  
+
+ Here's what I do:
+
+ Charts are around relating suspension speed to bump height. Those charts give an idea of where different bump heights put you on the damping force curve.
+
+ [[IMG:30e-dirt-19r.png|//cdn.thumpertalk.com/uploads/imageproxy/30e-dirt-19r.png.bb28f7dae8aaba18f7bfc0aa370fcee5.png]]
+
+  
+
+ A 1” bump generates a wheel speed of about 100 in/sec. Put that on a 3:1 linkage and the shock would be running at about 33 in/sec shaft speed.
+
+  
+
+ [[IMG:30f-tuning.png|//cdn.thumpertalk.com/uploads/imageproxy/30f-tuning.png.7a50eefcf44f6f1f5a38eebac7666db0.png]]
+
+ The idea you can just look at a damping force curve and tell what the shock is going to “feel” like is nuts.
+
+ The best you can do is compare one setup to another. Damping force curves with the clicker range on there help get a little more quantitative about how the differences are going to “feel” on a test ride. In this case the clicker range is +/- 5 clicks.
+
+  
+
+ The “new” stack on that plot is going to “feel” about the same on a 1” bump since the damping force is about the same. The difference is that new stack is about 5 clicks stiffer at low speed and goes soft at high speed. With that info you can make a decision whether that stack is worthwhile or if you are looking for some other stack with a different damping force curve shape.
+
+  
+
+ The idea here, following GHILL28's question, is all of these stack mods are "what if" questions. Make the change, plot the results, and see if the stack mods are changing damping force in the velocity range you are interested in. If not, look at the stack structure, figure out how the stack is deflected in the velocity range you are interested in and then hack around on the stack structure to get the change you want.
+
+			
+				
+
+	Edited January 10, 2016 by Clicked
+
+====================================================================================================
+POST #270 | author=Clicked | page=14 | id=12859233 | date=January 14, 2016
+====================================================================================================
+So on the topic of translating dyno data to real world events through the bump size/shaft speed relationship, has anyone ever validated this data to include the deflection of the tire using live instrumentation on the bike?  Obviously the shaft speeds would shift downwards a little bit, and I'd expect a proportionally greater drop at higher vehicle speeds until which speed the tire is hitting the rim.  Just wondering if there is an approximation for that amount of shift - what amount of shaft speed the tire compression is responsible for taking up.  I realize it's PSI/casing/rim size dependent.  Probably another topic in itself.
+
+  
+
+ Those suspension velocities are computed for square edge bumps. There is no tire out there with a sidewall stiff enough to keep the tire off the rim on a sharp edge bump. But if you are worried about it, just take an inch off, or whatever, from the bump height and bracket the range.
+
+ [[IMG:1-peak-eqn.png|//cdn.thumpertalk.com/uploads/imageproxy/1-peak-eqn.png.e0f5c45d1ded13d3c090f9637b10198b.png]]  [[IMG:dirt-19r.png|//cdn.thumpertalk.com/uploads/imageproxy/dirt-19r.png.aab4c54897cad65c237281ab96a61700.png]]
+
+ The purpose of that chart is getting a grip on the upper range of suspension velocities. With 12 inches of travel and 4 inches of race sag, bump travel is 8 inches. At some sane speed like 50 mph that puts the upper range of suspension velocity at 550 in/sec. Put that on a 3:1 link suspension and the max shaft velocity on the shock is 180 in/sec.
+
+  
+
+ The suspension community produces a bunch of whining about the worthlessness of dyno data in off-road applications due to the extreme suspension speeds. That whining revolves around the notion of non-linear shim stack behavior generated by the extreme stack deflections and speeds of off-road applications. The dyno data on TT – real data from real shocks - shows that is not the case.
+
+  
+
+ In the data here MXScandinavia measured shim stack stiffness at suspension velocities of 1,500 in/sec. That is beyond the suspension velocity range of that chart! The data showed a regular stiffness progression predicted by FEA with a smooth curve and stiffness progression initiated at low speed. No unexpected behavior there.
+
+  
+
+ MXScandinavia also showed some of the Ohlins factory data run out to shaft velocities of 120 in/sec. That data showed no unexpected behavior – just a smooth progression of damping force. But there is a gap. There is no data between 120 in/sec and peak off-road velocities of 180 in/sec. In that gap you have got to be careful designing shocks to insure the shim stack does not hit the backer, the valve ports don't restrict the flow or generate some unexpected cavitation event.
+
+ That Ohlins factory data is some very special dyno data you are not going to pick up from your local tuner. TT is lucky to have it along with the corresponding MXScandinavia finger press data showing nothing unexpected happens in those shim stack configurations when pushed to ultra high deflections.
+
+  
+
+ The more typical situation for high end dyno testing limits shaft velocities to 60 in/sec, like the Valving Logic data. The more common case is 20 in/sec like MXScandinavia and John Curea. Extrapolating that data to higher shaft speeds you have to really think about what is going on in the shock and shim stack when pushed to higher speeds. That is not always obvious when looking at nothing but the low speed data. Some of the “fo” gap tests coming up here provide examples where the crossover is “fo” over the range tested, but when pushed to higher speeds the crossover closes, the stack becomes stiffer, and the damping force curve changes into a shape that is a little different then expected based on the lower speed dyno data.
+
+  
+
+ The idea the damping force curve changes when the crossover closes is not a big mystery – but it is if tuning the shock using nothing but the dyno data and the dyno was not able to generate the shaft speeds needed to close the crossover gap. That generates the classic situation where the shock suddenly becomes stiffer at high speed and the dyno data does not line up with the realities of a test ride.
+
+====================================================================================================
+POST #271 | author=Clicked | page=14 | id=12859235 | date=January 14, 2016
+====================================================================================================
+You guys ever test the effects of a softer shock compression adjuster spring?FC sells them and wonder what they will do for dampening and cavitation
+
+  
+
+ I don't understand how FC is successful in selling those things with zero product info. How are you supposed to tune the thing when you have no idea what it is?
+
+ Somewhere around here Valving Logic posted a thread dyno testing one of those things. Might be a good thread to try and dig some dyno data out of.
+
+====================================================================================================
+POST #272 | author=Clicked | page=14 | id=12863195 | date=January 16, 2016
+====================================================================================================
+Rebound Stroke Shaft Velocity
+
+  
+
+ We've wandered pretty far off the dyno bunny trail talking suspension bump velocities. While off track, might as well take on the question of the differences in suspension velocity between bump driven compression speeds and free extension in the rebound stroke. Adammoto and kawamaha were chatting about that further up in this thread:
+
+ I measured barely 2.5m/s on a pure shock. maybe somone can calculate a mounted shock, where it has to accelerate the rear wheel...
+
+  
+
+ https://www.thumpertalk.com/topic/842778-shock-rebound-speed/?p=8723272
+
+  
+
+ Kawamaha has measured rebound velocities using high speed video on an '09 kxf450 shock. The shock was on a bench, not installed in the bike. So the data here is just the shaft popping back with no inertial weight of the wheel to slow it down.
+
+ [[IMG:1-kawamaha.png|//cdn.thumpertalk.com/uploads/imageproxy/1-kawamaha.png.47c1b166093fce11b9bfba6d057faab9.png]]
+
+ Put the wheel weight on there operating through the suspension link and the velocities are going to slow down. But by how much?
+
+  
+
+ That can be figured out through an F=ma force balance. There are three forces acting on the wheel: spring force; gas reservoir pressure force and damping. Expressions for each of those forces are pretty straight forward:
+
+ [[IMG:2-force.png|//cdn.thumpertalk.com/uploads/imageproxy/2-force.png.26cd71e4d96dc8b45e5faa3a3e72c7c1.png]]
+
+  
+
+ With the forces defined, figuring out acceleration comes straight out of F=ma => a=F/m. Knowing acceleration, the calculation of wheel velocity and position are straight forward:
+
+ [[IMG:3-balance.png|//cdn.thumpertalk.com/uploads/imageproxy/3-balance.png.3e84bf040229c4dd517503b8ab69e39a.png]]
+
+  
+
+ To make any numbers out of those equations you have to know the suspension link ratio. 
+
+ adynes put some info on TT for the link ratios he used scaling his kxf450 setup to the linkage ratio of a kx250.
+
+ [[IMG:4-link.png|//cdn.thumpertalk.com/uploads/imageproxy/4-link.png.5ba01d2e4b777e62e5ded70cf0b100be.png]]
+
+  
+
+ ....... So how much does that slow down the rebound stroke?     (working on it)
+
+			
+				
+
+	Edited January 16, 2016 by Clicked
+
+====================================================================================================
+POST #274 | author=Clicked | page=14 | id=12864681 | date=January 17, 2016
+====================================================================================================
+Max Rebound Stroke Velocity
+
+ Using the link ratios from adynes in the force balance the wheel weight slows down the rebound stroke by about a factor of two. The other thing that is interesting is once the spring gets the wheel moving the shock damping can't slow it back down. So the final velocity at full extension is higher than the shaft only test kawamaha ran.
+
+ [[IMG:5-kawamaha-speed.png|//cdn.thumpertalk.com/uploads/imageproxy/5-kawamaha-speed.png.47fe59695ef84c4f78da55f3c75f1380.png]]
+
+ Peak rebound velocities are going to change with stroke length and the damping force. To get a handle on the velocity range in the rebound stroke I reran a couple of cases with suspension response coefficients (zeta values) from 0 to 0.9, just short of critical damping. Over that range the peak rebound velocities went from 100 to 270 in/sec. For the kxf450 link ratio used in this example, the shock shaft velocity went from 50 to 100 in/sec – that's the shaft velocity range you need dyno data over to figure out rebound response.
+
+ [[IMG:6-responce.png|//cdn.thumpertalk.com/uploads/imageproxy/6-responce.png.6285f873255dfc45c19d506acc623853.png]]
+
+ For tuning off-road suspension systems the shock shaft velocity range is:
+
+Compression damping: 180 in/sec, 8” bump at 50 mph
+
+Rebound damping: 50 to 110 in/sec, free extension velocity depends on damping
+
+ For tuning forks those shaft velocities are going to be a factor of three higher since there is no link ratio.
+
+====================================================================================================
+POST #276 | author=Clicked | page=14 | id=12870135 | date=January 20, 2016
+====================================================================================================
+Rebound Velocity
+
+ What does a stock suspension generate for peak rebound velocities? John Curea dyno tested a stock '06 yz250 shock on TT. The rebound stroke data is plotted below.
+
+ [[IMG:7-curea-yz250.png|//cdn.thumpertalk.com/uploads/imageproxy/7-curea-yz250.png.643e187dac5e4098a54c4ce40de29d21.png]]
+
+ Rebound stroke shaft velocities are going to be in the 50 to 110 in/sec range, but that dyno data only goes to 20 in/sec. Where is that curve going at high speed?
+
+ The data shows the damping coefficient starts kicking up around 10 in/sec. That is not unexpected since the high speed in the shim stack looks pretty stiff. With that thinking, extrapolating the data slope out to higher speeds might be a reasonable guess. That gives a damping coefficient around 70 lbf-s/in at 100 in/sec.
+
+  
+
+ On the other hand, experience shows damping coefficients tend to roll over at high speed as fluid pressures balances out against shim stack stiffness. That forces the damping coefficient to roll over into a more or less constant value at high speed. But that 20 in/sec data shows no evidence of the curve rolling over and no way to guess the shaft velocity where that might happen.
+
+  
+
+ With no data beyond 20 in/sec you just don't know what that curve shape is going to be and there is no easy way to guess. In the test-test-test approach the usual thinking is use what you got, the data shows a max value of 27 lbf-s/in so just use that – no guessing.
+
+  
+
+ Run that shim stack through ReStackor and you get a little better picture of where the damping coefficient curve is going at high speed. The stack is progressive out to shaft velocities around 50 in/sec and then rolls over, as most stacks do, into a more or less constant high speed value. So the crossover in that stack did not snap closed, it kind of eases into it and as the face shims mash out against the high speed stack the damping force curve slowly rolls over into a more-or-less constant high speed value, something around 30 lbf-s/in – not 70 lbf-s/in from extrapolation of the low speed data.
+
+ [[IMG:8-rstk-high-speed.png|//cdn.thumpertalk.com/uploads/imageproxy/8-rstk-high-speed.png.3828ff62d389072182ed9cdd4275232d.png]]
+
+ So what does that mean in terms of rebound response? We've got three cases here:
+
+Damping coefficient measured in test: 27 lbf-s/in	
+
+Calculated high speed value: 30 lbf-s/in
+	
+The actual damping coefficient curve. We need to run the whole curve to see how the damping coefficient drop off at low speed effects stroke velocity
+
+ [[IMG:9-stock-rbnd.png|//cdn.thumpertalk.com/uploads/imageproxy/9-stock-rbnd.png.6dd77a023861e7dd7fb5a5a0e6699df7.png]]
+
+ Peak rebound shaft velocities turned out to be around 100 in/sec as expected. The peak velocity is sensitive to the damping coefficient used. The difference between 27 lbf-s/in and 30 lbf-s/in generates a peak suspension velocity difference of around 8 in/sec and that effects how long it takes the suspension to reach full extension – i.e. rebound packing.
+
+  
+
+ To get a handle on packing, I plotted the distance traveled “in the air” at 30 mph for the suspension to reach full extension. That works out to 7.5 feet for the dyno value of 27 lbf-s/in and 8.5 feet for the stiffer guess of 30 lbf-s/in. So it's about a foot more air time.
+
+  
+
+ Run the whole damping coefficient curve (the “Lookup” curve) and you can see the suspension velocity kick up as the shock drops into the low speed range at the end of stroke. Interestingly, that does not effect the ground distance traveled much as it only comes into play over the last two inches of stroke. Stated the other way around, low speed damping makes a big difference in suspension packing when the suspension is bouncing around the +/- 2 to 4 inch stroke range, but does not make much difference when rebounding off the suspension stop.
+
+  
+
+ Darren from Push Industries explained it to me like this.  A development program needs three legs: data acquisition, dyno testing, and field testing.  You can learn a lot from each one individually, but they build on each other when combined.  It makes perfect sense when you think about it, and it is no surprise that's how all well-funded auto and road race teams do it.  This is finally trickling down to motocross, but we are still a long ways behind.  My data acquisition stuff still isn't finished but as I promised before I'll post some information about bump and rebound wheel velocities when I have something to report.  Thanks to Clicked for keeping this thread going.
+
+  
+
+ The data here provides one of those examples where it is hard to guess high speed damping behavior based on nothing but low speed data. Some of the “fo” crossover dyno tests coming up provide additional examples of things to watch out for and examples where it's easy to misinterpret dyno data when extrapolated. Those are situations where the physics based approach of therory-test-analysis provides the three legs needed for data interpretation. You just aren’t going to get that out of a test-test-test mentality.
+
+====================================================================================================
+POST #278 | author=Clicked | page=14 | id=12874444 | date=January 22, 2016
+====================================================================================================
+Suspension Link Ratio
+
+ 
+adynes posted two link ratios: one for a kxf450 and the other for a kx250. Does changing the suspension link ratio change suspension response?
+
+ [[IMG:10-lr.png|//cdn.thumpertalk.com/uploads/imageproxy/10-lr.png.088750b0fe2c6286a4c99c2c71fd72f0.png]]
+
+ There are three ways to change a link:
+
+Put in the new link and don't worry about it	
+
+Put in the link and adjust the spring rate to get race sag right
+	
+Put in the link and spring, then re-tune damping to get the suspension response right
+
+ Whats the difference?
+
+  
+
+ Lets assume the setup on the kxf450 works, but you've heard using the kx250 link is the hot setup. How does the kx250 link ratio effect suspension performance?
+
+ Step one: Tossing the link in there and trying to get the setup working without setting race sag is ridiculous. We're skipping step 1.
+
+  
+
+ Step two: the higher kx250 link ratio needs a stiffer spring to get race sag right. Put in the stiffer spring and the shock is now under damped. That causes the suspension to bong out to full extension and hit the stop at high velocity as shown in the plot below. To keep that setup from bonging you over the bars that stiffer race sag spring needs stiffer rebound damping.
+
+ [[IMG:11-spring.png|//cdn.thumpertalk.com/uploads/imageproxy/11-spring.png.b64cb9857185162b813142d58c9ecc39.png]]
+
+ Step 3: To get damping right the shock needs to be re-tuned so that the damping force at the wheel, after operating through the modified link ratio, produces the same force as the original kxf450 setup. That comes down to getting the same zeta value. Re-tune the shock compensating for the higher link ratio and the suspension response ends up being pretty much line-on-line with the original kxf450 setup. The modified link ratio, after getting race sag and damping right, did not change much of anything in the suspension response or “feel”. 
+
+ [[IMG:12-zeta.png|//cdn.thumpertalk.com/uploads/imageproxy/12-zeta.png.03e6cd6e25d5337a997a0954b764c585.png]]
+
+====================================================================================================
+POST #280 | author=Clicked | page=15 | id=12874907 | date=January 22, 2016
+====================================================================================================
+Suspension Response
+
+ The “why” of that whole thing is easier to understand using the basic principles of spring-mass-damper theory shown on wikipedia. 
+
+ Theory shows there are only two parameters that effect suspension response: tau and zeta.
+
+ [[IMG:13-zeta-response.png|//cdn.thumpertalk.com/uploads/imageproxy/13-zeta-response.png.4293fce3282636629f3131e1813a5745.png]]
+
+ Tau is the suspension response time. Tau sets how long it takes the rebound stroke to doong out to full extension. Tau is set by the ratio of mass to spring rate. Those same parameters also set race sag. Get race sag right and the value of tau on any 12” suspension is going to be the same.
+
+  
+
+ The second parameter is zeta. Zeta controls how the suspension baby buggies after a bump. Zeta depends on mass (m), spring rate (k), linkage ratio (LR) and damping coefficient ©. Chang any one of those and the value of zeta changes pushing the suspension into an under or over damped mode. Simple.
+
+  
+
+ For the kx250 link example above there were two steps:
+
+Change spring rate to get race sag right. That set the value of tau to be the same for both link ratios
+
+Change damping to get the same force at the wheel. That set the value of zeta to be the same
+
+ With tau and zeta the same – the suspension response was the same and the rebound response was line-on-line for the two setups. Those two steps of setting tau and zeta are the basics of weight scaling. With tau and zeta the same the suspension response of a 120 lb, 250cc rider will be the same as a 220 lb, 450cc rider. Those weight scaled setups will bottom out on the same bump and baby-buggy into and out of a turn in the same way.
+
+  
+
+ There are a whole bunch of components in suspensions and each one of them can be tuned independently. But suspension response, and what you “feel” on a test ride, only depend on the actual forces produced at the wheel. Spring-mass-damper theory breaks that down into two simple parameters: tau and zeta. Set tau and zeta to be the same and suspension response is going to be the same regardless of weight, spring rate, damping or link ratio.
+
+====================================================================================================
+POST #283 | author=Clicked | page=15 | id=12880601 | date=January 25, 2016
+====================================================================================================
+Back to dyno data
+
+ We started looking at “fo” crossovers and pulled up an example from MXScandinavia. That stack was dyno tested out to suspension wheel velocities of 360 in/sec and the crossover gap never moved. It was a “fo” gap.
+
+ [[IMG:30g-fo-shimfac14.png|//cdn.thumpertalk.com/uploads/imageproxy/30g-fo-shimfac14.png.69ebc3f1fda90b8de1688988840bb90b.png]]
+
+  
+
+ Valving Logic rmz250 Dyno Data
+
+ Valving Logic shows another example of a “fo” gap in dyno testing of a rmz250 shock with a kyb 46mm valve. The maximum shaft velocity for this dyno test was 60 in/sec and did not close the crossover gap. Over the range tested that crossover gap was “fo”.
+
+ [[IMG:31-fo-rmz.png|//cdn.thumpertalk.com/uploads/imageproxy/31-fo-rmz.png.28aaf72f1b1cbbae97ccda35deacdfb2.png]]
+
+ But there is a catch. Push that stack out to higher speeds and the “fo” crossover gap closes. By analysis that occurs around a shaft speed to 140 in/sec (10.7 m/sec wheel speed). After the crossover gap closes the high speed stack comes into play making the stack stiffer reshaping the damping force curve into something a little different than shown by the low speed data.  
+
+ [[IMG:31a-fo-rmz.png|//cdn.thumpertalk.com/uploads/imageproxy/31a-fo-rmz.png.1f28b3e2991bdf180375dc7a521b9fd1.png]]
+
+ The test here demonstrates one of those situations where you need to be really careful about how you go about interpreting dyno data. Over the range tested the data shows now evidence the crossover gap in that stack was closing. That leads to the conclusion the crossover gap was “fo”. In reality the crossover gap was active but there is no way the data is ever going to demonstrate that until the stack is pushed to higher speeds where the crossover gap actually closes.
+
+  
+
+ That brings up a separate category of “fo” crossovers. A crossover gap may be “fo” over the range tested, but when pushed to higher speeds on a test ride the crossover gap actually does close changing the damping force curve into something a little different than expected. That generates one of those classic situations where the dyno data just does not line up with the realities of a test ride.
+
+  
+
+ What makes a “fo” crossover gap:
+
+ Crossover shim diameters that are too large
+
+ High speed stacks that are too soft
+
+ Face shims that are too stiff
+
+ The rmz250-54c stack above uses an interactive crossover that transfers force into the high speed stack. That causes the high speed stack to start deflecting before the crossover gap closes and because the high speed stack was soft it deflected at nearly the same rate as the face shims. All of that combined to push the crossover closure velocity out beyond the shaft velocity range that could be tested on the dyno.
+
+  
+
+ If the stack had used a smaller crossover shim, less force would be transferred through the interactive crossover into the high speed stack. That would reduce the high speed stack deflection and force the crossover to close. Likewise, a stiffer high speed stack would deflect less forcing the crossover gap to close earlier. Either one of those stack mods would alter the crossover gap behavior and the damping force curve.
+
+====================================================================================================
+POST #284 | author=Clicked | page=15 | id=12889070 | date=January 29, 2016
+====================================================================================================
+"fo" crossovers: A second and more confusing example:
+
+ Crossovers usually close at low speed in the range of 10 to 30 in/sec. Pushing the closure velocity to higher speeds creates confusion in dyno testing especially when that shaft velocity is beyond the test range. Valving Logic shows an example testing a Showa 50mm valve for a rmz450 shock.
+
+ [[IMG:32-rmz450-1414.png|//cdn.thumpertalk.com/uploads/imageproxy/32-rmz450-1414.png.84d48ef2e250e7ac306b173b8cc70e11.png]]
+
+ In terms of shim factors, the low speed face shims on the rmz450-1415c stack (7x44.25 +44.2) are about 14% stiffer than the rmz450-1414c stack on the left. The rmz250-1415c configuration also uses a stiffer high speed stack. With stiffer face shims and a stiffer high speed stack it is pretty clear the stack on the right, 1415c, should be stiffer.
+
+  
+
+ Dyno testing showed the opposite result. The theoretically stiffer rmz450-1415c stack dyno tested to be softer and it was softer everywhere, both at low speed and at high speed. The dyno data show no indication that rmz450-1415c stack is ever going to catch up to the damping force measured for the theoretically softer rmz450-1414c stack.
+
+ [[IMG:33-rmz450-1414-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/33-rmz450-1414-dyno.png.e0d482b978c7ef605a81947f003ffde8.png]]
+
+ Why were shim factors and simple intuition so far off for those two stacks?
+
+ The FEA stack deflection curves give some hints. The crossover gap on the 1415c stack closes at a stack force of around 200 lbs. The dyno test only produced about 140 lbf of fluid force on the stack at the maximum shaft velocity of 60 in/sec in the test. The crossover gap never closed, so the stiffer high speed stack in the 1415c configuration never came into play in the dyno test. In that sense the dyno test demonstrated the crossover gap was “fo”. But, run that stack at a higher speed and the crossover gap becomes active.
+
+  
+
+ Since the crossover gap did not close in the test, the only thing that mattered was the stiffness of the face shims. The face shims for the 1414c configuration had a tsf of 73 and the 1415c stack was at 77 by shim factors. So, the 1415c stack should have been stiffer but the dyno shows it was the other way around. What's going on there?
+
+ [[IMG:34-rmz450-1414-co.png|//cdn.thumpertalk.com/uploads/imageproxy/34-rmz450-1414-co.png.b26b0beab9713ba25e068d0ec3a50071.png]]
+
+ The were two differences in the low speed stack configuration that shim factors did not account for in those stack configurations. The face shims on the 1414c stack were clamped on a 32mm shim in that split crossover. Face shims on the 1415c stack were clamped by a smaller 30mm crossover shim. The smaller crossover makes the effective clamp diameter on the face shims smaller and the face shims on the 1415c stack softer. Shim factors don't account for that, shim factors only use the clamp diameter at the top of the stack.
+
+  
+
+ A second difference: On the high speed stack: the 1414c configuration uses a 44mm diameter shim to start the high speed stack; the 1415c stack starts with a 42mm shim. That smaller diameter shim forces the low speed stack to deflect further to close the crossover gap. You can see the difference in face shim deflection needed to close the crossover gap in the stack deflection plots.
+
+  
+
+ The smaller diameter clamp on the face shims and increased deflection to close the crossover gap combine to make the 1415c stack softer at low speed. Test those same stacks at higher speeds and you can see the softer low speed damping of the 1415c configuration as well as the damping force kick up after the high speed stack comes into play. But to figure that out you have to see the high speed data. That is an example where you need the high speed data to give you the big picture of how the features in those stacks work and why the theoretically stiffer 1415c stack ended up dyno testing softer at low speed.
+
+ [[IMG:35-rmz450-1414-hs.png|//cdn.thumpertalk.com/uploads/imageproxy/35-rmz450-1414-hs.png.21c3efbb4dde784a39b358f3d6ed629f.png]]
+
+ DaveJ refers to that problem as “trying to understand a grizzly bear by looking at it through a straw”. With only the low speed data the damping force curves for those two stacks did not make much sense and didn't give any real clues why the theoretically stiffer 1415c stack dyno tested softer. Broaden the damping force view out to high speed and the effects of the stiffer high speed stack are apparent as well as the delayed closure of the crossover gap.
+
+  
+
+ Getting to "the why" of the above test results is a good example where the combination of theory, test and analysis are needed to fill in the gaps of dyno testing. Each brings a piece to the puzzle but you need to put them all together to get a broader view of the overall picture. Getting the stack deflection curves out of analysis gives some insight into how the various features of the shim stack create the effects observed in test. With that understanding you can go back and reconfigure the shim stack structure to exaggerate or eliminate those effects – and that is the basic principle of tuning.
+
+====================================================================================================
+POST #286 | author=Clicked | page=15 | id=12896512 | date=February 2, 2016
+====================================================================================================
+Crossover Tuning
+
+ Dyno data from MXScandinavia, John Curea, Valving Logic and Kawamaha demonstrates use of four different crossover styles. 
+
+Non-interactive: Face shims deflect independently
+
+ Interactive: Face shims transfer force into high speed stack before crossover gap closes
+
+ Trapped: Split crossover shim gets trapped in closing crossover gap
+
+ “fo”: Crossover does nothing and never closes
+
+  
+
+ Interactive and non-interactive crossovers defined by Jeremy Wilkey are the most common. Trapped crossovers and “fo” crossovers are two additional styles demonstrated in the dyno data on TT. Each style produces a slightly different behavior.
+
+ [[IMG:36-non-interactive.png|//cdn.thumpertalk.com/uploads/imageproxy/36-non-interactive.png.8a2e8c2423cbfbc46807e745fff5f332.png]]
+
+ Non-Interactive crossovers use a shim diameter smaller than the stack clamp. That allows the face shims to deflect independently from the rest of the stack up to the point where the crossover closes. After that the entire stack deflects. Non-Interactive crossovers are the configuration most people describe when talking about how a crossover works. 
+
+ [[IMG:37-interactive.png|//cdn.thumpertalk.com/uploads/imageproxy/37-interactive.png.31917217387972595e22bf1b0329f0d9.png]]
+
+ Interactive crossovers use a shim diameter larger than the stack clamp. The larger diameter allows face shims to transfer force through the crossover shim into the high speed stack before the crossover closes. The transferred force causes the high speed stack to start deflecting before the crossover closes. To close the crossover gap, the face shims have to chase down the moving high speed stack. That delays closure of the crossover and softens the crossover closure event.
+
+  
+
+ Interactive crossovers span a wide tuning range. Crossover diameters that are only slightly larger than the stack clamp basically behave the same as a non-interactive crossover. Installing progressively larger crossover shim diameters transfers progressively more force into the high speed stack delaying closure of the crossover gap. In the limit, enough force is transferred into the high speed stack causing the high speed stack to deflect at the same rate as the face shims so the crossover never closes. At that point the crossover is a “fo” gap and does nothing.
+
+  
+
+ The shock shaft velocity need to close an interactive crossover gap can be tricky to estimate. Larger crossover diameters increase force transfer into the high speed stack delaying closure of the crossover gap. On the other hand, stiffening the high speed stack reduces the high speed stack deflection forcing the crossover gap to close earlier. That makes the closure velocity a function of crossover diameter, gap height, high speed stack stiffness and stack clamp diameter. So it pretty much depends on everything and that makes it tricky.
+
+ [[IMG:38-trapped.png|//cdn.thumpertalk.com/uploads/imageproxy/38-trapped.png.e1832a4d56b2dabcc408334a4f9d5caf.png]]
+
+ Many of the crossover shim stacks on TT spit the crossover into a pair of shims. Using a shim pair with staggered diameters softens the crossover shoulder and bend radius of the face shims. That helps to keep the faces shims from kinking on the sharp corner and makes the stack more robust.
+
+  
+
+ MXScandinavia shows splitting the crossover using a pair of shims with staggered diameters can create a situation where the larger diameter shim gets trapped in the closing crossover gap. When that happens the stack gets stiffer. That behavior can screw up dyno parametrics.
+
+ [[IMG:39-fo.png|//cdn.thumpertalk.com/uploads/imageproxy/39-fo.png.beb633af0356040650a896a4e3c152d7.png]]
+
+ “fo” crossovers are created by crossover shim diameters that are too large, or high speed stacks that are too soft. In either case the high speed stack deflects at the same rate as the low speed stack and the crossover gap never closes. When that happens the stack behaves basically the same as a simple tapered stack with no crossover at all.
+
+  
+
+ There is second class of “fo” crossovers. Dyno testing may not be able to produce the shaft velocity needed to close the crossover gap. The data makes the crossover look as if it were a “fo” gap. But when pushed to higher speeds under a test ride the crossover gap will close, bringing the high speed stack into play and creating a damping force curve much different than expected from the dyno tests. That situation emphasizes you have to be careful interpreting dyno data and trying to guess how the stack will perform when pushed to speeds beyond the range of the test data.
+
+====================================================================================================
+POST #287 | author=Clicked | page=15 | id=12897748 | date=February 3, 2016
+====================================================================================================
+Shim Stack Stiffness Measurements
+
+ This thread started out looking at shim factors and stack stiffness measurements made by finger press and dyno backer limit tests. The MXScandinavia finger press data mechanically deflected the stack to get direct measurements of stack stiffness at extremely high stack lifts. That data worked out to be equivalent to suspension wheel velocities around 22 m/s, more than double the 9 m/s data obtained for that stack by conventional dyno testing. The finger press and dyno data both showed the same thing: Shim stacks designed to be equivalent by shim factors ended up with a 20% difference in actual stack stiffness.
+
+ [[IMG:1-finger-press.png|//cdn.thumpertalk.com/uploads/imageproxy/1-finger-press.png.3fb33db34a76af1344ecfd955bbd39a2.png]]
+
+ A finger press deflects the shim stack by a mechanical point load applied to the stack face. That is a little different than the fluid dynamic forces smoothly applied by oil flow over the valve port area. That difference creates uncertainty in the applicability of point load finger press data for use in shim stack tuning. To remove that uncertainty dyno tuners have developed other methods to measure shim stack lift directly in the shock through backer limit tests.
+
+ Backer Limit Testing
+
+ Backer limit tests simply put a stiff washer behind the shim stack and use the dyno to determine the shaft velocity where the shim stack hits the backer. That deflects the stack in a natural way using the actual oil forces in the shock and provides a direct measure of the shaft velocity needed to close the gap to the backer. No assumptions.
+
+  
+
+ MXScandinavia shows an example of backer limit tests in the ct2025/3025 dyno test series.
+
+ [[IMG:2-finger-scandi.png|//cdn.thumpertalk.com/uploads/imageproxy/2-finger-scandi.png.1fae700beeb9781eba7d75ad8f8c34d1.png]]
+
+ Valving Logic used that same approach to estimate stack lift in kyb shocks for shim stacks developed for use on a rmz250. 
+
+ [[IMG:4-backer-valving-logic.png|//cdn.thumpertalk.com/uploads/imageproxy/4-backer-valving-logic.png.83aa48cd1e7c9c98778c2603acba1701.png]]
+
+ Crossover Gaps
+
+ How about crossover gaps?
+
+  
+
+ Can the dyno data from crossover testing be used just like a backer limit test to get a direct measure of shim stack lift and can that stack deflection data be used as another data source to further refine shim factor calibration?
+
+====================================================================================================
+POST #288 | author=Clicked | page=15 | id=12897747 | date=February 3, 2016
+====================================================================================================
+Shim Stack Stiffness Measurements
+
+ This thread started out looking at shim factors and stack stiffness measurements made by finger press and dyno backer limit tests. The MXScandinavia finger press data mechanically deflected the stack to get direct measurements of stack stiffness at extremely high stack lifts. That data worked out to be equivalent to suspension wheel velocities around 22 m/s, more than double the 9 m/s data obtained for that stack by conventional dyno testing. The finger press and dyno data both showed the same thing: Shim stacks designed to be equivalent by shim factors ended up with a 20% difference in actual stack stiffness.
+
+ [[IMG:1-finger-press.png|//cdn.thumpertalk.com/uploads/imageproxy/1-finger-press.png.3fb33db34a76af1344ecfd955bbd39a2.png]]
+
+ A finger press deflects the shim stack by a mechanical point load applied to the stack face. That is a little different than the fluid dynamic forces smoothly applied by oil flow over the valve port area. That difference creates uncertainty in the applicability of point load finger press data for use in shim stack tuning. To remove that uncertainty dyno tuners have developed other methods to measure shim stack lift directly in the shock through backer limit tests.
+
+ Backer Limit Testing
+
+ Backer limit tests simply put a stiff washer behind the shim stack and use the dyno to determine the shaft velocity where the shim stack hits the backer. That deflects the stack in a natural way using the actual oil forces in the shock and provides a direct measure of the shaft velocity needed to close the gap to the backer. No assumptions.
+
+  
+
+ MXScandinavia shows an example of backer limit tests in the ct2025/3025 dyno test series.
+
+ [[IMG:2-finger-scandi.png|//cdn.thumpertalk.com/uploads/imageproxy/2-finger-scandi.png.1fae700beeb9781eba7d75ad8f8c34d1.png]]
+
+ Valving Logic used that same approach to estimate stack lift in kyb shocks for shim stacks developed for use on a rmz250. 
+
+ [[IMG:4-backer-valving-logic.png|//cdn.thumpertalk.com/uploads/imageproxy/4-backer-valving-logic.png.83aa48cd1e7c9c98778c2603acba1701.png]]
+
+ Crossover Gaps
+
+ How about crossover gaps?
+
+  
+
+ Can the dyno data from crossover testing be used just like a backer limit test to get a direct measure of shim stack lift and can that stack deflection data be used as another data source to further refine shim factor calibration?
+
+====================================================================================================
+POST #289 | author=Clicked | page=15 | id=12898794 | date=February 3, 2016
+====================================================================================================
+Crossover Closure Velocity:
+
+ Valving Logic shows an example of a kyb 46mm shock for a rmz250 dyno tested with and without a crossover in the shim stack. The crossover softened low speed damping as expected. After the crossover closes both stacks have the same high speed stack stiffness. The FEA stack stiffness curves show the point where the crossover closes and the parallel lines after that point indicate both stacks had the same high speed stack stiffness. But the stack edge lift of the rmz250-249c stack was higher because of the crossover gap and that made the damping force softer at high speed.
+
+ [[IMG:5-crossover-effect.png|//cdn.thumpertalk.com/uploads/imageproxy/5-crossover-effect.png.937839dc0826e321d5d5346d53849aee.png]]
+
+ On the port edge lift curve it is easy to pick out where the crossover closes. That occurs with about 26 lbf applied to the stack and flow analysis for the valve shows that force occurs at a shock shaft velocity of 17 in/sec. Looking at the damping force curve there is no distinct event at 17 in/sec, or anywhere else in the curve, showing where the crossover gap closed.
+
+  
+
+ The dyno damping force curve clearly shows the rmz250-249c crossover stack (green line) was softer. The data also shows the slope of the damping force curve through the high speed range was the same for both stacks. But, there is no distinct event in the damping force curve showing where the crossover closes. The difference in stack stiffness before and after the crossover gap closes was just too small to produce any visible event in the damping force curve.
+
+  
+
+ To see where the crossover gap closes we need to look at another test
+
+====================================================================================================
+POST #290 | author=Clicked | page=15 | id=12911737 | date=February 10, 2016
+====================================================================================================
+Crossover Gap Testing:
+
+ The yz250 shock dyno test from John Curea is a second crossover example using a much stiffer high speed stack. After the crossover closes the stack stiffness increases by a factor of approximately 2.4.
+
+ [[IMG:6-yz250-curea.png|//cdn.thumpertalk.com/uploads/imageproxy/6-yz250-curea.png.576a9b1260ea13ddfe3427f32e1cc400.png]]
+
+ Analysis shows the crossover closes a shaft velocity of 4.5 in/sec. Data from the test shows no distinct event in the damping force curve that gives any hint where the crossover closed, the computed damping force curve shows the same thing.
+
+====================================================================================================
+POST #296 | author=Clicked | page=15 | id=12915862 | date=February 12, 2016
+====================================================================================================
+Shim Factors
+
+ MXScandinavia must have taken this class (LOL).
+
+ Thickness cubed shim factors are a good rule of thumb and like you say it comes right out of beam theory. But once you get down to mixing and matching stacks shim factors just don't work out. MXScandinavia showed examples of that back at the top of this thread. Stacks that were supposed to be stiffer tested softer and visa-verse.
+
+ [[IMG:x6-sf-error.png|//cdn.thumpertalk.com/uploads/imageproxy/x6-sf-error.png.8222d1cb2774fafeb8d27e7f19f4f72a.png]]
+
+ Using that data I made a comparison of actual stack stiffness to shim factor stiffness (actually tapered shim factors). Tapered shim factors miss it by +/- 30%. Some times there close, other times not. For the MXScandinavia SF14 stack a 30% stiffness error is equivalent to adding 10 face shims. That just isn't close enough for seat-of-the-pants tuning. I think that was MXScandinavia's point.
+
+  
+
+ Probably worth mentioning this situation often gets reported the other-way-around. When using “beam theory” to replace a stack of face shims with thicker or thinner shims and the dyno shows the stacks are not equivalent many report that as a dyno measurement error. FEA analysis of the stacks MXScandinavia tested shows that was not the case. The stacks were in fact stiffer.
+
+  
+
+ Shim factors are better than nothing. But it is important to understand shim factor equivalent stacks aren’t.
+
+====================================================================================================
+POST #299 | author=Clicked | page=15 | id=12917745 | date=February 13, 2016
+====================================================================================================
+Stack Tuning
+
+ So in your programme if I understand more now, you could take a rebound stack that's too fast at -1 click out and alter it theoretically so it is slowed down to get that same feeling at say -12 clicks out. So say I would add 2 face shims to see by trial n error for the same result.
+
+Either way looking at bringing the damping into a useable range.
+
+Do I understand the concept of your programme better now..?
+
+  
+
+ Lets try your example.
+
+ From your description, test ride results showed you liked your rebound stack better at 1 click out. You are proposing to run a couple more test rides adding two face shims at a time until you get to a stack that lines up with the current stack run at 1 click out.
+
+ Starting with MXScandinavia's SF14 stack and running it at 1 click out I get the orange curve below. That is the target stack. What happens when you run a test series adding two face shims at a time?
+
+1. First attempt we add two face shims (green line). Damping force is higher but short of target
+
+2. On the second attempt we add two more face shims. High speed damping kind of lines up out there beyond 40 in/sec. But the low speed damping is still too soft
+
+3. Third attempt we add two more face shims. Damping force lines up at 35 in/sec but low speed is still too soft
+
+ [[IMG:1-stack-tuning.png|//cdn.thumpertalk.com/uploads/imageproxy/1-stack-tuning.png.bbf0f1d504ba8f98195e9264d8fbc16b.png]]
+
+ Not sure where you would go from here based on your test ride results. Adding face shims increases damping force, but the low speed damping in Attempt #3 is still way short of target. High speed lines up, but low speed is too soft – and that difference in low speed damping is what you are going to feel most on a test ride. So would you add two more face shims to see how it turns out, or try something else?
+
+  
+
+ Looking at the progression of the first three attempts it is pretty clear adding more face shims is going to make the high speed too stiff and not give you the low speed damping you are looking for. That is the problem harrperf was talking about. Adding face shims makes the stack stiffer, but that target stack run at 1 click out basically has the bleed circuit shut off making the low speed stiffer. You just aren’t going to get there by making the shim stack stiffer.
+
+  
+
+ So lets try something else– higher viscosity oil.
+
+4. Change the 5wt shock oil for 10 wt. Got a little more low speed but not enough
+
+5. Change to 15 wt oil. Got more low speed but still need more to line up with the target stack
+
+6. Change to 20 wt oil. Got the low speed lined up, but now the high speed is too stiff. Need to run some more test rides modifying the stack again
+
+7. For attempt #7 pull off two face shims. High speed is better but still too stiff
+
+ [[IMG:2-stack-tuning.png|//cdn.thumpertalk.com/uploads/imageproxy/2-stack-tuning.png.526226491f43a8052dfe539eaac1fe4c.png]]
+
+ For attempt #8 pull off another two face shims. Now the high speed is pretty close and with 20wt oil in the shock we've got the low speed damping pretty close to the target stack.
+
+ [[IMG:3-stack-tuning.png|//cdn.thumpertalk.com/uploads/imageproxy/3-stack-tuning.png.56e7f67dc8cbaa5699285dccf81c2e9d.png]]
+
+ So after eight test rides adding face shims to the stack and then taking them off in favor of higher viscosity oil we've got something pretty close to the target damping force curve. Looks like the solution is 20 wt oil and two more face shims.
+
+  
+
+ Initially you were thinking you could just add more face shims to get the stack to line up with the one click target stack. After the initial three test rides you may, or may not, have been able to figure out adding face shims was not going to get you there. At any rate, working the problem we got to the approach of higher viscosity oil. That got the low speed damping lined up, but the high speed was too stiff. With just a couple more test rides taking off the added face shims we got to the target damping force curve.
+
+  
+
+ So it all worked out, but here are some questions:
+
+After eight test rides do you still remember what the target damping force curve felt like?
+
+ Do your riders have enough patients to wait while you are hacking around trying different setups to figure out what works and what doesn't?
+
+ The basic purpose of analysis, dyno testing and comparison of all of these “wavy lines” is figuring out what works and what doesn't. The exercise here was pretty simple: Match a one click stack. The initial thinking was all you needed to do was add face shims. After a couple of tests it became apparent that was not going to work and we needed to do something to stiffen up the bleed circuit. Changing oil viscosity worked, we could have also tried a clicker bleed stack. Making those changes through analysis or dyno testing gives a path where you can show up at the next track day with the right setup – or at least the one you thought you needed, instead of wasting another eight test rides trying to figure out how to get there.
+
+  
+
+ How long do you figure it would take to run eight test rides tuning this thing through seat-of-the-pants testing?
+
+ Would seat-of-the-pants testing give you enough real world feedback to figure out adding face shims wasn't going to work?
+
+			
+				
+
+	Edited February 13, 2016 by Clicked
+
+====================================================================================================
+POST #301 | author=Clicked | page=16 | id=12925496 | date=February 17, 2016
+====================================================================================================
+Back to dyno data
+
+ We were looking at measurements of stack edge lift. The question was could we spot the point where the crossover gap closed in dyno test data and use that as a stack deflection measurement for calibration of shim factors?
+
+  
+
+ The first two tests we looked at showed no distinct event at the point where the crossover gap closed. Here is a third example from Valving Logic testing a kxf450 shock demonstrating the same thing. The shim stack uses a pair of 0.1 mm shims to form the crossover gap. That makes a larger gap and requires a higher shaft velocity to close. By FEA analysis that occurs at a shaft velocity of just over 40 in/sec. 
+
+ [[IMG:7-kxf450.png|//cdn.thumpertalk.com/uploads/imageproxy/7-kxf450.png.c1a1f714867fff9d05b3088804d13cbb.png]]
+
+ The maximum shaft velocity in test was 50 in/sec which unfortunately only hints at closure of the crossover in the final data point at 50 in/sec. That data here shows the same thing: There is no distinct event in the damping force curve showing where the crossover gap closes. All of the dyno tests showed that same thing.
+
+====================================================================================================
+POST #306 | author=Clicked | page=16 | id=12931682 | date=February 20, 2016
+====================================================================================================
+Crossover Closure Events:
+
+ When a crossover closes why do stack stiffness curves show a sharp transition while damping force curves do not?
+
+  
+
+ FEA stack edge lift curves measure shim stack lift at valve port center line. At that location the face shims freely deflect across the crossover gap until contacting the high speed stack. After contact, further deflection requires a bunch more force to deflect both the low speed and high speed stack. FEA curves show a sharp transition at that point because there is in fact a sharp transition when the high speed stack starts deflecting. Knowing where that point occurs is useful for tuning.
+
+  
+
+ Damping force, on the other hand, does not care very much about stack edge lift. Damping force depends on fluid flow resistance and that depends on flow area. At the point where the crossover closes the flow area curve behaves a little differently than stack edge lift.  
+
+ [[IMG:8-open-stages.png|//cdn.thumpertalk.com/uploads/imageproxy/8-open-stages.png.984c572df48c4f9bb6b93ddecebdebcd.png]]
+
+ When the crossover closes the face shims contact the high speed stack, further increases in force cause the low speed stack to mash out against the high speed stack. Mashing the face shims against the high speed stack opens the left and right hand sides of the valve port. That increase the flow area while the center line lift of the shim stack hardly changes at all. The flow area increase from opening the sides of the valve port makes the flow area curve look a whole lot different than stack edge lift.
+
+ [[IMG:9-mash-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/9-mash-stack.png.e318c92754e87f3fa5a5ff78206827fe.png]]
+
+ FEA calculations compute that process of mashing the low speed stack against the high speed stack, but to see that effect you have to look at flow area – not stack lift. Flow area is a PIA to compute because the shim stack is bent in both the radial and left-right tangential directions. Computing flow area requires integrating all the way around the valve port perimeter measuring stack lift at each location around the valve seat perimeter to sum up the total area. Many FEA analyzes skip that step and just report edge lift because that is easy to measure.
+
+  
+
+ Flow area curves show there is no sharp transition when the crossover closes. The shim stack smoothly opens the left and right hand sides of the valve port as the face shims mash out against the high speed stack. The smooth transition in flow area smooths damping force so there is no distinct “event” when the crossover closes. The shim stack is clearly stiffer after the crossover closes but that transition is spread out over a range of shaft velocities. That process is described by FEA calculations but you have to look at flow area – not edge lift.
+
+  
+
+ The transition when the crossover closes is further smoothed by flow through the bleed circuits. The fluid flow through the shock's internal flow circuits is not stupid. When the crossover closes the fluid does not sit there and hammer away against the stiffer high speed stack. Instead the fluid takes the path of least resistance rerouting itself through the bleed circuits to slowly build pressure and deflect the stiffer high speed stack. Shifting flow through the bleed circuits further rounds off the crossover closure event smoothing the crossover closure transition.
+
+  
+
+ Tuners occasionally rag on FEA calculations as useless info because the sharp shim stack transitions computed by FEA don't show up in “real world” damping force data. They are simply misinformed or too lazy to figure out the difference between edge lift and flow area. FEA stack deflection calculations show a smoothed transition as the low speed stack mashes out against the high speed stack – that results in a smoothed damping force curve. Edge lift on-the-other-hand shows a sharp transition because there is a sharp stiffness change when the crossover closes. That sharp stiffness change is useful to identify where the crossover closes, but it is also important to understand the flow area curves look different.
+
+====================================================================================================
+POST #307 | author=Clicked | page=16 | id=12937070 | date=February 23, 2016
+====================================================================================================
+Stack Deflection Measurements
+
+ We started down this bunny trail looking at crossover data as a way to measure shim stack lift. Turns out the process of mashing the low speed stack against the high speed stack smooths the crossover transition to the point where there is no distinct event. The point where the crossover closes is too subtle to pick out of dyno data in a convincing way.
+
+  
+
+ Now that we know more about how a crossover closes, it's useful to go back and look at some of the other data measuring shim stack lift.
+
+  
+
+ Finger Press: A finger press mechanically deflects the stack by finger posts stuck directly through the valve port. That gives a direct measure of shim stack lift, but as we now know, stack edge lift is not directly related to damping force. To understand damping force you need flow area and flow area depends on how the low speed stack mashes out against the high speed stack to open the left and right hand sides of the valve port. Narrow ports open quickly, wide valve ports spread the process out as it takes longer to fully mash out the low speed stack. Finger press measurements of stack center line lift aren't going to give you that data.  
+
+  
+
+ Backer Limit Tests: Put a stiff backer behind the stack and you can use the dyno to see where the shim stack hits the backer. That deflects the shim stack in a natural way using the fluid force of the shock. At the point where the stack hits the backer, the stack begins mashing out against the backer slowly open the left and right hand sides of the valve port. That softens the closure event. The point where the stack hit the backer is where the stiffness increase started – not fished; and that process looks different on a narrow valve port or a wide valve port.  
+
+  
+
+ Crossover Testing: Dyno data clearly shows the shim stack is stiffer after the crossover closes. But the transition is spread out over a range of shaft velocities with no clear indication of where the crossover closure started or finished. The process is too subtle to get any direct, convincing measurement of shim stack lift out of dyno crossover testing.
+
+  
+
+ FEA Calculations: FEA calculations load shim stacks in different ways: edge loaded; point loaded; and fluid loaded. You need fluid loaded calculations to describe now the low speed stack mashes out against the high speed stack. Port center line lift measurements are useful to spot where a crossover closes, but to understand damping force you have to go through the additional step of extracting flow area from the calculations. Center line lift measurements are not enough to understand how the shim stack is going to perform.
+
+ [[IMG:10-summary.png|//cdn.thumpertalk.com/uploads/imageproxy/10-summary.png.b5af827cfc34ff3c57e18d4a392c12d3.png]]
+
+====================================================================================================
+POST #308 | author=Clicked | page=16 | id=12941940 | date=February 25, 2016
+====================================================================================================
+Shaft diameter effect on shock performance
+
+russ17: "If you switch from a 16mm shaft to an 18mm shaft does the damping force go up or down?"
+
+ Here's the theory:
+
+On the compression stroke a larger shaft diameter pushes more flow through the compression adjuster (base valve) into the shock oil reservoir. That drives damping force up.
+
+But, the larger shaft also takes up more volume in the rebound chamber so there is less oil flow through the mid-valve. That drives damping force down.
+
+ Does a larger shaft diameter drive damping force up or down? Skoo asked that same question for a snowmobile shock.
+
+  
+
+ [[IMG:1yz-forces.png|//cdn.thumpertalk.com/uploads/imageproxy/1yz-forces.png.c0185fcf191c85e93a56eb71b2505862.png]]
+
+  
+
+ John Curea took up the challenge and dyno tested a '06 yz250 46mm kyb shock with a 16 mm and 18 mm shaft to answer russ17's question.
+
+ Same shock, same valve, same compression adjuster
+
+ Same shim stack
+
+ Only change was 16 mm to 18 mm shaft
+
+ Does a larger shaft diameter drive damping force up or down?
+
+ [[IMG:2-yz250r-stack.png|//cdn.thumpertalk.com/uploads/imageproxy/2-yz250r-stack.png.f1ca1a6e3ac8f7208d4537a81b43662c.png]]
+
+ The 18mm shaft pushes more fluid into the oil reservoir compressing the bladder more which increases the gas spring force measured on the dyno. To compare the 16mm shaft data to the 18mm data we need to correct the dyno measurements for the difference in gas spring force for the two shafts.
+
+  
+
+ All of the dyno data to this point has been PVP (peak velocity pickoff) data. PVP testing only records data at the peak shaft velocity. To get a damping force curve you have to run a series of dyno tests at progressively higher crank rpms to generate progressively higher shaft speeds only recording data at the mid-stroke position where shaft speeds are the highest. The feature of PVP testing is all of the measurements are obtained at the mid-stroke position so the gas reservoir pressure is theoretically always the same – ignoring oil temperature changes over the test which of coarse change the gas pressure.
+
+  
+
+ John Curea ran a CVP dyno test. CVP data (Continuous Velocity Plot) sets the dyno to run at the max shaft speed and records data over a single shock stroke. The test starts at BDC with zero shaft velocity and finishes at TDC with zero shaft velocity. Over the stroke oil is pushed into the reservoir so the final reservoir pressure at TDC is higher than the initial pressure at BDC. That creates a situation where the data recorded through the first half of the stroke does not line up with data through the second half of the stroke because of the increase in reservoir gas pressure. The change in gas force over the stroke creates a hysteresis loop in CVP dyno data.
+
+  
+
+ Ordinarily dyno tuners ignore the gas force change between BDC and TDC and just subtract the mid-stroke gas force as an “average” value over the stroke. That is close enough for most applications but we are trying to make some detailed comparisons here so lets make the correction one time and see how it works out. To make the correction we need to track how much oil is transferred into the reservoir as a function of stroke position, compute the gas force change, and subtract the gas force increase at each stroke position. That has been worked out in the figure below showing the original and gas force corrected data.  
+
+ [[IMG:3-gas-force.png|//cdn.thumpertalk.com/uploads/imageproxy/3-gas-force.png.cd13a81e29b8ca191ec3bb4966dfe6a6.png]]
+
+ Correcting the dyno data for changes in gas force over the stroke pretty much eliminates the hysteresis loop measured on the rebound stroke. Good to know.
+
+  
+
+ On the rebound stroke, the difference between those curves is caused by the fluid flow rate difference between a 16mm and 18mm shaft. How chose is the data to the expected effect?
+
+====================================================================================================
+POST #309 | author=Clicked | page=16 | id=12962715 | date=March 5, 2016
+====================================================================================================
+Theoretical effect on rebound damping
+
+ Dyno testing shows the 18mm shaft produced less rebound damping. That was expected since the larger 18mm shaft has less oil flow through the valve. How close are the dyno results to the expected effect?
+
+  
+
+ The oil volume swept through the valve is straight forward to calculate.
+
+       [[IMG:4-yz-oil-flow.png|//cdn.thumpertalk.com/uploads/imageproxy/4-yz-oil-flow.png.4d1358b207281ef1404b6887dfa81eb5.png]]
+
+ An 18 mm shaft sweeps an oil volume that is 3.8% less than a 16 mm shaft. That creates two effects reducing rebound damping force:  
+
+ At any shaft velocity, the 18 mm shaft has 3.8% less oil flow through the valve. If you compared the 18mm data to the 16mm data at a shaft velocity that is 3.8% lower the oil flow through the 16mm valve would be identical
+
+ The pressure drop across the valve is the damping force measured on the dyno. That force is created by the pressure difference between the top and bottom surface of the valve. Since the 18 mm shaft has 3.8% less exposed valve area the shock is going to generate 3.8% less damping force when the pressure drop across the valve is the same
+
+ Both of those are simple geometric effects created by the shaft diameter change. If you corrected for the oil flow differences and the valve face area change you should be able to overlay the 16 mm shaft data on top of the 18 mm data. Those two corrections are:
+
+ Multiply the measured 16 mm shaft velocity by (1+3.8%) so the oil flow rate through the valve is the same for both tests
+
+ At each shaft velocity, with the same oil flow rate through the valve, the damping force produced by the 16 mm shaft is going to be 3.8% greater due to the larger exposed valve area. So you have to multiply the 16 mm shaft force data by (1- 3.8%) to correct for the difference in valve face area
+
+ That's the theory anyway, how does it work out?
+
+  
+
+ Corrected 18mm Shaft Rebound Data
+
+ The dashed blue line in the plot below multiplies each 16 mm shaft velocity data point by (1+ 3.8%) to correct for the oil flow difference and multiplies the shaft force by (1- 3.8%) to correct for the valve face area difference. With those two corrections the 16 mm shaft data should theoretically overlay on the 18 mm rebound data.  
+
+ [[IMG:5-shaft-correction.png|//cdn.thumpertalk.com/uploads/imageproxy/5-shaft-correction.png.7937d47a2c3741f97cee327d1e69d118.png]]
+
+ The data does not line up. After correcting for oil flow difference and valve face area the 16 mm data (dashed blue line) still produces more damping forces than the 18 mm shaft. Looks like there was more going on in that test then a simple shaft diameter change.
+
+  
+
+ The reason for the difference is simple I think. When kyb changed to an 18 mm shaft they took that opportunity to increase the tuning range of the clicker circuit. When John Curea swapped shafts in the dyno test that also swapped the clicker bleed circuits built into each shaft. So the dyno test ended up with different clicker bleed circuits in each shaft – that difference is important to understand. Bike model-to-model and year-to-year clicker bleed circuits are not always the same. The data here shows and example of that.
+
+====================================================================================================
+POST #310 | author=Clicked | page=16 | id=12966255 | date=March 7, 2016
+====================================================================================================
+yz250 18 mm vs. 16 mm Shaft Dyno Data, Rebound
+
+ There is no simple hand calc to correct the data for the differences in clicker flow area. Flow through the clicker circuit depends on pressure drop while flow through the valve only depends on shaft velocity. The flows are coupled, but in a non-linear way with no simple algebraic correction to relate the two. For non-linear coupled problems like that analysis tools make dyno data interpretation a whole lot easier.
+
+  
+
+ Put in the modified needle geometry and the computed damping force curves line up with the 16 mm and 18 mm shaft data. The 16 mm shaft produced more rebound damping force because of the larger exposed valve face area, larger swept oil volume and smaller clicker bleed circuit. We can double check the needle geometry difference by comparing the compression side data to see if the needle change lines up with that data as well. 
+
+ [[IMG:6-yz250r-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/6-yz250r-dyno.png.ad326852178c28270069fba788838cbe.png]]
+
+====================================================================================================
+POST #311 | author=Clicked | page=16 | id=12972978 | date=March 10, 2016
+====================================================================================================
+yz250 18 mm vs. 16 mm Shaft Dyno Data, Compression
+
+ On the compression side things get more complicated. The 18 mm shaft pushes more fluid through the compression adjuster and that drives damping force up. But the larger shaft reduces oil flow through the mid-valve driving damping force down. Opposing effects make it hard to figure out if the damping force is going to go up or down with the larger shaft which is why russ17 asked the question in the first place.
+
+ [[IMG:7-kyb46w-compression.png|//cdn.thumpertalk.com/uploads/imageproxy/7-kyb46w-compression.png.3d124c1c72ba645f0fb987f9cf22d3f8.png]]
+
+ It would be cool to know how much damping force was generated by the compression adjuster and how much from the main piston. But dyno testing only measures overall shaft force so there is no way to tell out how much of the force was generated by each component. Regardless, russ17's question was what was the overall effect of the shaft change and the dyno measures that.  
+
+ [[IMG:8-yz250c-dyno.png|//cdn.thumpertalk.com/uploads/imageproxy/8-yz250c-dyno.png.a4928b20425db0fa1b43da3a1e63934b.png]]
+
+ To get compression damping force out of analysis the bleed circuit force, compression adjuster and force from the main shock valve have to all be summed together. Sum up the components and the overall force turns out to be pretty close to the shaft force measured on the dyno. Dyno test results show the 16 mm shaft produced more damping force. But then again, the 16 mm shaft had the smaller clicker needle geometry so the difference in damping force shown by the data is a little bit exaggerated.

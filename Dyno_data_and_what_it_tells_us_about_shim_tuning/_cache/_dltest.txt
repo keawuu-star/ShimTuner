@@ -1,0 +1,2 @@
+IMG no-cookie: status=None len=HTTP Error 409: Conflict head=b''
+HTML with both cookies: status=None len=HTTP Error 409: Conflict head=b''
