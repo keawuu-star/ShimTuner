@@ -1,0 +1,6 @@
+# ShimTuner 桌面版数据后端依赖 (在项目 .venv 中安装)
+# 物理内核本身只需要 numpy / scipy
+numpy>=1.24
+scipy>=1.10
+fastapi>=0.110
+uvicorn>=0.29

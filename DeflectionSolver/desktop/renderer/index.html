@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src http://127.0.0.1:* http://localhost:*">
+  <title>ShimTuner · 阀片挠度工作台</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+      <div class="sidebar-scroll">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="brand-text">
+        <strong>ShimTuner</strong>
+        <small>Deflection Studio · 阀片挠度工作台</small>
+      </div>
+      <span class="brand-version" id="versionBadge">v—</span>
+    </div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>阀片堆叠</h2>
+        <span class="panel-hint">第 1 行 = 受油压顶片</span>
+      </div>
+      <div class="preset-chips" id="presetChips"></div>
+
+      <div class="layer-head">
+        <span>#</span><span>内径 mm</span><span>外径 mm</span><span>厚度 mm</span><span></span>
+      </div>
+      <div class="layer-rows" id="layerRows"></div>
+      <div class="row-actions">
+        <button class="btn ghost small" id="addLayerBtn" type="button">＋ 添加阀片</button>
+        <span class="row-total" id="layerSummary"></span>
+      </div>
+    </section>
+
+    <section class="panel compact">
+      <div class="panel-head"><h2>材料与载荷</h2></div>
+      <div class="field-grid">
+        <label class="field">
+          <span>弹性模量 E</span>
+          <div class="unit-input"><input id="eInput" type="number" step="1" min="1"><em>GPa</em></div>
+        </label>
+        <label class="field">
+          <span>泊松比 ν</span>
+          <div class="unit-input"><input id="nuInput" type="number" step="0.01" min="0" max="0.49"><em>—</em></div>
+        </label>
+        <label class="field">
+          <span>峰值压强 p<sub>max</sub></span>
+          <div class="unit-input"><input id="pmaxInput" type="number" step="0.1" min="0.01"><em>MPa</em></div>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel compact">
+      <div class="panel-head"><h2>求解器</h2></div>
+      <div class="solver-grid" id="solverGrid"></div>
+      <p class="solver-desc" id="solverDesc"></p>
+      <div class="fem-box" id="femBox">
+        <div class="field-grid three">
+          <label class="field">
+            <span>径向单元</span>
+            <div class="unit-input"><input id="femRadial" type="number" step="1" min="4" max="200"><em>n</em></div>
+          </label>
+          <label class="field">
+            <span>周向分段</span>
+            <div class="unit-input"><input id="femTheta" type="number" step="2" min="0" max="256"><em>nθ</em></div>
+          </label>
+          <label class="field">
+            <span>夹持半径</span>
+            <div class="unit-input"><input id="femClamp" type="number" step="1" min="0" placeholder="自动"><em>mm</em></div>
+          </label>
+        </div>
+        <p class="fem-hint">nθ = 0 自动取值；夹持留空 = min(内径)/2。切换求解器会载入建议网格。</p>
+        <label class="check" id="layeredNlWrap">
+          <input id="layeredNl" type="checkbox">
+          <span>分层大挠度（von Kármán 膜拉伸刚化）</span>
+        </label>
+      </div>
+    </section>
+
+    <details class="panel compact assumptions-panel">
+      <summary>模型假设</summary>
+      <ul class="assumptions" id="assumptionList"></ul>
+    </details>
+
+    </div>
+
+    <div class="sidebar-bottom">
+    <div class="run-bar">
+      <button class="btn primary run" id="runBtn" type="button">
+        <span class="run-icon">▶</span><span>运行分析</span><kbd>Ctrl ↵</kbd>
+      </button>
+      <label class="check subtle">
+        <input id="autoRun" type="checkbox" checked>
+        <span>参数变化自动重算</span>
+      </label>
+    </div>
+
+    <footer class="backend">
+      <div class="backend-line">
+        <span class="pill" id="backendPill"><i></i><span>连接中…</span></span>
+        <button class="btn tiny ghost" id="restartBackendBtn" type="button">重启后端</button>
+      </div>
+      <p class="backend-detail" id="backendDetail"></p>
+      <p class="backend-detail mono" id="pythonDetail"></p>
+    </footer>
+    </div>
+  </aside>
+
+  <main class="workspace">
+    <header class="topbar">
+      <div class="headline-wrap">
+        <p class="eyebrow">NUMERICAL VERIFICATION</p>
+        <h1 id="headline">准备分析…</h1>
+        <p class="subline" id="subline">加载求解器配置</p>
+      </div>
+      <div class="topbar-actions">
+        <span class="elapsed" id="elapsedBadge">—</span>
+        <button class="btn ghost small" id="importBtn" type="button">导入</button>
+        <button class="btn ghost small" id="exportBtn" type="button">导出</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+      </div>
+    </header>
+
+    <section class="kpis" id="kpis"></section>
+
+    <section class="charts">
+      <article class="card chart-card">
+        <header class="card-head">
+          <div class="card-title">
+            <h2 id="hpTitle">外缘挠度 h(p)</h2>
+            <span class="chip" id="hpBadge">—</span>
+          </div>
+          <div class="legend" id="hpLegend"></div>
+        </header>
+        <div class="chart-wrap">
+          <canvas id="hpCanvas"></canvas>
+          <div class="chart-tip" id="hpTip"></div>
+        </div>
+      </article>
+
+      <article class="card chart-card">
+        <header class="card-head">
+          <div class="card-title">
+            <h2 id="profileTitle">挠度剖面 w(r)</h2>
+            <span class="chip" id="profileBadge">—</span>
+          </div>
+          <div class="legend" id="profileLegend"></div>
+        </header>
+        <div class="chart-wrap">
+          <canvas id="profileCanvas"></canvas>
+          <div class="chart-tip" id="profileTip"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card report">
+      <header class="card-head report-head">
+        <div class="card-title">
+          <h2>数值核验报告</h2>
+          <span class="chip" id="reportBadge">—</span>
+        </div>
+        <div class="report-actions">
+          <span class="report-time" id="reportTime"></span>
+          <button class="btn ghost tiny" id="copyBtn" type="button">复制报告</button>
+        </div>
+      </header>
+      <div class="warnings hidden" id="warnings"></div>
+      <div class="report-grid">
+        <div class="table-wrap">
+          <table class="layer-table">
+            <thead>
+              <tr>
+                <th>片</th><th>几何 Ø内 / Ø外 × t</th><th>外缘挠度</th>
+                <th>适用性</th><th>备注</th>
+              </tr>
+            </thead>
+            <tbody id="layerTableBody"></tbody>
+          </table>
+        </div>
+        <div class="log-wrap">
+          <pre id="reportLines">等待第一次求解…</pre>
+          <ul class="notes" id="reportNotes"></ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="error-banner hidden" id="errorBanner">
+      <div class="error-icon">!</div>
+      <div class="error-body">
+        <strong>分析失败</strong>
+        <p id="errorText"></p>
+        <div class="error-actions">
+          <button class="btn ghost tiny" id="retryBtn" type="button">重试</button>
+          <button class="btn ghost tiny" id="errorClose" type="button">关闭</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="chart.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

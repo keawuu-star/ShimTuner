@@ -1,0 +1,14 @@
+{
+  "name": "shimtuner-deflection-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ShimTuner 阀片堆叠挠度数值核验工作台 (Electron + Python)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "smoke": "electron . --smoke-test"
+  },
+  "devDependencies": {
+    "electron": "^45.3.3"
+  }
+}

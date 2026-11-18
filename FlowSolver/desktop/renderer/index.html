@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src http://127.0.0.1:* http://localhost:*">
+  <title>ShimTuner · Flow Studio（流道-压力场）</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-scroll">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="brand-text">
+          <strong>ShimTuner</strong>
+          <small>Flow Studio · 流道-压力场工作台</small>
+        </div>
+        <span class="brand-version" id="versionBadge">v—</span>
+      </div>
+
+      <section class="panel compact">
+        <div class="panel-head"><h2>计算模式</h2></div>
+        <div class="solver-grid" id="modeGrid">
+          <button class="solver-btn active" data-mode="single" type="button">
+            <b>单点求解</b><span>给定挠度场 → P(r)、F</span>
+          </button>
+          <button class="solver-btn" data-mode="iterate" type="button">
+            <b>耦合迭代</b><span>Q→w→P→w′ 闭环</span>
+          </button>
+          <button class="solver-btn" data-mode="curve" type="button">
+            <b>Q–F 曲线</b><span>逐点闭环 · 输出 F(Q)</span>
+          </button>
+          <button class="solver-btn" data-mode="rod" type="button">
+            <b>v–F 杆速</b><span>Q 由杆侵入体积速度决定</span>
+          </button>
+        </div>
+        <p class="solver-desc" id="modeDesc">输入挠度场与活塞速度，求流道压力场与阻尼力。</p>
+      </section>
+
+      <section class="panel compact">
+        <div class="panel-head"><h2>活塞数据</h2><span class="panel-hint">mm</span></div>
+        <div class="field-grid three">
+          <label class="field"><span>活塞直径</span><div class="unit-input"><input id="pD" type="number" step="1" min="1"><em>mm</em></div></label>
+          <label class="field"><span>杆直径</span><div class="unit-input"><input id="pRod" type="number" step="1" min="1"><em>mm</em></div></label>
+          <label class="field"><span>窗口数</span><div class="unit-input"><input id="pN" type="number" step="1" min="1"><em>—</em></div></label>
+          <label class="field"><span>窗口周向宽度</span><div class="unit-input"><input id="pW" type="number" step="1" min="1"><em>mm 弧长</em></div></label>
+          <label class="field"><span>窗口径向宽度</span><div class="unit-input"><input id="pRad" type="number" step="1" min="1"><em>mm</em></div></label>
+          <label class="field"><span>窗口中心半径</span><div class="unit-input"><input id="pR" type="number" step="1" min="1"><em>mm</em></div></label>
+          <label class="field"><span>夹持直径</span><div class="unit-input"><input id="pSeat" type="number" step="1" min="0"><em>mm</em></div></label>
+          <label class="field"><span>初始间隙</span><div class="unit-input"><input id="pDeck" type="number" step="1" min="0"><em>mm</em></div></label>
+          <label class="field"><span>最大阀片直径</span><div class="unit-input"><input id="pOuter" type="number" step="1" min="1"><em>mm</em></div></label>
+          <label class="field"><span>常通孔 Ø</span><div class="unit-input"><input id="pBypD" type="number" step="1" min="0" placeholder="0 = 无"><em>mm</em></div></label>
+          <label class="field"><span>常通孔个数</span><div class="unit-input"><input id="pBypN" type="number" step="1" min="0" placeholder="0 = 无"><em>个</em></div></label>
+        </div>
+        <p class="fem-hint">常通孔为固定几何旁通（Q_b = C_d·A_b·√(2Δp/ρ)），与阀片间隙并联、按压力自动分流，不随迭代变化。</p>
+      </section>
+
+      <section class="panel compact">
+        <div class="panel-head"><h2>油液与系数</h2></div>
+        <div class="field-grid three">
+          <label class="field"><span>密度 ρ</span><div class="unit-input"><input id="fRho" type="number" step="10" min="1"><em>kg/m³</em></div></label>
+          <label class="field"><span>黏度 ν</span><div class="unit-input"><input id="fCst" type="number" step="1" min="0.1"><em>cSt</em></div></label>
+          <label class="field"><span>背压</span><div class="unit-input"><input id="fBack" type="number" step="0.1"><em>MPa</em></div></label>
+          <label class="field"><span>C<sub>d</sub></span><div class="unit-input"><input id="cCd" type="number" step="0.05" min="0.05"></div></label>
+          <label class="field"><span>C<sub>f</sub></span><div class="unit-input"><input id="cCf" type="number" step="0.05" min="0"></div></label>
+          <label class="field"><span>常通孔 C<sub>d</sub></span><div class="unit-input"><input id="cBypCd" type="number" step="0.02" min="0.05" max="1"></div></label>
+          <label class="field"><span>蒸气压</span><div class="unit-input"><input id="fVap" type="number" step="1" min="0"><em>kPa</em></div></label>
+        </div>
+      </section>
+
+      <section class="panel compact" id="gapPanel">
+        <div class="panel-head"><h2>挠度场 w(r)</h2><span class="panel-hint">单点模式</span></div>
+        <div class="field-grid">
+          <label class="field"><span>外缘抬升</span><div class="unit-input"><input id="gLift" type="number" step="1" min="0"><em>mm</em></div></label>
+          <label class="field"><span>幂次</span><div class="unit-input"><input id="gPower" type="number" step="0.5" min="0.1"></div></label>
+        </div>
+        <p class="fem-hint">h(r) = h_deck + lift·((r−r_seat)/(r_outer−r_seat))<sup>power</sup>；迭代模式改用下方阀片堆叠。</p>
+      </section>
+
+      <section class="panel compact" id="layerPanel">
+        <div class="panel-head"><h2>阀片堆叠</h2><span class="panel-hint">迭代模式 · 第 1 行 = 顶片</span></div>
+        <div class="layer-head"><span>#</span><span>内径 mm</span><span>外径 mm</span><span>厚度 mm</span><span></span></div>
+        <div class="layer-rows" id="layerRows"></div>
+        <div class="row-actions">
+          <button class="btn ghost small" id="addLayerBtn" type="button">＋ 添加阀片</button>
+          <span class="row-total" id="layerSummary"></span>
+        </div>
+      </section>
+
+      <section class="panel compact" id="iterPanel">
+        <div class="panel-head"><h2>迭代参数</h2></div>
+        <div class="field-grid three">
+          <label class="field"><span>速度 v</span><div class="unit-input"><input id="itV" type="number" step="0.01" min="0.001"><em>m/s</em></div></label>
+          <label class="field"><span>松弛 α</span><div class="unit-input"><input id="itAlpha" type="number" step="0.05" min="0.05" max="0.95"></div></label>
+          <label class="field"><span>容差</span><div class="unit-input"><input id="itTol" type="number" step="0.5" min="0.1"><em>µm</em></div></label>
+          <label class="field"><span>最大迭代</span><div class="unit-input"><input id="itMax" type="number" step="1" min="1" max="100"></div></label>
+          <label class="field"><span>径向 n</span><div class="unit-input"><input id="itNr" type="number" step="1" min="4" max="60"></div></label>
+          <label class="field"><span>周向 nθ</span><div class="unit-input"><input id="itNt" type="number" step="4" min="8" max="64"></div></label>
+        </div>
+        <label class="check"><input id="itNl" type="checkbox"><span>分层大挠度（von Kármán）</span></label>
+        <label class="check"><input id="secLoad" type="checkbox"><span>窗口分布载荷（v2，平滑，较慢）</span></label>
+        <p class="fem-hint">分布载荷 v2：基础压力乘周向平滑调制 W(θ)=1+c·cos(Nθ)，射流为 N 个圆形高斯斑叠加，
+          无阶跃、不删除任何区域；自动把 nθ 抬到 48，比环向均布慢，建议单点对比。</p>
+      </section>
+
+      <section class="panel compact" id="curvePanel">
+        <div class="panel-head"><h2>Q–F 曲线工况</h2><span class="panel-hint">逐点闭环迭代</span></div>
+        <div class="field-grid three">
+          <label class="field"><span>v_min</span><div class="unit-input"><input id="cvMin" type="number" step="0.01" min="0.001"><em>m/s</em></div></label>
+          <label class="field"><span>v_max</span><div class="unit-input"><input id="cvMax" type="number" step="0.05" min="0.002"><em>m/s</em></div></label>
+          <label class="field"><span>曲线点数</span><div class="unit-input"><input id="cvPts" type="number" step="1" min="2" max="30"></div></label>
+        </div>
+        <p class="fem-hint">每个速度点执行一次 Q→w→P→w′ 迭代（相邻点热启动）；上方"迭代参数"控制收敛。</p>
+      </section>
+
+      <section class="panel compact" id="rodPanel">
+        <div class="panel-head"><h2>杆速–阻尼力工况</h2><span class="panel-hint">F(v)</span></div>
+        <div class="field-grid three">
+          <label class="field"><span>v_min</span><div class="unit-input"><input id="rdMin" type="number" step="0.01" min="0.001"><em>m/s</em></div></label>
+          <label class="field"><span>v_max</span><div class="unit-input"><input id="rdMax" type="number" step="0.05" min="0.002"><em>m/s</em></div></label>
+          <label class="field"><span>曲线点数</span><div class="unit-input"><input id="rdPts" type="number" step="1" min="2" max="30"></div></label>
+        </div>
+        <label class="check"><input id="rdRebound" type="checkbox"><span>同时计算回弹分支（同一阀片堆叠）</span></label>
+        <p class="fem-hint">Q_valve=(A_p−A_rod)·v，Q_rod=A_rod·v；回弹分支可经 API 的 layers_rebound 使用不同堆叠。</p>
+      </section>
+
+      <section class="panel compact" id="opPanel">
+        <div class="panel-head"><h2>工况（单点）</h2></div>
+        <div class="field-grid three">
+          <label class="field"><span>v_max</span><div class="unit-input"><input id="oVmax" type="number" step="0.05" min="0.01"><em>m/s</em></div></label>
+          <label class="field"><span>点数</span><div class="unit-input"><input id="oN" type="number" step="1" min="2" max="200"></div></label>
+          <label class="field"><span>当前点 v</span><div class="unit-input"><input id="oV" type="number" step="0.01" min="0"><em>m/s</em></div></label>
+        </div>
+      </section>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="run-bar">
+        <button class="btn primary run" id="runBtn" type="button">
+          <span class="run-icon">▶</span><span>运行</span><kbd>Ctrl ↵</kbd>
+        </button>
+        <label class="check subtle"><input id="autoRun" type="checkbox" checked><span>参数变化自动重算</span></label>
+      </div>
+      <footer class="backend">
+        <div class="backend-line">
+          <span class="pill" id="backendPill"><i></i><span>连接中…</span></span>
+          <button class="btn tiny ghost" id="restartBackendBtn" type="button">重启后端</button>
+        </div>
+        <p class="backend-detail" id="backendDetail"></p>
+        <p class="backend-detail mono" id="pythonDetail"></p>
+      </footer>
+    </div>
+  </aside>
+
+  <main class="workspace">
+    <header class="topbar">
+      <div class="headline-wrap">
+        <p class="eyebrow">STEADY CHANNEL · FLOW–PRESSURE</p>
+        <h1 id="headline">准备求解…</h1>
+        <p class="subline" id="subline">加载求解器配置</p>
+      </div>
+      <div class="topbar-actions">
+        <span class="elapsed" id="elapsedBadge">—</span>
+        <button class="btn ghost small" id="exportBtn" type="button">导出</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+      </div>
+    </header>
+
+    <section class="kpis" id="kpis"></section>
+
+    <section class="charts" id="chartsGrid">
+      <article class="card chart-card">
+        <header class="card-head">
+          <div class="card-title"><h2 id="c1Title">压力场 p(r)</h2><span class="chip" id="c1Badge">—</span></div>
+          <div class="legend" id="c1Legend"></div>
+        </header>
+        <div class="chart-wrap"><canvas id="c1Canvas"></canvas><div class="chart-tip" id="c1Tip"></div></div>
+      </article>
+      <article class="card chart-card" id="c2Card">
+        <header class="card-head">
+          <div class="card-title"><h2 id="c2Title">阻尼力 F(v)</h2><span class="chip" id="c2Badge">—</span></div>
+          <div class="legend" id="c2Legend"></div>
+        </header>
+        <div class="chart-wrap"><canvas id="c2Canvas"></canvas><div class="chart-tip" id="c2Tip"></div></div>
+      </article>
+    </section>
+
+    <section class="card report">
+      <header class="card-head report-head">
+        <div class="card-title"><h2>求解报告</h2><span class="chip" id="reportBadge">—</span></div>
+        <div class="report-actions">
+          <span class="report-time" id="reportTime"></span>
+          <button class="btn ghost tiny" id="copyBtn" type="button">复制报告</button>
+        </div>
+      </header>
+      <div class="warnings hidden" id="warnings"></div>
+      <div class="report-grid">
+        <div class="table-wrap">
+          <pre id="reportLines">等待第一次求解…</pre>
+        </div>
+        <div class="log-wrap"><ul class="notes" id="reportNotes"></ul></div>
+      </div>
+    </section>
+
+    <div class="error-banner hidden" id="errorBanner">
+      <div class="error-icon">!</div>
+      <div class="error-body">
+        <strong>求解失败</strong>
+        <p id="errorText"></p>
+        <div class="error-actions">
+          <button class="btn ghost tiny" id="retryBtn" type="button">重试</button>
+          <button class="btn ghost tiny" id="errorClose" type="button">关闭</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="chart.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Node / Electron
+node_modules/
+npm-debug.log*
+
+# 运行产物
+*.log
+*.tmp
+_verify_*.txt

@@ -29,6 +29,11 @@ class ShimPlate:
         return np.pi * (self.outer_radius_m**2 - self.inner_radius_m**2)
 
     def _phi_coeff(self):
+        """无量纲 Φ(a/b, ν) —— 与 shim_physics_core.analytic_phi 同一线性方程组.
+
+        系数矩阵 [[2ρ², 1], [2(1+ν), ν−1]]; 这里用 Cramer 法则显式求解
+        (a11 = 2ρ², a21 = 2(1+ν), 二者不可混用).
+        """
         a = self.inner_radius_m
         b = self.outer_radius_m
         if b <= 0.0 or a <= 0.0 or a >= b:
@@ -36,15 +41,17 @@ class ShimPlate:
 
         rho = a / b
         L = np.log(rho)
-        x = 2.0 * (rho ** 2) * (1.0 + self.poisson_ratio)
+        nu = self.poisson_ratio
+        a11 = 2.0 * (rho ** 2)
+        a21 = 2.0 * (1.0 + nu)
         rhs1 = (rho ** 2 / 8.0) * (2.0 * L + 1.0) - (rho ** 4) / 16.0
-        rhs2 = (3.0 + self.poisson_ratio) / 16.0
-        det = (2.0 * (rho ** 2)) * (self.poisson_ratio - 1.0) - 1.0 * (2.0 * (1.0 + self.poisson_ratio))
+        rhs2 = (3.0 + nu) / 16.0
+        det = a11 * (nu - 1.0) - a21
         if abs(det) < 1e-12:
             return 0.0
 
-        B = (rhs1 * (self.poisson_ratio - 1.0) - 1.0 * rhs2) / det
-        C = (2.0 * (rho ** 2) * rhs2 - x * rhs1) / det
+        B = (rhs1 * (nu - 1.0) - rhs2) / det
+        C = (a11 * rhs2 - a21 * rhs1) / det
         phi = B * (1.0 - rho ** 2) - C * L + (rho ** 2 / 8.0) * L + (1.0 - rho ** 4) / 64.0
         return float(phi)
 

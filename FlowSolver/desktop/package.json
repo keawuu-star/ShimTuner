@@ -1,0 +1,17 @@
+{
+  "name": "shimtuner-flow-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ShimTuner 流道-压力场数值工作台 (Electron + Python)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "smoke": "electron . --smoke-test",
+    "smoke:iterate": "electron . --smoke-test --smoke-iterate",
+    "smoke:curve": "electron . --smoke-test --smoke-curve",
+    "smoke:rod": "electron . --smoke-test --smoke-rod"
+  },
+  "devDependencies": {
+    "electron": "^45.3.3"
+  }
+}
