@@ -38,6 +38,11 @@ class FluidInput(BaseModel):
     cSt: float = Field(default=15.0, gt=0, le=10000)
     p_back_MPa: float = Field(default=0.0, ge=-5, le=100)
     p_vapor_kPa: float = Field(default=0.0, ge=0, le=1000)
+    # 工作温度 + 黏度曲线（ASTM D341）：KV40>0 时用 KV40/KV100 外推 T 下黏度
+    T_C: float = Field(default=40.0, ge=-60, le=300)
+    KV40: float = Field(default=0.0, ge=0, le=10000)
+    KV100: float = Field(default=0.0, ge=0, le=10000)
+    VI: float = Field(default=0.0, ge=-400, le=400)
 
 
 class GapInput(BaseModel):

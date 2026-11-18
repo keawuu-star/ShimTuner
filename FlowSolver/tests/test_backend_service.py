@@ -390,5 +390,45 @@ class SectorReductionTest(unittest.TestCase):
         self.assertAlmostEqual(float(outs[0][1]), float(outs[1][1]), delta=1e-12)
 
 
+class ViscosityTest(unittest.TestCase):
+    """油液黏度曲线：ASTM D341 外推 + ASTM D2270 VI."""
+
+    def test_walther_roundtrip(self):
+        self.assertAlmostEqual(cf.kv_at_temperature(32.0, 5.4, 40.0), 32.0,
+                               places=6)
+        self.assertAlmostEqual(cf.kv_at_temperature(32.0, 5.4, 100.0), 5.4,
+                               places=6)
+        v80 = cf.kv_at_temperature(32.0, 5.4, 80.0)
+        self.assertTrue(5.4 < v80 < 32.0)
+
+    def test_viscosity_index(self):
+        vi = cf.viscosity_index(32.0, 5.4)
+        self.assertTrue(100.0 < vi < 250.0)
+        # 100 VI 参考油：U=H 时 VI=100
+        L, H = cf._vi_LH(10.0)
+        self.assertAlmostEqual(cf.viscosity_index(H, 10.0), 100.0, places=6)
+
+    def test_fluid_effective_cst(self):
+        f = cf.FluidSpec(rho=850, cSt=15, T_C=80, KV40=32, KV100=5.4, VI=171)
+        self.assertAlmostEqual(f.effective_cSt(),
+                               cf.kv_at_temperature(32, 5.4, 80), places=9)
+        self.assertEqual(cf.FluidSpec(rho=850, cSt=15).effective_cSt(), 15)
+
+    def test_fluid_requires_kv100(self):
+        with self.assertRaises(ValueError):
+            cf.FluidSpec(rho=850, cSt=15, KV40=32).validate()
+        cf.FluidSpec(rho=850, cSt=15, KV40=32, KV100=5.4).validate()
+
+    def test_analyze_uses_temperature_viscosity(self):
+        from backend.schemas import FluidInput
+        req = AnalyzeRequest(fluid=FluidInput(rho=880, cSt=15, T_C=80,
+                                              KV40=32, KV100=5.4, VI=171))
+        res = service.analyze(req)
+        line = [ln for ln in res["report"]["lines"] if "KV40" in ln]
+        self.assertTrue(line)
+        self.assertIn("80°C", line[0])
+        self.assertIn("cSt", line[0])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

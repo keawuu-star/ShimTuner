@@ -91,6 +91,10 @@ def main(argv=None) -> int:
     ap.add_argument("--rho", type=float, default=850.0)
     ap.add_argument("--cst", type=float, default=15.0)
     ap.add_argument("--back", type=float, default=0.0, help="背压 MPa")
+    ap.add_argument("--T", type=float, default=40.0, help="工作温度 °C")
+    ap.add_argument("--kv40", type=float, default=0.0, help="40°C 运动黏度 cSt")
+    ap.add_argument("--kv100", type=float, default=0.0, help="100°C 运动黏度 cSt")
+    ap.add_argument("--vi", type=float, default=0.0, help="黏度指数 VI（校验用）")
     # 工况/迭代
     ap.add_argument("--v-min", type=float, default=0.02)
     ap.add_argument("--v-max", type=float, default=0.50)
@@ -129,7 +133,9 @@ def main(argv=None) -> int:
         shim_outer_mm=outer_d / 2.0,
         bypass_d_mm=args.bypass_d, bypass_n=args.bypass_n,
         bypass_Cd=args.bypass_cd)
-    fluid = cf.FluidSpec(rho=args.rho, cSt=args.cst, p_back_MPa=args.back)
+    fluid = cf.FluidSpec(rho=args.rho, cSt=args.cst, p_back_MPa=args.back,
+                         T_C=args.T, KV40=args.kv40, KV100=args.kv100,
+                         VI=args.vi)
     spec = cp.IterationSpec(alpha=args.alpha, tol_um=args.tol,
                             max_iter=args.max_iter, nl=args.nl,
                             n_radial=args.nr, n_theta=args.nt,
@@ -163,7 +169,7 @@ def main(argv=None) -> int:
         print(f"常通孔: {piston.bypass_n}×Ø{piston.bypass_d_mm:g} mm, "
               f"A_b={A_b*1e6:.3f} mm², C_d={piston.bypass_Cd:g} "
               f"(固定几何, 与主阀并联)")
-    print(f"油液: ρ={fluid.rho:g}, ν={fluid.cSt:g} cSt, 背压 "
+    print(f"油液: ρ={fluid.rho:g}, {fluid.describe_viscosity()}, 背压 "
           f"{fluid.p_back_MPa:g} MPa")
     print(f"迭代: α={spec.alpha:g}, tol={spec.tol_um:g} µm, "
           f"网格 {spec.n_radial}×{spec.n_theta_eff()}, "

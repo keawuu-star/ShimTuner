@@ -148,20 +148,117 @@ class PistonSpec:
                 * (self.bypass_d_mm * 1e-3) ** 2)
 
 
+# ============================================================
+# 油液黏度：ASTM D341 (Walther) + ASTM D2270 (VI)
+# ============================================================
+def _walther_y(nu_cst: float) -> float:
+    return math.log10(math.log10(nu_cst + 0.7))
+
+
+def _walther_nu(y: float) -> float:
+    return 10.0 ** (10.0 ** y) - 0.7
+
+
+def kv_at_temperature(kv40: float, kv100: float, T_C: float) -> float:
+    """工作温度下的运动黏度 (cSt)，ASTM D341 (Walther).
+
+    log10(log10(ν+0.7)) = A − B·log10(T[K])；由 (40°C, KV40) 与 (100°C, KV100)
+    两点确定 A、B，再外推到工作温度 T。
+    """
+    for name, v in (("KV40", kv40), ("KV100", kv100)):
+        if not (v > 0.3):
+            raise ValueError(f"{name} 必须 > 0.3 cSt（ASTM D341 要求 ν+0.7>1）")
+    if abs(kv40 - kv100) < 1e-9:
+        raise ValueError("KV40 与 KV100 不能相等")
+    T_K = float(T_C) + 273.15
+    if T_K <= 1.0:
+        raise ValueError("工作温度 T 无效")
+    x40 = math.log10(40.0 + 273.15)
+    x100 = math.log10(100.0 + 273.15)
+    y40, y100 = _walther_y(kv40), _walther_y(kv100)
+    B = (y40 - y100) / (x100 - x40)
+    A = y40 + B * x40
+    nu = _walther_nu(A - B * math.log10(T_K))
+    if not math.isfinite(nu) or nu <= 0:
+        raise ValueError("按 ASTM D341 外推的黏度无效，请检查 KV40/KV100/T")
+    return float(nu)
+
+
+def _vi_LH(kv100: float):
+    """ASTM D2270: 同 KV100 的 0 VI / 100 VI 参考油在 40°C 的黏度 L/H."""
+    y = float(kv100)
+    L = 0.8353 * y * y + 14.67 * y - 216.0
+    H = 0.1684 * y * y + 11.85 * y - 97.0
+    return L, H
+
+
+def viscosity_index(kv40: float, kv100: float) -> float:
+    """由 KV40/KV100 计算黏度指数 VI（ASTM D2270，适用 KV100 2–70 cSt）."""
+    if not (2.0 <= kv100 <= 70.0):
+        raise ValueError("VI 公式适用 KV100 2–70 cSt")
+    L, H = _vi_LH(kv100)
+    if abs(L - H) < 1e-12:
+        raise ValueError("L≈H，无法计算 VI")
+    return float((L - kv40) / (L - H) * 100.0)
+
+
 @dataclass(frozen=True)
 class FluidSpec:
     rho: float = 850.0               # kg/m³
-    cSt: float = 15.0                # 运动黏度 cSt (= mm²/s)
+    cSt: float = 15.0                # 运动黏度 cSt (= mm²/s)，KV 曲线未启用时使用
     p_vapor_kPa: float = 0.0         # 蒸气压（表压, 0 = 忽略空化）
     p_back_MPa: float = 0.0          # 外缘背压（表压）
+    # 工作温度 + 黏度曲线：KV40 / KV100 / VI（0 = 未提供）
+    T_C: float = 40.0
+    KV40: float = 0.0
+    KV100: float = 0.0
+    VI: float = 0.0
+
+    def resolved_kv100(self) -> float:
+        """KV100（VI 不能唯一反解 KV100，故必须直接给 KV100）."""
+        return float(self.KV100) if self.KV100 > 0 else 0.0
+
+    def kv_at_T(self) -> float:
+        """工作温度 T 下的运动黏度 cSt（KV 曲线未启用时返回 cSt）."""
+        if self.KV40 > 0 and self.KV100 > 0:
+            return kv_at_temperature(self.KV40, self.KV100, self.T_C)
+        return float(self.cSt)
+
+    def effective_cSt(self) -> float:
+        return self.kv_at_T()
 
     def mu(self) -> float:
-        """动力黏度 Pa·s = ν[m²/s] · ρ."""
-        return self.cSt * 1e-6 * self.rho
+        """动力黏度 Pa·s = ν(T)[m²/s] · ρ."""
+        return self.effective_cSt() * 1e-6 * self.rho
+
+    def describe_viscosity(self) -> str:
+        if self.KV40 > 0 and self.KV100 > 0:
+            vi_calc = viscosity_index(self.KV40, self.KV100)
+            vi_txt = (f"输入 VI={self.VI:g}, 反算 VI={vi_calc:.0f}"
+                      if self.VI != 0 else f"VI={vi_calc:.0f}")
+            return (f"KV40={self.KV40:g}, KV100={self.KV100:.2f} ({vi_txt}) → "
+                    f"T={self.T_C:g}°C 时 ν={self.kv_at_T():.3f} cSt")
+        return f"ν={self.cSt:g} cSt（手动给定）"
 
     def validate(self) -> None:
         if self.rho <= 0 or self.cSt <= 0:
             raise ValueError("密度与黏度必须 > 0")
+        if not (-60.0 <= self.T_C <= 300.0):
+            raise ValueError("工作温度 T 需在 -60~300 °C")
+        if self.KV40 > 0:
+            if self.KV40 <= 0.3:
+                raise ValueError("KV40 必须 > 0.3 cSt")
+            if self.KV100 <= 0:
+                raise ValueError("给 KV40 时必须同时给 KV100"
+                                 "（VI 不能唯一反解 KV100）")
+            if self.KV100 <= 0.3:
+                raise ValueError("KV100 必须 > 0.3 cSt")
+            if self.KV100 > 0 and not (2.0 <= self.KV100 <= 70.0):
+                raise ValueError("KV100 需在 2–70 cSt（VI 公式适用范围）")
+            if abs(self.VI) > 400:
+                raise ValueError("VI 超范围")
+        elif self.KV100 > 0 or self.VI != 0:
+            raise ValueError("给 KV100/VI 时必须同时给 KV40")
 
 
 def rod_flows(v_mps: float, piston: PistonSpec) -> dict:

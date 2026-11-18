@@ -62,13 +62,19 @@
         <div class="panel-head"><h2>油液与系数</h2></div>
         <div class="field-grid three">
           <label class="field"><span>密度 ρ</span><div class="unit-input"><input id="fRho" type="number" step="10" min="1"><em>kg/m³</em></div></label>
-          <label class="field"><span>黏度 ν</span><div class="unit-input"><input id="fCst" type="number" step="1" min="0.1"><em>cSt</em></div></label>
+          <label class="field"><span>黏度 ν（手动）</span><div class="unit-input"><input id="fCst" type="number" step="1" min="0.1"><em>cSt</em></div></label>
           <label class="field"><span>背压</span><div class="unit-input"><input id="fBack" type="number" step="0.1"><em>MPa</em></div></label>
           <label class="field"><span>C<sub>d</sub></span><div class="unit-input"><input id="cCd" type="number" step="0.05" min="0.05"></div></label>
           <label class="field"><span>C<sub>f</sub></span><div class="unit-input"><input id="cCf" type="number" step="0.05" min="0"></div></label>
           <label class="field"><span>常通孔 C<sub>d</sub></span><div class="unit-input"><input id="cBypCd" type="number" step="0.02" min="0.05" max="1"></div></label>
           <label class="field"><span>蒸气压</span><div class="unit-input"><input id="fVap" type="number" step="1" min="0"><em>kPa</em></div></label>
+          <label class="field"><span>工作温度 T</span><div class="unit-input"><input id="fT" type="number" step="1" min="-60" max="300"><em>°C</em></div></label>
+          <label class="field"><span>KV40</span><div class="unit-input"><input id="fKv40" type="number" step="1" min="0"><em>cSt</em></div></label>
+          <label class="field"><span>KV100</span><div class="unit-input"><input id="fKv100" type="number" step="0.1" min="0"><em>cSt</em></div></label>
+          <label class="field"><span>VI</span><div class="unit-input"><input id="fVI" type="number" step="1" min="-400" max="400"><em>—</em></div></label>
         </div>
+        <p class="fem-hint">KV40/KV100 给定（>0）时按 ASTM D341 外推工作温度 T 下的黏度并用于求解；
+          留 0 表示使用"黏度 ν（手动）"。VI 用于校验（与 KV40/KV100 反算值比较）。</p>
       </section>
 
       <section class="panel compact" id="gapPanel">
@@ -164,6 +170,7 @@
       </div>
       <div class="topbar-actions">
         <span class="elapsed" id="elapsedBadge">—</span>
+        <button class="btn ghost small" id="designBtn" type="button">阀体设计</button>
         <button class="btn ghost small" id="exportBtn" type="button">导出</button>
         <input id="importFile" type="file" accept="application/json,.json" hidden>
       </div>
@@ -218,7 +225,69 @@
     </div>
   </main>
 </div>
+
+<!-- ============ 阀体设计模式（草图 → 标注 → 参数识别） ============ -->
+<div class="design-overlay hidden" id="designOverlay" aria-hidden="true">
+  <header class="design-head">
+    <div class="design-head-title">
+      <p class="eyebrow">VALVE BODY · SKETCH &amp; ANNOTATE</p>
+      <h1>阀体设计模式</h1>
+      <p class="design-sub" id="designSub">绘制轮廓并标注角色，自动识别活塞/窗口/夹持/阀片关键参数</p>
+    </div>
+    <div class="design-head-actions">
+      <button class="btn ghost small" id="designDemo" type="button">载入示例</button>
+      <button class="btn ghost small" id="designClear" type="button">清空</button>
+      <button class="btn ghost small" id="designClose" type="button">返回求解</button>
+    </div>
+  </header>
+
+  <div class="design-body">
+    <div class="design-canvas-wrap">
+      <div class="design-toolbar" id="designToolbar">
+        <button class="btn ghost tiny active" data-tool="select" type="button">选择</button>
+        <button class="btn ghost tiny" data-tool="circle" type="button">圆</button>
+        <button class="btn ghost tiny" data-tool="polygon" type="button">多段线</button>
+        <button class="btn ghost tiny" data-tool="rect" type="button">矩形窗口</button>
+        <button class="btn ghost tiny" data-tool="delete" type="button">删除</button>
+        <span class="design-toolbar-sep"></span>
+        <button class="btn ghost tiny" id="designFit" type="button">适应视图</button>
+      </div>
+      <canvas id="designCanvas"></canvas>
+      <div class="design-status" id="designStatus">选择工具开始绘制</div>
+    </div>
+
+    <aside class="design-side">
+      <section class="panel">
+        <div class="panel-head"><h2>标注</h2><span class="panel-hint">选中图元后指定角色</span></div>
+        <div id="designSelected" class="design-selected">
+          <p class="design-empty">未选中图元。</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>识别参数</h2><span class="panel-hint">mm</span></div>
+        <table class="design-params" id="designParams"></table>
+        <div class="design-inputs">
+          <label class="field"><span>窗口个数 N</span>
+            <input id="designN" type="number" min="1" step="1" value="6"></label>
+          <label class="field"><span>初始间隙 h_deck</span>
+            <input id="designDeck" type="number" min="0.001" step="0.01" value="0.10"></label>
+        </div>
+        <button class="btn primary design-apply" id="designApply" type="button" disabled>
+          应用参数并返回
+        </button>
+        <p class="fem-hint">初始间隙不是几何量，需手动输入；常通孔数量请在求解页确认。</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>引导提示</h2><span class="panel-hint">还需要什么</span></div>
+        <ul class="design-guide" id="designGuide"></ul>
+      </section>
+    </aside>
+  </div>
+</div>
 <script src="chart.js"></script>
+<script src="design.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

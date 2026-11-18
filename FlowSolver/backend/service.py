@@ -76,13 +76,31 @@ def _piston_from(p) -> cf.PistonSpec:
 
 def _fluid_from(f) -> cf.FluidSpec:
     spec = cf.FluidSpec(rho=f.rho, cSt=f.cSt, p_vapor_kPa=f.p_vapor_kPa,
-                        p_back_MPa=f.p_back_MPa)
+                        p_back_MPa=f.p_back_MPa,
+                        T_C=getattr(f, "T_C", 40.0),
+                        KV40=getattr(f, "KV40", 0.0),
+                        KV100=getattr(f, "KV100", 0.0),
+                        VI=getattr(f, "VI", 0.0))
     try:
         spec.validate()
     except ValueError as exc:
         raise ValidationError(f"油液参数非法: {exc}") from exc
     return spec
 
+
+
+
+def _fluid_warnings(fluid) -> list[str]:
+    out = []
+    if fluid.KV40 > 0 and fluid.VI != 0:
+        try:
+            vi_calc = cf.viscosity_index(fluid.KV40, fluid.KV100)
+        except ValueError:
+            return out
+        if abs(vi_calc - fluid.VI) > max(5.0, 0.05 * abs(fluid.VI)):
+            out.append(f"输入 VI={fluid.VI:g} 与 KV40/KV100 反算 VI="
+                       f"{vi_calc:.0f} 不一致（以 KV40/KV100 外推为准）")
+    return out
 
 def _gap(req: AnalyzeRequest, piston: cf.PistonSpec):
     g = req.gap
@@ -210,7 +228,8 @@ def analyze(req: AnalyzeRequest) -> dict[str, Any]:
         f"[定常流道 v1] 活塞 Ø{piston.d_piston_mm:g} / 杆 Ø{piston.d_rod_mm:g} mm, "
         f"{piston.n_ports}×{piston.port_width_mm:g}(周向)×{piston.port_radial_mm:g}(径向) mm "
         f"窗口 @ r={piston.port_radius_mm:g} mm, 张角 {piston.port_arc_deg():.1f}°",
-        f"流体 ρ={fluid.rho:g} kg/m³, ν={fluid.cSt:g} cSt, 背压 {fluid.p_back_MPa:g} MPa",
+        f"流体 ρ={fluid.rho:g} kg/m³, {fluid.describe_viscosity()}, "
+        f"背压 {fluid.p_back_MPa:g} MPa",
         f"挠度场: {gap.describe()}",
         f"Q_total = {res.Q_total_m3s*1e6:.3f} mL/s (v={v_point:.3f} m/s), "
         f"Q_main = {res.Q_m3s*1e6:.3f} mL/s, A_eff = {A_eff*1e6:.1f} mm²",
@@ -240,7 +259,7 @@ def analyze(req: AnalyzeRequest) -> dict[str, Any]:
 
     report = dict(
         kpis=kpis,
-        warnings=list(res.warnings),
+        warnings=list(res.warnings) + _fluid_warnings(fluid),
         notes=notes,
         lines=lines,
         layers=[],
@@ -278,6 +297,7 @@ def config() -> dict[str, Any]:
                                 bypass_d_mm=0.0,
                                 bypass_n=0, bypass_Cd=0.62),
                     fluid=dict(rho=850.0, cSt=15.0, p_back_MPa=0.0,
+                               T_C=40.0, KV40=0.0, KV100=0.0, VI=0.0,
                                p_vapor_kPa=0.0),
                     gap=dict(mode="power_law", lift_mm=0.15, power=2.0),
                     coefficients=dict(C_d=0.70, C_f=0.30),
@@ -390,7 +410,7 @@ def iterate(req) -> dict[str, Any]:
             value=f"{fin.Q_bypass_m3s/max(fin.Q_total_m3s,1e-18)*100:.1f} %",
             hint=f"A_b = {fin.A_bypass_m2*1e6:.3f} mm² · "
                  f"Q_b = {fin.Q_bypass_m3s*1e6:.2f} mL/s"))
-    warn = list(fin.warnings)
+    warn = list(fin.warnings) + _fluid_warnings(fluid)
     if not pt["converged"]:
         warn.append(f"未在 {par.max_iter} 次内收敛（最后残差 "
                     f"{pt['residual_um']:.3f} µm）")
@@ -507,7 +527,7 @@ def fv_curve(req) -> dict[str, Any]:
              hint=f"{len(pts)} 个工况点"),
     ]
 
-    warn = []
+    warn = _fluid_warnings(fluid)
     if n_ok < len(pts):
         warn.append(f"{len(pts)-n_ok} 个工况点未收敛（可减小 α 或放宽 tol）")
     for p in reversed(pts):
@@ -617,7 +637,7 @@ def rod_curve(req) -> dict[str, Any]:
     kpis.append(dict(label="总耗时", value=f"{out['elapsed_ms']/1000:.1f} s",
                      hint=f"{len(vs)} 个杆速点"))
 
-    warn = []
+    warn = _fluid_warnings(fluid)
     if total_ok < total_pts:
         warn.append(f"{total_pts-total_ok} 个点未收敛（可减小 α 或放宽 tol）")
     for name, br in branches.items():

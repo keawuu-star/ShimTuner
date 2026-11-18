@@ -14,10 +14,25 @@ Q ─▶ 流道几何 h=w+h_deck ─▶ 压力场 P(r) ─▶ 阀片挠度 w'(r)
 
 | 目录 | 内容 | 入口 |
 |---|---|---|
-| [`DeflectionSolver/`](DeflectionSolver/) | 压力场→挠度场：1D 环元 / 2D Mindlin / 2D vK / 2D 分层接触，Tk GUI + FastAPI + Electron 桌面版 | `deflection_checker.py`、`run-desktop.bat` |
-| [`FlowSolver/`](FlowSolver/) | 挠度场+流道→压力场：截流面积 + 射流效应 + 径向间隙流；Tk GUI + FastAPI + **Electron 桌面版（含耦合迭代模式）** | `flow_checker.py`、`run-desktop.bat` |
+| [`DeflectionSolver/`](DeflectionSolver/) | 压力场→挠度场：1D 环元 / 2D Mindlin / 2D vK / 2D 分层接触，Tk GUI + FastAPI + Electron 桌面版 | `deflection_checker.py`、`run-desktop.bat`、`ShimTuner.exe` |
+| [`FlowSolver/`](FlowSolver/) | 挠度场+流道→压力场：截流面积 + 射流效应 + 径向间隙流；Tk GUI + FastAPI + **Electron 桌面版（含耦合迭代模式）** | `flow_checker.py`、`run-desktop.bat`、`ShimTuner.exe` |
 | [`ShimTuner/`](ShimTuner/) | 物理文档、`.agents` 网格技能、遗留脚本 | `ShimTunerPhysics.md` |
 | [`Dyno_data_and_what_it_tells_us_about_shim_tuning/`](Dyno_data_and_what_it_tells_us_about_shim_tuning/) | ThumperTalk 帖转存的技术参考（shim factor / tsf / crossover / 预载） | `ShimTuning_Dyno数据技术参考.md` |
+
+## 一键启动（推荐）
+
+**双击项目根目录的 `ShimTuner.exe`**，不再需要批处理文件：
+
+* 首次启动弹出「ShimTuner 集成启动器」，选择 **Flow Studio**（流道-压力场）或
+  **Deflection Studio**（阀片挠度）；
+* 勾选「记住选择」后，下次双击直接进入上次的应用；
+* 按住 **Shift** 双击（或运行 `ShimTuner.exe --menu`）可强制回到启动器；
+* 启动器自动检测两个 Electron 运行时、`.venv` Python 与项目路径，缺失项以 ✗ 标出；
+* 两个应用仍共用项目内现有的 `node_modules`、`.venv` 与源码（不复制第二套环境）；
+* 运行日志写入 `launcher-logs/`；`ShimTuner.exe --check` 输出环境检查文件，
+  `--flow` / `--deflection` 直接启动对应应用。
+
+原来的 `run-desktop.bat` 保留作为诊断/备用。启动器源码在 [`Launcher/`](Launcher/)。
 
 ## 快速开始
 
@@ -78,10 +93,15 @@ python -m unittest discover -s tests -v # 后端回归 15 项
   `Q_rod=A_rod·v`）；后台 `/api/rod-curve` / 桌面端「v–F 杆速」/ CLI `--direction both`
   可同时给压缩、回弹两条分支（各自阀片堆叠）。默认压缩 6 点 F ≈ 48→423 N；
   示例双分支（压缩 3 片 / 回弹 2 片薄堆叠）v≤0.25 m/s：压缩 280 N、回弹 184 N。
+* 油液黏度：支持工作温度 T + KV40/KV100/VI（ASTM D341 外推 ν(T)、ASTM D2270 校验 VI）；
+  未启用时仍用手动 cSt，后端/桌面端/CLI 均已接入。
 * 窗口分布载荷（可选，v2）：`iterate.window_load`（后端/桌面端复选框/CLI
   `--window-load`）用平滑周向调制 W(θ)=1+c·cos(Nθ) + N 个高斯射流冲击斑叠加，
   窗间压力与射流均保留（无阶跃、不删除）；nθ 自动 ≥48，并自动做**扇区降维**
   （1/N 扇区 + 旋转周期约束，精确等价）：vK + 窗口分布 183.6→3.0 s/点（≈60×）。
+* 阀体设计模式：桌面端「阀体设计」→ 草图（圆/多段线/矩形）→ 标注角色
+  （活塞外圆/杆孔/窗口/夹持圆/阀片外圆）→ 自动识别直径、窗口弧长/径向宽度/中心半径/N
+  → 一键写回输入框；带"还需要画什么"引导提示（`desktop/renderer/design.js`）。
 * 端到端演示：`FlowSolver/backend /api/iterate` 调用 DeflectionSolver 的分层模型，
   默认 3 片堆叠、v=0.15 m/s 迭代收敛，F ≈ 177 N；Electron 冒烟
   `npm run smoke` / `smoke:iterate` / `smoke:curve` / `smoke:rod` 均通过。

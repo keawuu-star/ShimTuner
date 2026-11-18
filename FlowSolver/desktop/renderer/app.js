@@ -139,6 +139,10 @@ function applyDefaults() {
   $('fCst').value = f.cSt ?? 15;
   $('fBack').value = f.p_back_MPa ?? 0;
   $('fVap').value = f.p_vapor_kPa ?? 0;
+  $('fT').value = f.T_C ?? 40;
+  $('fKv40').value = f.KV40 ?? 0;
+  $('fKv100').value = f.KV100 ?? 0;
+  $('fVI').value = f.VI ?? 0;
 
   const c = cfg.coefficients || {};
   $('cCd').value = c.C_d ?? 0.70;
@@ -217,6 +221,21 @@ function wireUi() {
   $('copyBtn').addEventListener('click', copyReport);
   $('exportBtn').addEventListener('click', exportCase);
   $('importFile').addEventListener('change', importCaseFile);
+  // 阀体设计模式：草图 → 标注 → 识别参数 → 写回输入框
+  $('designBtn').addEventListener('click', () => {
+    if (!window.ValveDesign) {
+      hideError();
+      showError(new Error('design.js 未加载（检查文件是否存在）'));
+      return;
+    }
+    window.ValveDesign.open({
+      piston: pistonInput(),
+      onApply: (params) => {
+        applyPistonParams(params);
+        if (state.autoRun) scheduleRun();
+      },
+    });
+  });
   $('errorClose').addEventListener('click', () => hideError());
   $('retryBtn').addEventListener('click', () => { hideError(); runAnalysis(true); });
   document.addEventListener('keydown', (ev) => {
@@ -276,10 +295,30 @@ function pistonInput() {
   };
 }
 
+/** 把「阀体设计」识别出的参数写回活塞/窗口输入框 */
+function applyPistonParams(p) {
+  const map = {
+    pD: p.d_piston_mm, pRod: p.d_rod_mm, pN: p.n_ports,
+    pW: p.port_width_mm, pRad: p.port_radial_mm, pR: p.port_radius_mm,
+    pSeat: p.clamp_diameter_mm, pOuter: p.shim_outer_diameter_mm,
+    pDeck: p.deck_height_mm,
+  };
+  for (const [id, val] of Object.entries(map)) {
+    if (val !== undefined && val !== null && $(id)) $(id).value = val;
+  }
+  if (p.bypass_d_mm !== undefined && p.bypass_d_mm !== null && $('pBypD')) {
+    $('pBypD').value = p.bypass_d_mm;
+  }
+  if (p.bypass_n !== undefined && p.bypass_n !== null && $('pBypN')) {
+    $('pBypN').value = p.bypass_n;
+  }
+}
+
 function fluidInput() {
   return {
     rho: num('fRho'), cSt: num('fCst'),
     p_back_MPa: num('fBack'), p_vapor_kPa: num('fVap'),
+    T_C: num('fT'), KV40: num('fKv40'), KV100: num('fKv100'), VI: num('fVI'),
   };
 }
 
@@ -600,7 +639,8 @@ function applyCase(input) {
     pBypD: p.bypass_d_mm, pBypN: p.bypass_n,
     cBypCd: p.bypass_Cd };
   const f = input.fluid || {};
-  Object.assign(map, { fRho: f.rho, fCst: f.cSt, fBack: f.p_back_MPa, fVap: f.p_vapor_kPa });
+  Object.assign(map, { fRho: f.rho, fCst: f.cSt, fBack: f.p_back_MPa,
+    fVap: f.p_vapor_kPa, fT: f.T_C, fKv40: f.KV40, fKv100: f.KV100, fVI: f.VI });
   const c = input.coefficients || {};
   Object.assign(map, { cCd: c.C_d, cCf: c.C_f });
   for (const [id, val] of Object.entries(map)) {

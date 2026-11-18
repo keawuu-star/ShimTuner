@@ -128,6 +128,7 @@ class FlowCheckerApp:
                         shim_outer_diameter="42",
                         bypass_d="0", bypass_n="0", bypass_Cd="0.62",
                         rho="850", cSt="15", p_back="0", p_vapor="0",
+                        T_C="40", KV40="0", KV100="0", VI="0",
                         C_d="0.70", C_f="0.30",
                         lift="0.15", power="2.0",
                         v_max="0.5", n_points="21", v_point="0.25")
@@ -147,8 +148,10 @@ class FlowCheckerApp:
 
         # ---- 流体 ----
         f = self._panel(parent, "油液")
-        for key, lab in (("rho", "密度 [kg/m³]"), ("cSt", "黏度 [cSt]"),
-                         ("p_back", "背压 [MPa]"), ("p_vapor", "蒸气压 [kPa]")):
+        for key, lab in (("rho", "密度 [kg/m³]"), ("cSt", "黏度(手动) [cSt]"),
+                         ("p_back", "背压 [MPa]"), ("p_vapor", "蒸气压 [kPa]"),
+                         ("T_C", "工作温度 [°C]"), ("KV40", "KV40 [cSt]"),
+                         ("KV100", "KV100 [cSt]"), ("VI", "VI")):
             self._row(f, lab, self.v[key])
 
         # ---- 系数 ----
@@ -258,6 +261,10 @@ class FlowCheckerApp:
             bypass_Cd=self._num("bypass_Cd"))
         piston.validate()
         fluid = cf.FluidSpec(rho=self._num("rho"), cSt=self._num("cSt"),
+                             T_C=self._num("T_C"),
+                             KV40=self._num("KV40"),
+                             KV100=self._num("KV100"),
+                             VI=self._num("VI"),
                              p_back_MPa=self._num("p_back"),
                              p_vapor_kPa=self._num("p_vapor"))
         fluid.validate()
