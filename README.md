@@ -104,6 +104,9 @@ python -m unittest discover -s tests -v # 后端回归 15 项
   → 一键写回输入框；带"还需要画什么"引导提示（`desktop/renderer/design.js`）。
 * 阀体设计：Flow Studio 顶栏「阀体设计」→ 草图（绘制/标注/自动识别，支持从当前参数生成、
   撤销/重做、缩放）与**工程图**（半剖 CAD：剖面线、尺寸、标题栏，可导出 SVG/PNG）。
+* 避震项目管理：项目文件含项目信息 + **多套阀片组/限流孔方案**，可切换对比；
+  读取时自动填回工况并读取 `reserved` 预留字段，未知字段原样保留（示例见
+  `FlowSolver/projects/示例-前减震.json`）。
 * 端到端演示：`FlowSolver/backend /api/iterate` 调用 DeflectionSolver 的分层模型，
   默认 3 片堆叠、v=0.15 m/s 迭代收敛，F ≈ 146 N（第 1 片贴活塞、油压作用其底面）；Electron 冒烟
   `npm run smoke` / `smoke:iterate` / `smoke:curve` / `smoke:rod` 均通过。

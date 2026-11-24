@@ -26,6 +26,7 @@ const SMOKE_ITERATE = process.argv.includes('--smoke-iterate');
 const SMOKE_CURVE = process.argv.includes('--smoke-curve');
 const SMOKE_ROD = process.argv.includes('--smoke-rod');
 const SMOKE_DESIGN = process.argv.includes('--smoke-design');
+const SMOKE_PROJECT = process.argv.includes('--smoke-project');
 
 let win = null;
 let backend = null;                                  // { child, url, port, python }
@@ -272,6 +273,81 @@ ipcMain.handle('backend:restart', async () => {
   return backendInfo();
 });
 
+const PROJECT_FILTERS = [
+  { name: 'ShimTuner 项目 (JSON)', extensions: ['json', 'stjson'] },
+  { name: '所有文件', extensions: ['*'] },
+];
+
+function projectDir() {
+  return path.join(app.getPath('documents'), 'ShimTunerProjects');
+}
+
+function ensureProjectDir() {
+  const dir = projectDir();
+  fs.mkdirSync(dir, { recursive: true });
+  return dir;
+}
+
+ipcMain.handle('project:list', async () => {
+  const dir = projectDir();
+  try {
+    fs.mkdirSync(dir, { recursive: true });
+    const items = fs.readdirSync(dir)
+      .filter((n) => /\.(json|stjson)$/i.test(n))
+      .map((n) => {
+        const full = path.join(dir, n);
+        const st = fs.statSync(full);
+        return { name: n, path: full, mtime: st.mtimeMs };
+      })
+      .sort((a, b) => b.mtime - a.mtime);
+    return { ok: true, dir, items };
+  } catch (err) {
+    return { ok: false, dir, items: [], error: String(err) };
+  }
+});
+
+ipcMain.handle('project:open', async (_event, opts) => {
+  let filePath = opts && opts.path;
+  if (!filePath) {
+    const result = await dialog.showOpenDialog(win, {
+      title: '打开避震项目',
+      defaultPath: projectDir(),
+      properties: ['openFile'],
+      filters: PROJECT_FILTERS,
+    });
+    if (result.canceled || result.filePaths.length === 0) return { ok: false };
+    filePath = result.filePaths[0];
+  }
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    return { ok: true, path: filePath, content };
+  } catch (err) {
+    return { ok: false, error: String(err) };
+  }
+});
+
+ipcMain.handle('project:save', async (_event, { name, text, path: target }) => {
+  let filePath = target;
+  if (!filePath) {
+    const dir = ensureProjectDir();
+    const safe = String(name || 'shock-project').replace(/[\\/:*?"<>|]/g, '_');
+    const result = await dialog.showSaveDialog(win, {
+      title: '保存避震项目',
+      defaultPath: path.join(dir, safe.endsWith('.json') ? safe : safe + '.json'),
+      filters: PROJECT_FILTERS,
+    });
+    if (result.canceled || !result.filePath) return { ok: false };
+    filePath = result.filePath;
+  }
+  try {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, text, 'utf8');
+    return { ok: true, path: filePath };
+  } catch (err) {
+    return { ok: false, error: String(err) };
+  }
+});
+
 ipcMain.handle('app:save-text', async (_event, { name, text }) => {
   const result = await dialog.showSaveDialog(win, {
     title: '导出 FlowSolver 工况',
@@ -414,9 +490,106 @@ app.whenReady().then(async () => {
           console.error('screenshot failed', err);
         }
       }
+      let project = null;
+      if (SMOKE_PROJECT && result && result.ready && !result.error) {
+        try {
+          project = await win.webContents.executeJavaScript(`(() => {
+            const api = window.__shimtunerProject;
+            if (!api) return { ok: false, error: 'project api missing' };
+            const ar = document.getElementById('autoRun');
+            if (ar) {
+              ar.checked = false;
+              ar.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            const base = api.payload();
+            const synthetic = {
+              schema: 'shimtuner-shock-project/1',
+              project: {
+                name: 'SMOKE-PROJ', vehicle: 'V-001', position: 'rear',
+                valve_type: 'base', notes: 'smoke',
+                reserved: { dyno_run_id: 'RUN-1', extra_num: 7 },
+                custom_top: { keep: true },
+              },
+              schemes: {
+                shim_stacks: [
+                  { id: 's1', name: 'A',
+                    layers: [{ d_in_mm: 18, d_out_mm: 42, t_mm: 0.25 }] },
+                  { id: 's2', name: 'B',
+                    layers: [
+                      { d_in_mm: 18, d_out_mm: 36, t_mm: 0.20 },
+                      { d_in_mm: 18, d_out_mm: 30, t_mm: 0.18 }] },
+                ],
+                restrictors: [
+                  { id: 'r1', name: 'R',
+                    piston: { n_ports: 3, port_width_mm: 13,
+                      port_radial_mm: 6, port_radius_mm: 15,
+                      bypass_d_mm: 2, bypass_n: 1, bypass_Cd: 0.62 } },
+                  { id: 'r2', name: 'R2',
+                    piston: { n_ports: 6, port_width_mm: 8,
+                      port_radial_mm: 4, port_radius_mm: 16,
+                      bypass_d_mm: 0, bypass_n: 0, bypass_Cd: 0.62 } },
+                ],
+              },
+              active_schemes: { shim_stack: 's1', restrictor: 'r1' },
+              case: {
+                schema: 'shimtuner-flow-case/1', mode: 'rod',
+                valve_type: 'base',
+                input: {
+                  piston: { d_piston_mm: 45, d_rod_mm: 20, n_ports: 6,
+                    port_width_mm: 8, port_radial_mm: 4,
+                    port_radius_mm: 16, clamp_diameter_mm: 18,
+                    deck_height_mm: 0.01, shim_outer_diameter_mm: 38,
+                    bypass_d_mm: 0, bypass_n: 0, bypass_Cd: 0.62 },
+                  fluid: { rho: 850, cSt: 15, p_back_MPa: 0,
+                    p_vapor_kPa: 2, T_C: 25, KV40: 46, KV100: 8.6, VI: 180 },
+                  coefficients: { C_d: 0.7, C_f: 0.3 },
+                  layers: [{ d_in_mm: 18, d_out_mm: 42, t_mm: 0.25 }],
+                  curve: { alpha: 0.5, tol_um: 2, max_iter: 25, nl: false,
+                    n_radial: 12, n_theta: 12, window_load: false,
+                    v_min_mps: 0.05, v_max_mps: 0.1, n_points: 2 },
+                },
+              },
+            };
+            api.apply(synthetic, '/tmp/smoke-project.json');
+            const after = api.payload();
+            const meta = api.meta();
+            const sw = (id, val) => {
+              const el = document.getElementById(id);
+              el.value = val;
+              el.dispatchEvent(new Event('change', { bubbles: true }));
+            };
+            sw('projStackList', 's2');
+            sw('projRestrictList', 'r2');
+            const switched = api.payload();
+            const checks = {
+              baseSchema: base.schema === 'shimtuner-shock-project/1',
+              baseStacks: base.schemes.shim_stacks.length >= 1,
+              baseRestrict: base.schemes.restrictors.length >= 1,
+              name: meta.name === 'SMOKE-PROJ',
+              vehicle: meta.vehicle === 'V-001',
+              position: meta.position === 'rear',
+              valve: meta.valve_type === 'base',
+              rodBase: document.querySelector(
+                'input[name="rodValve"]:checked')?.value === 'base',
+              reservedRead: after.project.reserved?.dyno_run_id === 'RUN-1',
+              extraRead: after.project.custom_top?.keep === true,
+              restrictorRead: after.schemes.restrictors[0].piston.port_width_mm === 13,
+              schemeLayers: after.schemes.shim_stacks[0].layers[0].d_out_mm === 42,
+              stackSwitch: switched.case.input.layers[0].d_out_mm === 36,
+              restrictorSwitch: switched.case.input.piston.n_ports === 6,
+              savedBadge: (document.getElementById('projectBadge') || {}).textContent
+                === 'smoke-project.json',
+            };
+            return { ok: Object.values(checks).every(Boolean), checks };
+          })()`);
+        } catch (err) {
+          project = { ok: false, error: String(err) };
+        }
+      }
       const ok = Boolean(result && result.ready && !result.error
         && (!smokeMode || result.solver === smokeMode)
-        && (!SMOKE_DESIGN || (design && design.ok)));
+        && (!SMOKE_DESIGN || (design && design.ok))
+        && (!SMOKE_PROJECT || (project && project.ok)));
       console.log(JSON.stringify({
         ok,
         mode: smokeMode || 'single',
@@ -424,6 +597,7 @@ app.whenReady().then(async () => {
         python: state.python,
         renderer: result,
         design,
+        project,
       }, null, 2));
       stopBackend();
       app.exit(ok ? 0 : 1);

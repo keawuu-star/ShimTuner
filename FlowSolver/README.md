@@ -208,6 +208,15 @@ run-desktop.bat            # 或: cd desktop && npm start
   * **v–F 杆速**：流量由杆侵入油缸的体积速度决定 →
     `F(v)` 曲线（可加回弹分支）；`Q_valve/Q_rod` 为线性换算，只列在报告表格中；
 * 导入/导出工况 JSON（`shimtuner-flow-case/1`），复制报告；
+* **避震项目管理**（侧栏「避震项目」）：
+  * 新建 / 打开 / 保存 / 另存为项目；项目目录默认 `文档\ShimTunerProjects`；
+  * 项目文件包含项目名称、车型/编号、安装位置、阀类型、备注，以及**多套方案**：
+    **阀片组方案**（layers 列表）与**限流孔方案**（窗口/常通孔参数）；
+  * 同一项目中可随时切换阀片组/限流孔方案，立即套用输入并重算，随项目一起保存；
+  * 读取项目时自动填回全部工况与方案，并读取 `project.reserved` 等**预留字段**；
+    未识别字段原样保留，保存时不会丢失（可用于对接测功机/PLM）；
+  * 示例文件：`FlowSolver/projects/示例-前减震.json`；
+* 冒烟测试：
 * **阀体设计（草图 / 工程图）**：顶栏「阀体设计」打开；
   * **草图**：圆 / 矩形 / 多段线绘制 + 角色标注（活塞外圆、杆孔、夹持圆、
     最大阀片外圆、窗口、常通孔），自动识别活塞/窗口/夹持/阀片参数；
@@ -230,6 +239,7 @@ npm run smoke:iterate   # 耦合迭代模式端到端
 npm run smoke:curve     # Q–F 曲线模式端到端
 npm run smoke:rod       # v–F 杆速模式端到端
 npm run smoke:design    # 阀体设计：草图识别 / 工程图 tab / 撤销 / 导出链路
+npm run smoke:project   # 项目管理：payload / 方案切换 / 预留字段读取
 npm run test:design     # design.js + valve-drawing.js 纯几何单测（Node）
 ```
 

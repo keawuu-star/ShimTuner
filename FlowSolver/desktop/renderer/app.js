@@ -27,6 +27,14 @@ const state = {
   autoRun: true,
   timer: null,
   started: 0,
+  project: {
+    path: null,
+    createdAt: null,
+    reserved: {},
+    extra: {},
+    schemes: { shim_stacks: [], restrictors: [] },
+    active: { shim_stack: null, restrictor: null },
+  },
 };
 
 window.__shimtunerState = () => ({
@@ -60,6 +68,9 @@ async function init() {
     await resolveBackend();
     await loadConfig();
     applyDefaults();
+    ensureSchemes();
+    updateProjectBadge(null, '');
+    refreshProjectList();
     setBackendStatus({ status: 'running', message: state.appInfo?.message || '数值后端就绪' });
     await runAnalysis(true);
   } catch (err) {
@@ -216,6 +227,7 @@ function wireUi() {
         return;
       }
       if (el.id === 'importFile') return;
+      if (el.id && el.id.startsWith('proj')) return;
       if (state.autoRun) scheduleRun();
     });
   });
@@ -243,6 +255,7 @@ function wireUi() {
       },
     });
   });
+  wireProjectUi();
   $('errorClose').addEventListener('click', () => hideError());
   $('retryBtn').addEventListener('click', () => { hideError(); runAnalysis(true); });
   document.addEventListener('keydown', (ev) => {
@@ -694,7 +707,453 @@ function applyCase(input) {
     if (cv.window_load !== undefined || cv.sector_load !== undefined)
       $('secLoad').checked = Boolean(cv.window_load || cv.sector_load);
   }
+  const vt = input.valve_type || (input.curve && input.curve.valve_type);
+  if (vt) setRodValve(vt);
 }
+
+
+/* ------------------------------------------------------------------ */
+/* 避震项目 + 方案管理                                                 */
+/* ------------------------------------------------------------------ */
+const PROJECT_SCHEMA = 'shimtuner-shock-project/1';
+const CASE_SCHEMA = 'shimtuner-flow-case/1';
+const PROJECT_KNOWN = new Set([
+  'name', 'vehicle', 'position', 'valve_type', 'notes',
+  'created_at', 'updated_at', 'reserved',
+]);
+
+const clone = (v) => JSON.parse(JSON.stringify(v));
+const basename = (p) => String(p || '').split(/[\\/]/).pop();
+const ACTIVE_KEY = { shim_stacks: 'shim_stack', restrictors: 'restrictor' };
+
+function setRodValve(vt) {
+  const v = String(vt || 'mid').toLowerCase();
+  const use = v === 'base' ? 'base' : 'mid';
+  document.querySelectorAll('input[name="rodValve"]').forEach((el) => {
+    el.checked = el.value === use;
+  });
+  if ($('projValve') && ['mid', 'base', 'both'].includes(v)) {
+    $('projValve').value = v;
+  }
+}
+
+function rodValveValue() {
+  const el = document.querySelector('input[name="rodValve"]:checked');
+  return el ? el.value : 'mid';
+}
+
+function projectMeta() {
+  return {
+    name: ($('projName')?.value || '').trim(),
+    vehicle: ($('projVehicle')?.value || '').trim(),
+    position: $('projPos')?.value || 'front',
+    valve_type: $('projValve')?.value || 'mid',
+    notes: ($('projNotes')?.value || '').trim(),
+  };
+}
+
+function schemeId(prefix) {
+  return prefix + '-' + Date.now().toString(36)
+    + Math.random().toString(36).slice(2, 5);
+}
+
+function restrictorFromInputs() {
+  const p = pistonInput();
+  return {
+    n_ports: p.n_ports,
+    port_width_mm: p.port_width_mm,
+    port_radial_mm: p.port_radial_mm,
+    port_radius_mm: p.port_radius_mm,
+    bypass_d_mm: p.bypass_d_mm,
+    bypass_n: p.bypass_n,
+    bypass_Cd: p.bypass_Cd,
+  };
+}
+
+function schemes() { return state.project.schemes; }
+
+function findScheme(kind, id) {
+  return (schemes()[kind] || []).find((s) => s.id === id) || null;
+}
+
+function ensureSchemes() {
+  const s = schemes();
+  if (!s.shim_stacks.length) {
+    s.shim_stacks.push({
+      id: schemeId('stack'), name: '默认阀片组', layers: layersInput(),
+    });
+  }
+  if (!s.restrictors.length) {
+    s.restrictors.push({
+      id: schemeId('restr'), name: '默认限流孔', piston: restrictorFromInputs(),
+    });
+  }
+  if (!state.project.active.shim_stack) {
+    state.project.active.shim_stack = s.shim_stacks[0].id;
+  }
+  if (!state.project.active.restrictor) {
+    state.project.active.restrictor = s.restrictors[0].id;
+  }
+  renderSchemeLists();
+}
+
+function syncActiveScheme(kind) {
+  const id = state.project.active[ACTIVE_KEY[kind]];
+  const scheme = findScheme(kind, id);
+  if (!scheme) return;
+  if (kind === 'shim_stacks') scheme.layers = layersInput();
+  else scheme.piston = restrictorFromInputs();
+}
+
+function applyShimScheme(scheme) {
+  if (!scheme || !Array.isArray(scheme.layers)) return;
+  state.layers = scheme.layers.map((l) => ({
+    din: Number(l.d_in_mm), dout: Number(l.d_out_mm), t: Number(l.t_mm),
+  }));
+  renderLayers();
+}
+
+function applyRestrictorScheme(scheme) {
+  if (!scheme || !scheme.piston) return;
+  const p = scheme.piston;
+  const map = {
+    pN: p.n_ports, pW: p.port_width_mm, pRad: p.port_radial_mm,
+    pR: p.port_radius_mm, pBypD: p.bypass_d_mm, pBypN: p.bypass_n,
+    cBypCd: p.bypass_Cd,
+  };
+  for (const [id, val] of Object.entries(map)) {
+    if (val !== undefined && val !== null && $(id)) $(id).value = val;
+  }
+}
+
+function applyActiveSchemes() {
+  applyShimScheme(findScheme('shim_stacks', state.project.active.shim_stack));
+  applyRestrictorScheme(findScheme('restrictors', state.project.active.restrictor));
+}
+
+function renderSchemeLists() {
+  const fill = (el, list, activeId) => {
+    if (!el) return;
+    el.innerHTML = '';
+    for (const s of list) {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name || s.id;
+      el.appendChild(opt);
+    }
+    if (activeId) el.value = activeId;
+  };
+  fill($('projStackList'), schemes().shim_stacks,
+       state.project.active.shim_stack);
+  fill($('projRestrictList'), schemes().restrictors,
+       state.project.active.restrictor);
+}
+
+function selectScheme(kind, id, doRun = true) {
+  if (!findScheme(kind, id)) return;
+  syncActiveScheme(kind);
+  state.project.active[ACTIVE_KEY[kind]] = id;
+  applyActiveSchemes();
+  renderSchemeLists();
+  if (doRun && state.autoRun) scheduleRun();
+}
+
+function addOrUpdateScheme(kind) {
+  const isStack = kind === 'shim_stacks';
+  const nameEl = isStack ? $('projStackName') : $('projRestrictName');
+  const name = (nameEl.value || '').trim();
+  const list = schemes()[kind];
+  let scheme = findScheme(kind, state.project.active[ACTIVE_KEY[kind]]);
+  if (name) {
+    scheme = isStack
+      ? { id: schemeId('stack'), name, layers: layersInput() }
+      : { id: schemeId('restr'), name, piston: restrictorFromInputs() };
+    list.push(scheme);
+  } else if (scheme) {
+    if (isStack) scheme.layers = layersInput();
+    else scheme.piston = restrictorFromInputs();
+  } else {
+    scheme = isStack
+      ? { id: schemeId('stack'), name: '阀片组方案', layers: layersInput() }
+      : { id: schemeId('restr'), name: '限流孔方案',
+          piston: restrictorFromInputs() };
+    list.push(scheme);
+  }
+  state.project.active[ACTIVE_KEY[kind]] = scheme.id;
+  nameEl.value = '';
+  renderSchemeLists();
+}
+
+function deleteScheme(kind) {
+  const list = schemes()[kind];
+  if (list.length <= 1) return;
+  const id = state.project.active[ACTIVE_KEY[kind]];
+  const idx = list.findIndex((s) => s.id === id);
+  if (idx < 0) return;
+  list.splice(idx, 1);
+  state.project.active[ACTIVE_KEY[kind]] = list[0].id;
+  applyActiveSchemes();
+  renderSchemeLists();
+  if (state.autoRun) scheduleRun();
+}
+
+function updateProjectBadge(path, name) {
+  const badge = $('projectBadge');
+  if (!badge) return;
+  const rawName = name || ($('projName')?.value || '').trim();
+  if (path) {
+    badge.textContent = basename(path);
+    badge.classList.add('ok');
+  } else {
+    badge.textContent = rawName ? '未保存' : '未命名项目';
+    badge.classList.remove('ok');
+  }
+  const reservedN = Object.keys(state.project.reserved || {}).length;
+  badge.title = [
+    path ? `文件：${path}` : '尚未保存到项目文件',
+    `预留字段：${reservedN} 项`,
+    '打开项目时读取项目信息与预留字段',
+  ].join('\n');
+  document.title = rawName
+    ? `${rawName} · ShimTuner Flow Studio`
+    : 'ShimTuner Flow Studio';
+}
+
+function projectPayload() {
+  ensureSchemes();
+  syncActiveScheme('shim_stacks');
+  syncActiveScheme('restrictors');
+  const meta = projectMeta();
+  const now = new Date().toISOString();
+  const project = {
+    ...(state.project.extra || {}),
+    ...meta,
+    created_at: state.project.createdAt || now,
+    updated_at: now,
+    reserved: clone(state.project.reserved || {}),
+  };
+  for (const k of Object.keys(project)) {
+    if (!PROJECT_KNOWN.has(k) && k !== 'created_at' && k !== 'updated_at') {
+      state.project.extra[k] = clone(project[k]);
+    }
+  }
+  return {
+    schema: PROJECT_SCHEMA,
+    project,
+    schemes: {
+      shim_stacks: clone(schemes().shim_stacks),
+      restrictors: clone(schemes().restrictors),
+    },
+    active_schemes: clone(state.project.active),
+    case: {
+      schema: CASE_SCHEMA,
+      mode: state.mode,
+      valve_type: rodValveValue(),
+      input: collect(),
+      summary: state.last ? {
+        headline: state.last.headline,
+        kpis: state.last.report.kpis,
+      } : null,
+    },
+  };
+}
+
+function applyProject(data, filePath) {
+  if (!data || typeof data !== 'object') {
+    throw new Error('项目文件内容不是 JSON 对象');
+  }
+  const caseData = data.case || {};
+  const input = caseData.input || data.input || {};
+  if (data.schema === CASE_SCHEMA || (!data.project && data.input)) {
+    applyCase(input);
+    if (data.mode) setMode(data.mode, false);
+    if (data.valve_type) setRodValve(data.valve_type);
+    state.project.path = filePath || state.project.path;
+    updateProjectBadge(filePath, '');
+    if (state.autoRun) scheduleRun();
+    return;
+  }
+  const proj = data.project || {};
+  $('projName').value = proj.name ?? '';
+  $('projVehicle').value = proj.vehicle ?? '';
+  $('projPos').value = ['front', 'rear', 'other'].includes(proj.position)
+    ? proj.position : 'front';
+  $('projValve').value = ['mid', 'base', 'both'].includes(proj.valve_type)
+    ? proj.valve_type : 'mid';
+  $('projNotes').value = proj.notes ?? '';
+  state.project.path = filePath || null;
+  state.project.createdAt = proj.created_at || null;
+  state.project.reserved = (proj.reserved && typeof proj.reserved === 'object')
+    ? clone(proj.reserved) : {};
+  state.project.extra = {};
+  for (const k of Object.keys(proj)) {
+    if (!PROJECT_KNOWN.has(k) && k !== 'created_at' && k !== 'updated_at') {
+      state.project.extra[k] = clone(proj[k]);
+    }
+  }
+
+  // 方案：优先读 schemes；旧项目从当前 case 生成一套默认方案
+  const sc = data.schemes || {};
+  state.project.schemes.shim_stacks = Array.isArray(sc.shim_stacks)
+    ? clone(sc.shim_stacks) : [];
+  state.project.schemes.restrictors = Array.isArray(sc.restrictors)
+    ? clone(sc.restrictors) : [];
+  state.project.active = {
+    shim_stack: data.active_schemes?.shim_stack || null,
+    restrictor: data.active_schemes?.restrictor || null,
+  };
+  if (!state.project.schemes.shim_stacks.length) {
+    state.project.schemes.shim_stacks.push({
+      id: schemeId('stack'),
+      name: '默认阀片组',
+      layers: Array.isArray(input.layers) && input.layers.length
+        ? clone(input.layers) : layersInput(),
+    });
+  }
+  if (!state.project.schemes.restrictors.length) {
+    state.project.schemes.restrictors.push({
+      id: schemeId('restr'),
+      name: '默认限流孔',
+      piston: input.piston ? clone(input.piston) : restrictorFromInputs(),
+    });
+  }
+  if (!findScheme('shim_stacks', state.project.active.shim_stack)) {
+    state.project.active.shim_stack = state.project.schemes.shim_stacks[0].id;
+  }
+  if (!findScheme('restrictors', state.project.active.restrictor)) {
+    state.project.active.restrictor = state.project.schemes.restrictors[0].id;
+  }
+
+  if (caseData.mode) setMode(caseData.mode, false);
+  setRodValve(proj.valve_type || caseData.valve_type
+    || (input.curve && input.curve.valve_type) || rodValveValue());
+  applyCase(input);
+  applyActiveSchemes();
+  renderSchemeLists();
+  updateProjectBadge(filePath, proj.name);
+  if (state.autoRun) scheduleRun();
+}
+
+function newProject() {
+  state.project.path = null;
+  state.project.createdAt = null;
+  state.project.reserved = {};
+  state.project.extra = {};
+  state.project.schemes = { shim_stacks: [], restrictors: [] };
+  state.project.active = { shim_stack: null, restrictor: null };
+  $('projName').value = '';
+  $('projVehicle').value = '';
+  $('projPos').value = 'front';
+  $('projValve').value = 'mid';
+  $('projNotes').value = '';
+  setRodValve('mid');
+  ensureSchemes();
+  updateProjectBadge(null, '');
+  refreshProjectList();
+}
+
+async function saveProject(saveAs = false) {
+  ensureSchemes();
+  const payload = projectPayload();
+  const name = payload.project.name || 'shock-project';
+  const text = JSON.stringify(payload, null, 2);
+  if (!window.shimtuner?.projectSave) {
+    showError(new Error('当前环境不支持项目文件保存'));
+    return;
+  }
+  const res = await window.shimtuner.projectSave(
+    name, text, saveAs ? null : state.project.path);
+  if (!res.ok) return;
+  state.project.path = res.path;
+  updateProjectBadge(res.path, payload.project.name);
+  await refreshProjectList();
+  hideError();
+}
+
+async function openProjectFromDialog() {
+  if (!window.shimtuner?.projectOpen) {
+    showError(new Error('当前环境不支持项目文件打开'));
+    return;
+  }
+  const res = await window.shimtuner.projectOpen();
+  if (!res.ok) return;
+  try {
+    applyProject(JSON.parse(res.content), res.path);
+    hideError();
+  } catch (err) {
+    showError(err);
+  }
+}
+
+async function openProjectPath(filePath) {
+  if (!filePath || !window.shimtuner?.projectOpen) return;
+  const res = await window.shimtuner.projectOpen(filePath);
+  if (!res.ok) return;
+  try {
+    applyProject(JSON.parse(res.content), res.path);
+    hideError();
+  } catch (err) {
+    showError(err);
+  }
+}
+
+async function refreshProjectList() {
+  const sel = $('projList');
+  if (!sel) return;
+  if (!window.shimtuner?.projectList) {
+    sel.innerHTML = '<option value="">（仅桌面端支持项目目录）</option>';
+    return;
+  }
+  const res = await window.shimtuner.projectList();
+  sel.innerHTML = '';
+  if (!res.ok || !res.items.length) {
+    const opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = '（项目目录为空）';
+    sel.appendChild(opt);
+    return;
+  }
+  for (const item of res.items) {
+    const opt = document.createElement('option');
+    opt.value = item.path;
+    opt.textContent = item.name;
+    sel.appendChild(opt);
+  }
+}
+
+function wireProjectUi() {
+  $('projNew')?.addEventListener('click', newProject);
+  $('projOpen')?.addEventListener('click', openProjectFromDialog);
+  $('projSave')?.addEventListener('click', saveProject);
+  $('projSaveAs')?.addEventListener('click', () => saveProject(true));
+  $('projRefresh')?.addEventListener('click', refreshProjectList);
+  $('projOpenList')?.addEventListener('click', () => {
+    const p = $('projList')?.value;
+    if (p) openProjectPath(p);
+  });
+  $('projList')?.addEventListener('change', () => {});
+  $('projStackList')?.addEventListener('change', (ev) => {
+    selectScheme('shim_stacks', ev.target.value);
+  });
+  $('projRestrictList')?.addEventListener('change', (ev) => {
+    selectScheme('restrictors', ev.target.value);
+  });
+  $('projStackAdd')?.addEventListener('click', () => addOrUpdateScheme('shim_stacks'));
+  $('projRestrictAdd')?.addEventListener('click', () => addOrUpdateScheme('restrictors'));
+  $('projStackDel')?.addEventListener('click', () => deleteScheme('shim_stacks'));
+  $('projRestrictDel')?.addEventListener('click', () => deleteScheme('restrictors'));
+  ['projName', 'projVehicle', 'projPos', 'projValve', 'projNotes'].forEach((id) => {
+    $(id)?.addEventListener('change', () => updateProjectBadge(
+      state.project.path, $('projName').value));
+  });
+}
+
+window.__shimtunerProject = {
+  payload: projectPayload,
+  apply: applyProject,
+  meta: projectMeta,
+  schemes: () => clone(schemes()),
+};
 
 function copyReport() {
   if (!state.last) return;

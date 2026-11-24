@@ -21,6 +21,62 @@
         <span class="brand-version" id="versionBadge">v—</span>
       </div>
 
+      <section class="panel compact" id="projectPanel">
+        <div class="panel-head"><h2>避震项目</h2><span class="panel-hint" id="projectBadge">未保存</span></div>
+        <label class="field"><span>项目名称</span>
+          <input id="projName" type="text" placeholder="例如：前减震-赛道版"></label>
+        <div class="field-grid three">
+          <label class="field"><span>车型 / 编号</span>
+            <input id="projVehicle" type="text" placeholder="车型/项目号"></label>
+          <label class="field"><span>安装位置</span>
+            <select id="projPos">
+              <option value="front">前减震</option>
+              <option value="rear">后减震</option>
+              <option value="other">其他</option>
+            </select></label>
+          <label class="field"><span>阀类型</span>
+            <select id="projValve">
+              <option value="mid">mid-valve</option>
+              <option value="base">base-valve</option>
+              <option value="both">mid + base</option>
+            </select></label>
+        </div>
+        <label class="field"><span>备注</span>
+          <input id="projNotes" type="text" placeholder="调校方向/油液/版本等"></label>
+        <div class="project-actions">
+          <button class="btn ghost tiny" id="projNew" type="button">新建</button>
+          <button class="btn ghost tiny" id="projOpen" type="button">打开项目</button>
+          <button class="btn ghost tiny" id="projSave" type="button">保存</button>
+          <button class="btn ghost tiny" id="projSaveAs" type="button">另存为</button>
+        </div>
+        <div class="project-list-row">
+          <select id="projList"><option value="">（项目目录为空）</option></select>
+          <button class="btn ghost tiny" id="projOpenList" type="button">打开</button>
+          <button class="btn ghost tiny" id="projRefresh" type="button">刷新</button>
+        </div>
+        <div class="scheme-block">
+          <div class="scheme-title">方案切换</div>
+          <div class="scheme-row">
+            <span>阀片组</span>
+            <select id="projStackList"></select>
+            <input id="projStackName" type="text" placeholder="新方案名">
+            <button class="btn ghost tiny" id="projStackAdd" type="button" title="按当前阀片堆叠保存/新建方案">保存</button>
+            <button class="btn ghost tiny" id="projStackDel" type="button">删除</button>
+          </div>
+          <div class="scheme-row">
+            <span>限流孔</span>
+            <select id="projRestrictList"></select>
+            <input id="projRestrictName" type="text" placeholder="新方案名">
+            <button class="btn ghost tiny" id="projRestrictAdd" type="button" title="按当前窗口/常通孔参数保存/新建方案">保存</button>
+            <button class="btn ghost tiny" id="projRestrictDel" type="button">删除</button>
+          </div>
+          <p class="fem-hint">同一项目可保存多套阀片组/限流孔方案；切换立即套用当前输入并重算，
+            随项目文件一起保存。</p>
+        </div>
+        <p class="fem-hint">项目文件（JSON）包含项目信息 + 全部工况；打开时自动填回
+          项目名称/车型/位置/备注及预留字段（reserved），未知字段原样保留。</p>
+      </section>
+
       <section class="panel compact">
         <div class="panel-head"><h2>计算模式</h2></div>
         <div class="solver-grid" id="modeGrid">

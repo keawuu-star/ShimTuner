@@ -1,0 +1,164 @@
+{
+  "schema": "shimtuner-shock-project/1",
+  "project": {
+    "name": "示例-前减震",
+    "vehicle": "DEMO-01",
+    "position": "front",
+    "valve_type": "mid",
+    "notes": "示例项目：两套阀片组 + 两套限流孔方案，可切换对比",
+    "created_at": "2026-11-25T00:00:00+08:00",
+    "updated_at": "2026-11-25T00:00:00+08:00",
+    "reserved": {
+      "dyno_run_id": "RUN-2026-1125-01",
+      "tester": "demo",
+      "rig": "Dyno-A",
+      "oil_lot": "OIL-2026-08",
+      "note": "预留字段原样读取/保存，可用于对接测功机/PLM"
+    },
+    "vehicle_vin": "DEMO0000000000000",
+    "spring_rate_N_per_mm": 85,
+    "custom_metadata": {
+      "source": "example",
+      "keep_on_save": true
+    }
+  },
+  "schemes": {
+    "shim_stacks": [
+      {
+        "id": "stack-comfort",
+        "name": "舒适-2片",
+        "layers": [
+          {
+            "d_in_mm": 18,
+            "d_out_mm": 42,
+            "t_mm": 0.2
+          },
+          {
+            "d_in_mm": 18,
+            "d_out_mm": 36,
+            "t_mm": 0.15
+          }
+        ]
+      },
+      {
+        "id": "stack-track",
+        "name": "赛道-3片",
+        "layers": [
+          {
+            "d_in_mm": 18,
+            "d_out_mm": 42,
+            "t_mm": 0.25
+          },
+          {
+            "d_in_mm": 18,
+            "d_out_mm": 36,
+            "t_mm": 0.2
+          },
+          {
+            "d_in_mm": 18,
+            "d_out_mm": 30,
+            "t_mm": 0.2
+          }
+        ]
+      }
+    ],
+    "restrictors": [
+      {
+        "id": "restr-standard",
+        "name": "标准 6×8×4 @16",
+        "piston": {
+          "n_ports": 6,
+          "port_width_mm": 8,
+          "port_radial_mm": 4,
+          "port_radius_mm": 16,
+          "bypass_d_mm": 0,
+          "bypass_n": 0,
+          "bypass_Cd": 0.62
+        }
+      },
+      {
+        "id": "restr-limited",
+        "name": "限流 3×13×6 @15 + 常通 1×Ø2",
+        "piston": {
+          "n_ports": 3,
+          "port_width_mm": 13,
+          "port_radial_mm": 6,
+          "port_radius_mm": 15,
+          "bypass_d_mm": 2,
+          "bypass_n": 1,
+          "bypass_Cd": 0.62
+        }
+      }
+    ]
+  },
+  "active_schemes": {
+    "shim_stack": "stack-track",
+    "restrictor": "restr-limited"
+  },
+  "case": {
+    "schema": "shimtuner-flow-case/1",
+    "mode": "rod",
+    "valve_type": "mid",
+    "input": {
+      "piston": {
+        "d_piston_mm": 45,
+        "d_rod_mm": 20,
+        "n_ports": 3,
+        "port_width_mm": 13,
+        "port_radial_mm": 6,
+        "port_radius_mm": 15,
+        "clamp_diameter_mm": 16.8,
+        "deck_height_mm": 0.01,
+        "shim_outer_diameter_mm": 38,
+        "bypass_d_mm": 2,
+        "bypass_n": 1,
+        "bypass_Cd": 0.62
+      },
+      "fluid": {
+        "rho": 850,
+        "cSt": 15,
+        "p_back_MPa": 0,
+        "p_vapor_kPa": 2,
+        "T_C": 25,
+        "KV40": 46,
+        "KV100": 8.6,
+        "VI": 180
+      },
+      "coefficients": {
+        "C_d": 0.7,
+        "C_f": 0.3
+      },
+      "layers": [
+        {
+          "d_in_mm": 18,
+          "d_out_mm": 42,
+          "t_mm": 0.25
+        },
+        {
+          "d_in_mm": 18,
+          "d_out_mm": 36,
+          "t_mm": 0.2
+        },
+        {
+          "d_in_mm": 18,
+          "d_out_mm": 30,
+          "t_mm": 0.2
+        }
+      ],
+      "curve": {
+        "alpha": 0.5,
+        "tol_um": 2,
+        "max_iter": 25,
+        "relax_step_um": 150,
+        "nl": false,
+        "n_radial": 12,
+        "n_theta": 12,
+        "window_load": false,
+        "v_min_mps": 0.05,
+        "v_max_mps": 0.25,
+        "n_points": 3
+      }
+    },
+    "summary": null
+  }
+}

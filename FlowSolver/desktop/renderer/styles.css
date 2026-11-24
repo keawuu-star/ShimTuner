@@ -966,3 +966,41 @@ button, input, select { font-family: inherit; color: inherit; }
 #designCanvas.drawing:active { cursor: grabbing; }
 .design-side .panel[hidden] { display: none; }
 
+/* ---- 避震项目管理 ---- */
+#projectPanel input[type="text"], #projectPanel select {
+  width: 100%; background: var(--input-bg, #0b1220); color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: 7px;
+  padding: 6px 8px; font: 12px var(--sans);
+}
+#projectPanel input[type="text"]:focus, #projectPanel select:focus {
+  outline: none; border-color: rgba(34, 211, 238, 0.5);
+}
+.project-actions {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px; margin: 8px 0 6px;
+}
+.project-actions .btn, .project-list-row .btn { justify-content: center; }
+.project-list-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 6px; align-items: center;
+}
+.project-list-row select {
+  min-width: 0; background: var(--input-bg, #0b1220); color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: 7px;
+  padding: 6px 8px; font: 12px var(--sans);
+}
+
+/* ---- 方案切换（阀片组 / 限流孔） ---- */
+.scheme-block { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
+.scheme-title { font-size: 10.5px; letter-spacing: 0.08em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 4px; }
+.scheme-row {
+  display: grid; grid-template-columns: 46px minmax(0, 1.2fr) minmax(0, 0.9fr) auto auto;
+  gap: 5px; align-items: center; margin: 5px 0;
+}
+.scheme-row > span { font-size: 10.5px; color: var(--muted); }
+.scheme-row select, .scheme-row input[type="text"] {
+  min-width: 0; width: 100%; background: var(--input-bg, #0b1220); color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: 6px;
+  padding: 5px 6px; font: 11px var(--sans);
+}
