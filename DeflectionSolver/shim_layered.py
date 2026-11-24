@@ -6,6 +6,8 @@
       等效阶梯刚度板）的**分层升级版**。网格、单元（Q4 Mindlin, 剪切 1×1 减缩）
       与 `shim_element` 完全共用，唯一区别:
         * 每层有自己的中面位移场 (u,v,w,φx,φy)，不再压成单张等效板;
+        * 层序约定：layers[0] = 最上层（默认 load_layer=0，顶面受压）；
+          FlowSolver 使用 layers[0]=贴活塞第1片，故反转层序后令 load_layer=最底层。
         * 层间只有**法向罚接触**（可分离、不传切向力 = μ=0）;
         * 每层在自己的内缘 max(clamp, aᵢ) 处固支。
 
@@ -71,7 +73,7 @@ class LayeredStack:
                  clamp_radius_mm: float | None = None,
                  k_n: float = 1e15, max_outer_iter: int = 20,
                  nl: bool = False, follower: bool = False,
-                 sector: int = 1):
+                 sector: int = 1, load_layer: int = 0):
         self.layers = [l if isinstance(l, ShimLayer) else ShimLayer(*_triple(l))
                        for l in layers]
         if not self.layers:
@@ -83,6 +85,9 @@ class LayeredStack:
         self.max_outer_iter = int(max_outer_iter)
         self.nl = bool(nl)
         self.follower = bool(follower)
+        # 受压层：默认 0（最上层，经典"顶片受压"用法）；
+        # FlowSolver 用 layers[0]=贴活塞第1片的约定，会反转后令 load_layer=最底层。
+        self.load_layer = int(load_layer)
 
         clamp_mm = (clamp_radius_mm if clamp_radius_mm is not None
                     else min(l.d_in_mm for l in self.layers) / 2.0)
@@ -112,6 +117,8 @@ class LayeredStack:
         self.gs = q4_geo(self.x, self.y, GAUSS_1X1)[0]
         self.er_map = np.arange(self.M) // self.n_theta
 
+        if not (0 <= self.load_layer < len(self.layers)):
+            raise ValueError("load_layer 超出层数范围")
         self._build_layers()
         self._build_contact()
         self._build_load()
@@ -282,16 +289,29 @@ class LayeredStack:
         self._prep = None           # 非线性装配的常值单元数据缓存
 
     # ---------------- 载荷 ----------------
+    def _load_face_mask(self) -> np.ndarray:
+        """load_layer 的单元载荷面掩膜（按该层径向覆盖，而非固定顶片）."""
+        li = self.load_layer
+        layer = self.layers[li]
+        r_in = max(self.clamp_m, layer.a_m)
+        band = ((self.mesh["rm_c"] >= r_in - 1e-12)
+                & (self.mesh["rm_c"] <= layer.b_m + 1e-12))
+        face_c = np.asarray(band, dtype=bool)
+        face_e = np.repeat(face_c, self.n_theta)
+        mask = np.zeros(self.M, dtype=bool)
+        mask[self.elem_i[li]] = True
+        mask &= face_e
+        return mask
+
     def _build_load(self):
-        face = self.mesh["face_e"]
-        keep = np.zeros(self.M, dtype=bool)
-        keep[self.elem_i[0]] = True
+        keep = self._load_face_mask()
+        li = self.load_layer
         top_conn = self.conn[keep]
-        top_w = self.ldof[0][top_conn][:, :, 2]          # (Mt,4)
+        top_w = self.ldof[li][top_conn][:, :, 2]          # (Mt,4)
         f_unit = np.zeros(self.n_dof)
         for (N, dNx, dNy, ajd) in self.gb:
             fe = (ajd[:, None] * N)
-            fe[~(face & keep)] = 0.0
+            fe[~keep] = 0.0
             rep_w = self.dof_rep[top_w]
             ok = rep_w >= 0
             np.add.at(f_unit, rep_w[ok], fe[keep][ok])
@@ -304,10 +324,8 @@ class LayeredStack:
         ∫ N·p dA 装配。设置后用 ``solve(1.0)`` 求解（此时 f_unit 已是 N）。
         传负压即等效于反向（例如从阀片底面把阀片顶开）。
         """
-        face = self.mesh["face_e"]
-        keep = np.zeros(self.M, dtype=bool)
-        keep[self.elem_i[0]] = True
-        keep &= face
+        keep = self._load_face_mask()
+        li = self.load_layer
         rbar = self.mesh["rbar_e"][keep]
         thbar = self.mesh["thbar_e"][keep]
         p_e = np.asarray(pressure(rbar, thbar), dtype=float)
@@ -315,7 +333,7 @@ class LayeredStack:
             p_e = np.full(rbar.shape, float(p_e))
         if p_e.shape != rbar.shape:
             raise ValueError("pressure() 返回值形状必须与 r 一致")
-        top_w = self.ldof[0][self.conn[keep]][:, :, 2]
+        top_w = self.ldof[li][self.conn[keep]][:, :, 2]
         f = np.zeros(self.n_dof)
         for (N, dNx, dNy, ajd) in self.gb:
             fe = ajd[keep][:, None] * N[None, :] * p_e[:, None]

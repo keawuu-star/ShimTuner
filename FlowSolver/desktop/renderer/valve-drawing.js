@@ -172,7 +172,8 @@
     // 初始间隙 + 阀片堆叠（最底下一片先画，state.layers[0] = 顶片）
     line(c, clampR, p.tP, Math.max(shimR, R), p.tP, 'thin');
     line(c, clampR, zShim0, Math.max(shimR, R), zShim0, 'thin');
-    const layers = p.layers.slice().reverse();
+    // p.layers[0] = 贴活塞第 1 片，自下而上绘制
+    const layers = p.layers.slice();
     let z = zShim0;
     for (const l of layers) {
       const x0 = Math.max(0, l.din / 2);
@@ -241,6 +242,39 @@
            R + 2.5, zTop + 1.0, '阀片堆叠', 'start');
     leader(c, clampR * 0.5, zTop + 1.2, -R * 0.62, zTop + 2.2, '夹紧', 'end');
 
+    // ---- 阀片堆叠详图（纵向放大，明确装配次序）----
+    const det = { x0: R + 4, x1: R + 38, z0: -33, z1: -13.5 };
+    rect(c, det.x0, det.z0, det.x1 - det.x0, det.z1 - det.z0, 'title', '#ffffff');
+    line(c, det.x0, det.z1 - 4, det.x1, det.z1 - 4, 'title');
+    text(c, (det.x0 + det.x1) / 2, det.z1 - 2.2, '阀片堆叠详图（纵向放大）',
+         2.2, 'text', 'center', true);
+    const detX = det.x0 + 8;
+    const barW = (dout) => Math.max(4, Math.min(10, dout / 2));
+    // 活塞面示意（详图底部）
+    rect(c, detX, det.z0 + 3.4, 10, 1.2, 'cut');
+    hatch(c, detX, det.z0 + 3.4, 10, 1.2, 'hatch', 0.9);
+    text(c, detX + 10.8, det.z0 + 4.0, '活塞面', 1.5, 'text', 'start');
+    text(c, det.x0 + 1.3, det.z0 + 0.6, '①=贴活塞（迎油面）', 1.3,
+         'text', 'start');
+    let dz = det.z0 + 5.2;
+    const circled = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧'];
+    // 与主图一致：第 1 片贴活塞，自下而上
+    for (let i = 0; i < p.layers.length && i < circled.length; i++) {
+      const l = p.layers[i];
+      const w = barW(l.dout);
+      rect(c, detX, dz, w, 2.2, 'shimline');
+      hatch(c, detX, dz, w, 2.2, 'shim', 0.9);
+      text(c, det.x0 + 1.3, dz + 1.1, circled[i], 2.0, 'text', 'start', true);
+      text(c, detX + w + 0.8, dz + 1.1,
+           'Ø' + l.dout.toFixed(0) + '×' + l.t.toFixed(2), 1.6,
+           'text', 'start');
+      dz += 2.2 + 0.4;
+    }
+    // 夹紧环（顶部）
+    rect(c, detX, dz, 6, 1.6, 'outline');
+    hatch(c, detX, dz, 6, 1.6, 'hatch', 0.8);
+    text(c, det.x0 + 1.3, dz + 0.8, '夹紧环', 1.7, 'text', 'start', true);
+
     // ---- 标题栏 ----
     const tb = { x0: -R * 0.82, x1: R * 0.82, z0: -31, z1: -17 };
     rect(c, tb.x0, tb.z0, tb.x1 - tb.x0, tb.z1 - tb.z0, 'title', '#ffffff');
@@ -257,8 +291,8 @@
     text(c, tb.x1 - 1.5, tb.z1 - 13.4, 'ShimTuner', 1.6, 'text', 'end');
 
     const bbox = {
-      x0: -R - 8, x1: R + 34,
-      z0: tb.z0 - 2, z1: dZ + 21 + 6,
+      x0: -R - 8, x1: R + 42,
+      z0: Math.min(tb.z0, det.z0) - 2, z1: dZ + 21 + 6,
     };
     return { cmds: c, bbox, p };
   }

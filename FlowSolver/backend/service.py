@@ -379,13 +379,15 @@ def iterate(req) -> dict[str, Any]:
                                 fin.r_m * 1e3, fin.p_pa / 1e6)],
                 markers=_markers(piston))
     defl_series = []
+    n_layers = len(stack.layers)
     for i, layer in enumerate(stack.layers):
         ir = np.unique(stack.nodes_i[i] // stack.n_theta_nodes)
         r_i = stack.r_nodes[ir] * 1e3
         w_i = [stack.w_matrix(i)[j].mean() * 1e6 for j in ir]
         defl_series.append(_series(
-            f"w{i}", f"第{i+1}片 Ø{layer.d_out_mm:g}", PALETTE["accent2"],
-            r_i, w_i, dash="solid" if i == 0 else "dash"))
+            f"w{i}", f"第{n_layers - i}片 Ø{layer.d_out_mm:g}（自活塞向上）",
+            PALETTE["accent2"],
+            r_i, w_i, dash="solid" if i == n_layers - 1 else "dash"))
     defl = dict(title="收敛后的挠度场 w(r)（负值 = 抬升）",
                 x_label="半径 r [mm]", y_label="挠度 w [µm]",
                 series=defl_series, markers=_markers(piston))
@@ -448,6 +450,7 @@ def iterate(req) -> dict[str, Any]:
     notes = ["迭代变量 w(r) = 阀片挠度场；压力场由 FlowSolver 给出，"
              "挠度由 DeflectionSolver 分层模型给出。",
              "负 w = 阀片被油压顶开；间隙 h = h_deck − w。",
+             "层序：layers[0] = 贴活塞第 1 片（迎油面），油压作用其底面，向上逐层接触传力。",
              "v0 迭代：固定松弛 + 信赖域；收敛判据 max|Δw| < tol。"]
     if spec.window_load:
         notes.append("窗口分布载荷（v2）：基础流场压力乘以周向平滑调制 "

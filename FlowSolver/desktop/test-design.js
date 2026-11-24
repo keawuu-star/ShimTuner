@@ -92,8 +92,13 @@ const svg = Drawing.toSVG(dwg);
 assert.ok(svg.startsWith('<svg'), 'SVG 头');
 assert.ok(svg.includes('VALVE BODY'), '标题栏');
 assert.ok(svg.includes('Ø46'), '直径标注');
-assert.strictEqual(dwg.cmds.filter((c) => c.s === 'shimline').length, 2,
-  '两层阀片都应绘制');
+assert.ok(svg.includes('阀片堆叠详图'), '应有阀片堆叠详图');
+assert.ok(svg.includes('①=贴活塞'), '详图应标出第 1 片贴活塞');
+const shimRects = dwg.cmds.filter((c) => c.s === 'shimline' && c.y > 0);
+assert.strictEqual(shimRects.length, 2, '两层阀片都应绘制');
+// 层序：第 1 片（42）贴活塞 → 画在下方且更宽；第 2 片（36）在其上
+assert.ok(shimRects[0].y < shimRects[1].y, '第 1 片应在下方（贴活塞）');
+assert.ok(shimRects[0].w > shimRects[1].w, '第 1 片（42）应比上一层（36）宽');
 
 // 9) 圆形过孔与长条窗口都用同一套参数识别
 const circWin = V.windowGeometry({ kind: 'circle', cx: 12, cy: 0, r: 2 });

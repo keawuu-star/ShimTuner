@@ -430,5 +430,33 @@ class ViscosityTest(unittest.TestCase):
         self.assertIn("cSt", line[0])
 
 
+class LayerOrderTest(unittest.TestCase):
+    """层序约定：UI 第 1 行 = 贴活塞（迎油面），LayeredStack 内部反转并加载底层."""
+
+    def test_stack_reversed_and_bottom_loaded(self):
+        piston, fluid = cf.demo_piston(), cf.DEMO_FLUID
+        user_layers = [(18, 42, 0.25), (18, 36, 0.20), (18, 30, 0.20)]
+        spec = cp.IterationSpec(n_radial=8, n_theta=12)
+        stack = cp.build_stack(user_layers, piston, spec)
+        # 内部层序：最上层 → 贴活塞层
+        self.assertEqual([l.d_out_mm for l in stack.layers], [30.0, 36.0, 42.0])
+        self.assertEqual(stack.load_layer, 2)
+        self.assertEqual(stack.layers[stack.load_layer].d_out_mm, 42.0)
+
+    def test_pressure_on_piston_side_couples_all_layers(self):
+        piston = cf.demo_piston()
+        user_layers = [(18, 42, 0.25), (18, 36, 0.20), (18, 30, 0.20)]
+        spec = cp.IterationSpec(n_radial=8, n_theta=12)
+        stack = cp.build_stack(user_layers, piston, spec)
+        stack.set_pressure(lambda r, th: -1.0e6)
+        stack.solve(1.0)
+        # 第 1 片（贴活塞）受油压，经接触向上逐层传力：三片都应变形
+        for i in range(len(stack.layers)):
+            wm = stack.w_matrix(i)
+            self.assertGreater(float(np.abs(wm).max()), 1e-6,
+                               f"第{i+1}层未参与变形（接触未传力）")
+        self.assertGreater(stack.info["n_active"], 0)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -113,12 +113,18 @@ def build_stack(layers_mm, piston, spec: IterationSpec) -> LayeredStack:
     只解 1/N 扇区 + 周期边界，DOF 降为 1/N；等效全环分辨率 = n_theta_eff。
     要求 n_theta_eff 能被 N 整除且每扇区 ≥3 个周向单元，否则退回整环。
     """
-    layers = [ShimLayer(float(a), float(b), float(t)) for a, b, t in layers_mm]
+    # FlowSolver 约定：layers_mm[0] = 贴活塞的第 1 片（迎油面），向上依次；
+    # LayeredStack 约定：layers[0] = 最上层（离活塞最远）。
+    # 因此这里反转层序，并把载荷施加到反转后的最底层（= 用户第 1 片）。
+    layers_std = [ShimLayer(float(a), float(b), float(t))
+                  for a, b, t in layers_mm]
+    layers = list(reversed(layers_std))
     sector, n_theta = sector_plan(piston, spec)
     return LayeredStack(layers, n_elem_base_radial=spec.n_radial,
                         n_theta=n_theta,
                         clamp_radius_mm=piston.seat_radius_mm,
-                        nl=spec.nl, sector=sector)
+                        nl=spec.nl, sector=sector,
+                        load_layer=len(layers) - 1)
 
 
 def window_profile(piston, contrast=None):
@@ -206,7 +212,9 @@ def _pressure_fn(res_flow, piston, p_back, spec: IterationSpec | None = None):
 
 
 def _stack_w(stack: LayeredStack) -> np.ndarray:
-    return np.array([stack.w_matrix(0)[i].mean() for i in range(stack.n_r)])
+    # 流通间隙由"贴活塞第 1 片"（反转后的 load_layer）决定
+    li = int(getattr(stack, "load_layer", 0))
+    return np.array([stack.w_matrix(li)[i].mean() for i in range(stack.n_r)])
 
 
 def iterate_point(v_mps: float, piston, fluid, stack: LayeredStack,
@@ -218,7 +226,8 @@ def iterate_point(v_mps: float, piston, fluid, stack: LayeredStack,
     Q = kin["Q_valve_m3s"]                 # 通过活塞阀的总流量（主阀 + 常通孔）
     Q_rod = kin["Q_rod_m3s"]               # 杆侵入油缸的体积速度
     p_back = fluid.p_back_MPa * 1e6
-    step = spec.relax_step_um * 1e-6
+    step0 = spec.relax_step_um * 1e-6
+    step = step0
     hist: list[dict] = []
     converged = False
     res = None
@@ -241,14 +250,28 @@ def iterate_point(v_mps: float, piston, fluid, stack: LayeredStack,
         else:
             stack.solve(1.0)
         w_new = _stack_w(stack)
-        delta = np.clip(w_new - w, -step, step)
+        raw = w_new - w
+        clipped = bool(np.any(np.abs(raw) > step))
+        delta = np.clip(raw, -step, step)
         d = float(np.abs(delta).max())
-        w = w + spec.alpha * delta
-        hist.append(dict(iter=it, residual_um=d * 1e6,
+        # 自适应松弛：残差稳定下降时逐步加大 α；回升时回退（外层定点加速）
+        alpha = spec.alpha
+        if hist:
+            ratio = d / max(hist[-1]["_d_m"], 1e-18)
+            if ratio < 0.8:
+                alpha = min(0.85, alpha + 0.05)
+            elif ratio > 1.05:
+                alpha = max(0.2, alpha * 0.8)
+        w = w + alpha * delta
+        # 信赖域扩张：持续被截断且残差未回升时放大步长（高速工况少迭代）
+        if clipped and (not hist or d <= hist[-1]["residual_um"] * 1e-6 + 1e-18):
+            step = min(step * 1.6, step0 * 4.0)
+        hist.append(dict(iter=it, residual_um=d * 1e6, _alpha=alpha,
                          F_N=res.F_damper, dp_MPa=res.dp_total / 1e6,
                          h_port_um=res.h_port * 1e6,
                          w_tip_um=float(w[-1]) * 1e6,
-                         Q_bypass_m3s=res.Q_bypass_m3s))
+                         Q_bypass_m3s=res.Q_bypass_m3s,
+                         _d_m=d))
         if d < spec.tol_um * 1e-6:
             converged = True
             break
@@ -257,6 +280,9 @@ def iterate_point(v_mps: float, piston, fluid, stack: LayeredStack,
     gap = cf.ArrayGap(r_shim, -w, h_deck_m=piston.h_deck_m())
     fin = cf.solve_split(Q, piston, fluid, gap, n_grid=spec.grid,
                          C_d=spec.C_d, C_f=spec.C_f)
+    for h in hist:
+        h.pop("_d_m", None)
+        h.pop("_alpha", None)
     return dict(v_mps=float(v_mps), Q_m3s=Q, Q_rod_m3s=Q_rod, kin=kin,
                 w=w, res=fin, history=hist,
                 converged=converged, iterations=len(hist),
