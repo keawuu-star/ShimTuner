@@ -205,14 +205,29 @@ run-desktop.bat            # 或: cd desktop && npm start
   * **v–F 杆速**：流量由杆侵入油缸的体积速度决定 →
     `F(v)` 曲线（可加回弹分支）；`Q_valve/Q_rod` 为线性换算，只列在报告表格中；
 * 导入/导出工况 JSON（`shimtuner-flow-case/1`），复制报告；
+* **阀体设计（草图 / 工程图）**：顶栏「阀体设计」打开；
+  * **草图**：圆 / 矩形 / 多段线绘制 + 角色标注（活塞外圆、杆孔、夹持圆、
+    最大阀片外圆、窗口、常通孔），自动识别活塞/窗口/夹持/阀片参数；
+    支持「从当前参数」生成草图、撤销/重做、缩放/平移，快捷键
+    `Ctrl+Z` / `Ctrl+Y` / `F` / `+` / `-` / `Enter` / `Esc`；
+  * **工程图**：半剖 CAD 视图，按识别参数（或当前求解输入）自动绘制
+    活塞体（剖面线）、阀片堆叠、夹紧环、窗口与常通孔，带直径/轴向尺寸
+    与标题栏；可导出 **SVG / PNG**；
+  * 工程图专用参数：**活塞厚度 t_p**、**常通孔中心半径 r_b**（仅绘图，不写回求解）；
+
+![阀体设计草图](desktop/doc/design-sketch.png)
+![阀体工程图（半剖）](desktop/doc/design-drawing.png)
+
 * 冒烟测试：
 
 ```powershell
 cd desktop
 npm run smoke           # 单点模式端到端（Electron + 渲染 + 后端）
-npm run smoke:iterate   # 耦合迭代模式端到端（约 10 s）
-npm run smoke:curve     # Q–F 曲线模式端到端（约 30 s）
-npm run smoke:rod       # v–F 杆速模式端到端（约 30 s）
+npm run smoke:iterate   # 耦合迭代模式端到端
+npm run smoke:curve     # Q–F 曲线模式端到端
+npm run smoke:rod       # v–F 杆速模式端到端
+npm run smoke:design    # 阀体设计：草图识别 / 工程图 tab / 撤销 / 导出链路
+npm run test:design     # design.js + valve-drawing.js 纯几何单测（Node）
 ```
 
 ## 耦合迭代接口 `/api/iterate`

@@ -9,7 +9,9 @@
     "smoke": "electron . --smoke-test",
     "smoke:iterate": "electron . --smoke-test --smoke-iterate",
     "smoke:curve": "electron . --smoke-test --smoke-curve",
-    "smoke:rod": "electron . --smoke-test --smoke-rod"
+    "smoke:rod": "electron . --smoke-test --smoke-rod",
+    "test:design": "node test-design.js",
+    "smoke:design": "electron . --smoke-test --smoke-design"
   },
   "devDependencies": {
     "electron": "^45.3.3"

@@ -8,10 +8,24 @@ const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');          // FlowSolver/
 const IS_WIN = process.platform === 'win32';
+const __dbgFile = process.env.SHIMTUNER_DEBUG_LOG;
+function __dbg(msg) {
+  if (!__dbgFile) return;
+  try {
+    require('fs').appendFileSync(__dbgFile,
+      new Date().toISOString() + ' ' + msg + '\n');
+  } catch { /* ignore */ }
+}
+__dbg('boot argv=' + JSON.stringify(process.argv)
+  + ' cwd=' + process.cwd() + ' runAsNode=' + process.env.ELECTRON_RUN_AS_NODE);
+process.on('uncaughtException', (e) => __dbg('uncaught ' + (e && e.stack || e)));
+process.on('unhandledRejection', (e) => __dbg('rejection ' + (e && e.stack || e)));
+
 const SMOKE = process.argv.includes('--smoke-test');
 const SMOKE_ITERATE = process.argv.includes('--smoke-iterate');
 const SMOKE_CURVE = process.argv.includes('--smoke-curve');
 const SMOKE_ROD = process.argv.includes('--smoke-rod');
+const SMOKE_DESIGN = process.argv.includes('--smoke-design');
 
 let win = null;
 let backend = null;                                  // { child, url, port, python }
@@ -281,9 +295,12 @@ ipcMain.handle('app:open-text', async () => {
 });
 
 app.whenReady().then(async () => {
+  __dbg('whenReady');
   try {
     await startBackend();
-  } catch {
+    __dbg('backend ok url=' + (state.url || '-'));
+  } catch (err) {
+    __dbg('backend fail ' + (err && err.stack || err));
     if (SMOKE) {
       console.log(JSON.stringify({ ok: false, state: snapshot() }, null, 2));
       app.exit(1);
@@ -311,14 +328,102 @@ app.whenReady().then(async () => {
           result = { ready: false, error: String(err) };
         }
       }
+      let design = null;
+      if (SMOKE_DESIGN && result && result.ready && !result.error) {
+        try {
+          design = await win.webContents.executeJavaScript(`(() => {
+            const byId = (id) => document.getElementById(id);
+            const btn = byId('designBtn');
+            if (!btn) return { ok: false, error: 'designBtn missing' };
+            btn.click();
+            const overlay = byId('designOverlay');
+            const visible = !overlay.classList.contains('hidden');
+            byId('designDemo').click();
+            const rows = [...document.querySelectorAll('#designParams tr')]
+              .map((r) => r.textContent.replace(/\s+/g, ' ').trim());
+            // 工程图 tab：切换后画布/面板可见，再切回草图
+            byId('designTabDrawing').click();
+            const drawingTab = byId('designTabDrawing').classList.contains('active');
+            const drawingPanel = byId('designDrawingPanel')
+              && !byId('designDrawingPanel').hidden;
+            byId('designTabSketch').click();
+            // 操作逻辑：清空 → 撤销恢复 → 从当前参数生成
+            const countRows = () => document.querySelectorAll('#designParams tr').length;
+            byId('designClear').click();
+            const clearedRows = countRows();
+            const clearedDisabled = byId('designApply').disabled;
+            byId('designUndo').click();
+            const undoneRows = countRows();
+            const undoneEnabled = !byId('designApply').disabled;
+            byId('designFromCurrent').click();
+            const fromRows = countRows();
+            const fromEnabled = !byId('designApply').disabled;
+            // 工程图导出链路（SVG/PNG 纯前端生成）
+            const dwg = window.ValveDesign.buildCurrentDrawing();
+            const svg = window.ValveDrawing.toSVG(dwg);
+            const png = window.ValveDrawing.toPNG(dwg, 8);
+            const exportOk = svg.startsWith('<svg')
+              && svg.includes('VALVE BODY')
+              && png.startsWith('data:image/png') && png.length > 5000;
+            const rects = ['#designOverlay', '.design-body', '.design-canvas-wrap',
+                           '#designCanvas', '.design-side'].map((sel) => {
+              const el = document.querySelector(sel);
+              const r = el.getBoundingClientRect();
+              return [sel, Math.round(r.width), Math.round(r.height)];
+            });
+            const apply = byId('designApply');
+            const enabled = !apply.disabled;
+            apply.click();
+            return {
+              ok: visible && enabled && overlay.classList.contains('hidden')
+                  && Number(byId('pD').value) === 46
+                  && Number(byId('pN').value) === 6
+                  && rows.length >= 9 && drawingTab && drawingPanel
+                  && clearedDisabled && undoneRows >= 9 && undoneEnabled
+                  && fromRows >= 9 && fromEnabled && exportOk,
+              visible, enabled, closed: overlay.classList.contains('hidden'),
+              drawingTab, drawingPanel, clearedRows, clearedDisabled,
+              undoneRows, undoneEnabled, fromRows, fromEnabled, exportOk,
+              pD: Number(byId('pD').value), pN: Number(byId('pN').value),
+              rows, rects,
+            };
+          })()`);
+        } catch (err) {
+          design = { ok: false, error: String(err) };
+        }
+      }
+      // 可选：设计模式截图（人工检查布局）
+      if (SMOKE_DESIGN && process.env.DESIGN_SHOT) {
+        try {
+          win.show();
+          await win.webContents.executeJavaScript(
+            `document.getElementById('designBtn').click();
+             document.getElementById('designDemo').click();
+             document.getElementById('designTabSketch').click(); true`);
+          await new Promise((r) => setTimeout(r, 700));
+          if (process.env.DESIGN_SHOT_SKETCH) {
+            const imgS = await win.webContents.capturePage();
+            require('fs').writeFileSync(process.env.DESIGN_SHOT_SKETCH, imgS.toPNG());
+          }
+          await win.webContents.executeJavaScript(
+            `document.getElementById('designTabDrawing').click(); true`);
+          await new Promise((r) => setTimeout(r, 900));
+          const img = await win.webContents.capturePage();
+          require('fs').writeFileSync(process.env.DESIGN_SHOT, img.toPNG());
+        } catch (err) {
+          console.error('screenshot failed', err);
+        }
+      }
       const ok = Boolean(result && result.ready && !result.error
-        && (!smokeMode || result.solver === smokeMode));
+        && (!smokeMode || result.solver === smokeMode)
+        && (!SMOKE_DESIGN || (design && design.ok)));
       console.log(JSON.stringify({
         ok,
         mode: smokeMode || 'single',
         backend: state.url,
         python: state.python,
         renderer: result,
+        design,
       }, null, 2));
       stopBackend();
       app.exit(ok ? 0 : 1);

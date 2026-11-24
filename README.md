@@ -102,6 +102,8 @@ python -m unittest discover -s tests -v # 后端回归 15 项
 * 阀体设计模式：桌面端「阀体设计」→ 草图（圆/多段线/矩形）→ 标注角色
   （活塞外圆/杆孔/窗口/夹持圆/阀片外圆）→ 自动识别直径、窗口弧长/径向宽度/中心半径/N
   → 一键写回输入框；带"还需要画什么"引导提示（`desktop/renderer/design.js`）。
+* 阀体设计：Flow Studio 顶栏「阀体设计」→ 草图（绘制/标注/自动识别，支持从当前参数生成、
+  撤销/重做、缩放）与**工程图**（半剖 CAD：剖面线、尺寸、标题栏，可导出 SVG/PNG）。
 * 端到端演示：`FlowSolver/backend /api/iterate` 调用 DeflectionSolver 的分层模型，
   默认 3 片堆叠、v=0.15 m/s 迭代收敛，F ≈ 177 N；Electron 冒烟
   `npm run smoke` / `smoke:iterate` / `smoke:curve` / `smoke:rod` 均通过。

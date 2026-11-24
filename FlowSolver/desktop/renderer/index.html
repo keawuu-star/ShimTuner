@@ -171,6 +171,7 @@
       <div class="topbar-actions">
         <span class="elapsed" id="elapsedBadge">—</span>
         <button class="btn ghost small" id="designBtn" type="button">阀体设计</button>
+        <button class="btn ghost small" id="importBtn" type="button">导入</button>
         <button class="btn ghost small" id="exportBtn" type="button">导出</button>
         <input id="importFile" type="file" accept="application/json,.json" hidden>
       </div>
@@ -235,6 +236,11 @@
       <p class="design-sub" id="designSub">绘制轮廓并标注角色，自动识别活塞/窗口/夹持/阀片关键参数</p>
     </div>
     <div class="design-head-actions">
+      <div class="design-tabs" role="tablist">
+        <button class="design-tab active" id="designTabSketch" type="button">草图</button>
+        <button class="design-tab" id="designTabDrawing" type="button">工程图</button>
+      </div>
+      <button class="btn ghost small" id="designFromCurrent" type="button">从当前参数</button>
       <button class="btn ghost small" id="designDemo" type="button">载入示例</button>
       <button class="btn ghost small" id="designClear" type="button">清空</button>
       <button class="btn ghost small" id="designClose" type="button">返回求解</button>
@@ -250,21 +256,26 @@
         <button class="btn ghost tiny" data-tool="rect" type="button">矩形窗口</button>
         <button class="btn ghost tiny" data-tool="delete" type="button">删除</button>
         <span class="design-toolbar-sep"></span>
-        <button class="btn ghost tiny" id="designFit" type="button">适应视图</button>
+        <button class="btn ghost tiny" id="designUndo" type="button" title="撤销 Ctrl+Z">撤销</button>
+        <button class="btn ghost tiny" id="designRedo" type="button" title="重做 Ctrl+Y">重做</button>
+        <span class="design-toolbar-sep"></span>
+        <button class="btn ghost tiny" id="designZoomIn" type="button" title="放大 +">＋</button>
+        <button class="btn ghost tiny" id="designZoomOut" type="button" title="缩小 −">－</button>
+        <button class="btn ghost tiny" id="designFit" type="button" title="适应视图 F">适应视图</button>
       </div>
       <canvas id="designCanvas"></canvas>
       <div class="design-status" id="designStatus">选择工具开始绘制</div>
     </div>
 
     <aside class="design-side">
-      <section class="panel">
+      <section class="panel" id="designAnnotatePanel">
         <div class="panel-head"><h2>标注</h2><span class="panel-hint">选中图元后指定角色</span></div>
         <div id="designSelected" class="design-selected">
           <p class="design-empty">未选中图元。</p>
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="designParamsPanel">
         <div class="panel-head"><h2>识别参数</h2><span class="panel-hint">mm</span></div>
         <table class="design-params" id="designParams"></table>
         <div class="design-inputs">
@@ -279,14 +290,31 @@
         <p class="fem-hint">初始间隙不是几何量，需手动输入；常通孔数量请在求解页确认。</p>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="designGuidePanel">
         <div class="panel-head"><h2>引导提示</h2><span class="panel-hint">还需要什么</span></div>
         <ul class="design-guide" id="designGuide"></ul>
+      </section>
+
+      <section class="panel" id="designDrawingPanel" hidden>
+        <div class="panel-head"><h2>工程图参数</h2><span class="panel-hint">mm</span></div>
+        <div class="design-inputs">
+          <label class="field"><span>活塞厚度 t_p</span>
+            <input id="designTP" type="number" min="2" step="0.5" value="12"></label>
+          <label class="field"><span>常通孔中心半径 r_b</span>
+            <input id="designBypassR" type="number" min="0" step="0.5" value="12.5"></label>
+        </div>
+        <p class="fem-hint">工程图按<b>半剖视图</b>绘制：活塞体（斜剖面线）、阀片堆叠、
+          夹紧环、窗口与常通孔均按当前参数自动生成；尺寸标注与标题栏随参数更新。</p>
+        <div class="design-export">
+          <button class="btn ghost small" id="designExportSvg" type="button">导出 SVG</button>
+          <button class="btn ghost small" id="designExportPng" type="button">导出 PNG</button>
+        </div>
       </section>
     </aside>
   </div>
 </div>
 <script src="chart.js"></script>
+<script src="valve-drawing.js"></script>
 <script src="design.js"></script>
 <script src="app.js"></script>
 </body>

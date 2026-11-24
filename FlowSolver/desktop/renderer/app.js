@@ -219,6 +219,7 @@ function wireUi() {
   $('runBtn').addEventListener('click', () => runAnalysis(true));
   $('restartBackendBtn').addEventListener('click', restartBackend);
   $('copyBtn').addEventListener('click', copyReport);
+  $('importBtn').addEventListener('click', () => $('importFile').click());
   $('exportBtn').addEventListener('click', exportCase);
   $('importFile').addEventListener('change', importCaseFile);
   // 阀体设计模式：草图 → 标注 → 识别参数 → 写回输入框
@@ -230,6 +231,9 @@ function wireUi() {
     }
     window.ValveDesign.open({
       piston: pistonInput(),
+      layers: state.layers.map((l) => ({
+        d_in_mm: Number(l.din), d_out_mm: Number(l.dout), t_mm: Number(l.t),
+      })),
       onApply: (params) => {
         applyPistonParams(params);
         if (state.autoRun) scheduleRun();

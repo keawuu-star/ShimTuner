@@ -13,3 +13,10 @@ npm-debug.log*
 *.log
 *.tmp
 _verify_*.txt
+
+# 启动器运行产物
+launcher-logs/
+ShimTuner.launcher.ini
+ShimTuner.launcher-check.txt
+ShimTuner.launcher-plan.txt
+ShimTuner.launcher-shot.err
