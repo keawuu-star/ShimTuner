@@ -55,7 +55,7 @@
           <label class="field"><span>常通孔 Ø</span><div class="unit-input"><input id="pBypD" type="number" step="1" min="0" placeholder="0 = 无"><em>mm</em></div></label>
           <label class="field"><span>常通孔个数</span><div class="unit-input"><input id="pBypN" type="number" step="1" min="0" placeholder="0 = 无"><em>个</em></div></label>
         </div>
-        <p class="fem-hint">常通孔为固定几何旁通（Q_b = C_d·A_b·√(2Δp/ρ)），与阀片间隙并联、按压力自动分流，不随迭代变化。</p>
+        <p class="fem-hint">常通孔为固定几何旁通（Q_b = C_d·A_b·√(2Δp/ρ)），与阀片间隙并联、按压力自动分流，不随迭代变化。<br>窗口周向宽度为中心半径处弧长；求解按等张角换算到窗口外缘，取外缘弧长 × 外缘间隙作为节流帘幕。</p>
       </section>
 
       <section class="panel compact">

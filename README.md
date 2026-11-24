@@ -88,11 +88,11 @@ python -m unittest discover -s tests -v # 后端回归 15 项
 * 桌面端：两套 Electron 工作台均可运行——DeflectionSolver（挠度）与
   FlowSolver（流道-压力场：单点 / 耦合迭代 / Q–F 曲线 / **v–F 杆速**）。
 * Q–F 曲线：`ShimTuner/fv_curve.py`（总入口）或后台 `/api/fv-curve` / 桌面端「Q–F 曲线」模式，
-  逐点闭环迭代（热启动）；默认 6 点 F ≈ 68→648 N，6/6 收敛。
+  逐点闭环迭代（热启动）；默认 6 点 F ≈ 40→350 N，6/6 收敛。
 * **v–F 杆速**：流量由杆侵入油缸的体积速度决定（`Q_valve=(A_p−A_rod)·v`，
   `Q_rod=A_rod·v`）；后台 `/api/rod-curve` / 桌面端「v–F 杆速」/ CLI `--direction both`
-  可同时给压缩、回弹两条分支（各自阀片堆叠）。默认压缩 6 点 F ≈ 68→648 N；
-  示例双分支（压缩 3 片 / 回弹 2 片薄堆叠）v≤0.25 m/s：压缩 280 N、回弹 184 N。
+  可同时给压缩、回弹两条分支（各自阀片堆叠）。默认压缩 6 点 F ≈ 40→350 N；
+  示例双分支（压缩 3 片 / 回弹 2 片薄堆叠）v≤0.25 m/s：压缩 212 N、回弹 176 N。
 * 油液黏度：支持工作温度 T + KV40/KV100/VI（ASTM D341 外推 ν(T)、ASTM D2270 校验 VI）；
   未启用时仍用手动 cSt，后端/桌面端/CLI 均已接入。
 * 窗口分布载荷（可选，v2）：`iterate.window_load`（后端/桌面端复选框/CLI
@@ -105,5 +105,5 @@ python -m unittest discover -s tests -v # 后端回归 15 项
 * 阀体设计：Flow Studio 顶栏「阀体设计」→ 草图（绘制/标注/自动识别，支持从当前参数生成、
   撤销/重做、缩放）与**工程图**（半剖 CAD：剖面线、尺寸、标题栏，可导出 SVG/PNG）。
 * 端到端演示：`FlowSolver/backend /api/iterate` 调用 DeflectionSolver 的分层模型，
-  默认 3 片堆叠、v=0.15 m/s 迭代收敛，F ≈ 265 N（第 1 片贴活塞、油压作用其底面）；Electron 冒烟
+  默认 3 片堆叠、v=0.15 m/s 迭代收敛，F ≈ 146 N（第 1 片贴活塞、油压作用其底面）；Electron 冒烟
   `npm run smoke` / `smoke:iterate` / `smoke:curve` / `smoke:rod` 均通过。

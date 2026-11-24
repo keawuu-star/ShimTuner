@@ -458,5 +458,24 @@ class LayerOrderTest(unittest.TestCase):
         self.assertGreater(stack.info["n_active"], 0)
 
 
+class OuterCurtainTest(unittest.TestCase):
+    """节流帘幕在窗口外缘：外缘弧长 × 外缘间隙，流道从外缘开始."""
+
+    def test_curtain_geometry_and_area(self):
+        p = cf.demo_piston()
+        r_c = p.r_curtain_m()
+        self.assertAlmostEqual(r_c, (p.port_radius_mm + 0.5 * p.port_radial_mm) * 1e-3)
+        self.assertAlmostEqual(p.w_curtain_m(),
+                               p.port_width_mm * 1e-3 * r_c / p.r_port_m())
+        h0 = 0.2e-3
+        gap = cf.PowerLawGap(lift_m=0.0, r_seat_m=p.r_seat_m(),
+                             r_outer_m=p.r_outer_m(), power=2.0,
+                             h_deck_m=h0)
+        res = cf.solve_point(1e-4, p, cf.DEMO_FLUID, gap)
+        self.assertAlmostEqual(res.A_th, p.n_ports * p.w_curtain_m() * h0)
+        self.assertAlmostEqual(res.r_m[0], r_c, places=12)
+        self.assertAlmostEqual(res.h_port, h0, places=12)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

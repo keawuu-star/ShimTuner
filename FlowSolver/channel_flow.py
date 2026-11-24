@@ -13,7 +13,9 @@
 主导阻尼机制（v1，按项目要求）:
 
 1. **截流面积**（阀片底面与活塞面之间，阀片抬升形成的"帘幕"面积）
-       A_th = N · w_port · h(r_port),      h(r) = h_deck + w(r)
+       节流发生在**窗口外缘** r_curt = r_port + dr/2：
+       A_th = N · w_curt · h(r_curt),      w_curt = w_port · r_curt/r_port
+       h(r) = h_deck + w(r)
    局部收缩损失:  Δp_c = ρ Q² / (2 C_d² A_th²)
 
 2. **射流效应**（油束经窗口冲击阀片，动量直接传给阀片）
@@ -23,7 +25,7 @@
        u(r) = Q / (2π r h)
        dp/dr = −12 μ u / h² + ρ u² (1/r + h′/h)
 
-   外缘 p(r_out) = p_back；上游 p_up = p(r_port) + Δp_c。
+   外缘 p(r_out) = p_back；上游 p_up = p(r_curt) + Δp_c。
 
 输出:
 
@@ -83,6 +85,8 @@ class PistonSpec:
             raise ValueError("窗口周向宽度超过所在圆周周长")
         if self.port_radial_mm <= 0:
             raise ValueError("窗口径向宽度必须 > 0")
+        if self.port_radius_mm + 0.5 * self.port_radial_mm >= self.shim_outer_mm:
+            raise ValueError("窗口外缘超出最大阀片半径，无法形成外侧帘幕")
         if self.deck_height_mm <= 0:
             raise ValueError("初始间隙 h_deck 必须 > 0")
         if self.bypass_n < 0 or self.bypass_d_mm < 0:
@@ -121,8 +125,17 @@ class PistonSpec:
         return 2.0 * self.shim_outer_mm
 
     def port_arc_deg(self) -> float:
-        """单个窗口的周向张角（度）：弧长 / 中心半径."""
+        """单个窗口的周向张角（度）：中心弧长 / 中心半径."""
         return math.degrees(self.port_width_mm / self.port_radius_mm)
+
+    def r_curtain_m(self) -> float:
+        """帘幕所在半径 = 窗口外缘半径 r_port + dr/2（节流发生在窗口外侧）."""
+        return (self.port_radius_mm + 0.5 * self.port_radial_mm) * 1e-3
+
+    def w_curtain_m(self) -> float:
+        """窗口外缘弧长（中心弧长按等张角换算到外缘）."""
+        return (self.port_width_mm * 1e-3
+                * self.r_curtain_m() / self.r_port_m())
 
     def h_deck_m(self) -> float:
         return self.deck_height_mm * 1e-3
@@ -362,6 +375,8 @@ class FlowResult:
     # ---- 常通孔流量拆分（默认 0 = 全部经主阀，兼容旧结果）----
     Q_total_m3s: float = 0.0         # 活塞阀总流量（主阀 + 常通孔）
     Q_bypass_m3s: float = 0.0        # 经常通孔的分流量（固定几何）
+    r_curtain_m: float = 0.0         # 节流帘幕半径（窗口外缘）
+    w_curtain_m: float = 0.0         # 帘幕周向弧长（外缘弧长）
     A_bypass_m2: float = 0.0         # 常通孔总面积
 
     def summary(self) -> str:
@@ -465,14 +480,16 @@ def solve_point(Q_m3s: float, piston: PistonSpec, fluid: FluidSpec,
     if Q_m3s < 0:
         raise ValueError("Q 必须 ≥ 0")
 
-    r_port = piston.r_port_m()
+    r_port = piston.r_port_m()          # 窗口中心（用于标签/角向）
+    r_curt = piston.r_curtain_m()       # 节流帘幕半径 = 窗口外缘
+    w_curt = piston.w_curtain_m()       # 窗口外缘弧长
     r_out = piston.r_outer_m()
     r_seat = piston.r_seat_m()
     p_back = fluid.p_back_MPa * 1e6
     A_eff = piston.area_effective_m2()
     v = Q_m3s / A_eff
 
-    r, h_raw = _gap_on_grid(gap, r_port, r_out, n_grid)
+    r, h_raw = _gap_on_grid(gap, r_curt, r_out, n_grid)
     warn: list[str] = []
     if np.any(h_raw < h_min_m):
         warn.append(f"间隙低于 {h_min_m*1e6:.1f} µm 被截断（可能已贴合/闭死）")
@@ -496,22 +513,21 @@ def solve_point(Q_m3s: float, piston: PistonSpec, fluid: FluidSpec,
     dp_visc = float(_trapz(visc, r))
     dp_inert = float(_trapz(inert, r))
 
-    # ---- 截流面积（阀片底面 × 窗口周向宽度）----
-    h_port = float(gap(np.array([r_port]))[0])
-    A_th = max(piston.n_ports * piston.port_width_mm * 1e-3
-               * max(h_port, 0.0), 1e-12)
+    # ---- 截流面积：窗口外缘弧长 × 阀片-活塞帘幕间隙 ----
+    h_port = float(gap(np.array([r_curt]))[0])
+    A_th = max(piston.n_ports * w_curt * max(h_port, 0.0), 1e-12)
     dp_curtain = fluid.rho * Q_m3s ** 2 / (2.0 * C_d ** 2 * A_th ** 2)
     v_port = Q_m3s / A_th
     p_jet = 0.5 * fluid.rho * v_port ** 2
-    jet_sigma = 0.5 * piston.port_width_mm * 1e-3
+    jet_sigma = 0.5 * w_curt
 
     p_up = p_back + dp_channel + dp_curtain
     dp_total = p_up - p_back
 
     # ---- 力 ----
-    # 阀片底面压力 (相对背压): 落座半径→窗口半径为上游压力, 其后为 p(r)
-    n_land = max(int(round(n_grid * (r_port - r_seat) / (r_out - r_seat))), 2)
-    r_land = np.linspace(r_seat, r_port, n_land)
+    # 阀片底面压力 (相对背压): 落座半径→窗口外缘为上游压力, 其后为 p(r)
+    n_land = max(int(round(n_grid * (r_curt - r_seat) / (r_out - r_seat))), 2)
+    r_land = np.linspace(r_seat, r_curt, n_land)
     F_land = float(_trapz((p_up - p_back) * 2.0 * math.pi * r_land, r_land))
     F_channel = float(_trapz((p - p_back) * 2.0 * math.pi * r, r))
     F_jet = C_f * fluid.rho * Q_m3s ** 2 / A_th
@@ -539,7 +555,7 @@ def solve_point(Q_m3s: float, piston: PistonSpec, fluid: FluidSpec,
         Q_m3s=Q_m3s, v_mps=v, p_back=p_back, p_up=p_up, dp_total=dp_total,
         dp_curtain=dp_curtain, dp_viscous=dp_visc, dp_inertia=dp_inert,
         A_th=A_th, h_port=h_port, v_port=v_port, p_jet=p_jet,
-        jet_sigma=jet_sigma,
+        jet_sigma=jet_sigma, r_curtain_m=r_curt, w_curtain_m=w_curt,
         F_damper=F_damper, F_jet=F_jet, F_shim=F_shim,
         Re=Re, r_m=r, h_m=h_raw, p_pa=p, u_mps=u, warnings=warn)
 
@@ -599,20 +615,21 @@ def _selftest() -> None:
     assert abs(z.dp_total) < 1e-6 and abs(z.F_damper) < 1e-6
 
     # ---- 2) 纯黏性解析对照 (忽略惯性/截流) ----
-    # 常间隙 h, 环向 Poiseuille: Δp = 12 μ Q /(2π h³) · ln(r_out/r_port)
+    # 常间隙 h, 环向 Poiseuille: Δp = 12 μ Q /(2π h³) · ln(r_shim_out/r_curtain)
     h0 = 0.2e-3
     flat = PowerLawGap(lift_m=0.0, r_seat_m=pis.r_seat_m(),
                        r_outer_m=pis.r_outer_m(), power=2.0, h_deck_m=h0)
     Q = 2e-5
     res = solve_point(Q, pis, flu, flat, C_d=1e6, C_f=0.0)  # 抹掉截流与射流
     mu = flu.mu()
-    dp_an = 12.0 * mu * Q / (2.0 * math.pi * h0 ** 3) * math.log(pis.r_outer_m() / pis.r_port_m())
+    dp_an = (12.0 * mu * Q / (2.0 * math.pi * h0 ** 3)
+             * math.log(pis.r_outer_m() / pis.r_curtain_m()))
     print(f"[2] 纯黏性: 数值 Δp_channel={res.dp_viscous:.6e} Pa | 解析 {dp_an:.6e} Pa | "
           f"rel={abs(res.dp_viscous-dp_an)/dp_an:.2e}")
     assert abs(res.dp_viscous - dp_an) / dp_an < 2e-3
 
     # ---- 3) 截流解析对照 ----
-    A_th = pis.n_ports * pis.port_width_mm * 1e-3 * gap(np.array([pis.r_port_m()]))[0]
+    A_th = pis.n_ports * pis.w_curtain_m() * gap(np.array([pis.r_curtain_m()]))[0]
     dp_c_an = flu.rho * Q ** 2 / (2 * 0.7 ** 2 * A_th ** 2)
     print(f"[3] 截流: Δp_c={res.dp_curtain:.6e} Pa (C_d=1e6 时≈0) | 参考 {dp_c_an:.3e}")
     assert res.dp_curtain < 1e-3 * dp_an
@@ -630,7 +647,7 @@ def _selftest() -> None:
 
     # ---- 6) 压力场边界与单调性 ----
     print(f"[6] p(r_out)={r4.p_pa[-1]:.3e} (=p_back {flu.p_back_MPa*1e6:.1e}) | "
-          f"p(r_port)={r4.p_pa[0]:.4e} | p_up={r4.p_up:.4e}")
+          f"p(r_curtain)={r4.p_pa[0]:.4e} | p_up={r4.p_up:.4e}")
     assert abs(r4.p_pa[-1] - flu.p_back_MPa * 1e6) < 1e-9
     assert np.all(np.diff(r4.p_pa) <= 1e-6), "压力应随 r 单调下降"
 

@@ -362,26 +362,28 @@ $$ g \ge 0,\qquad p_c \ge 0,\qquad g\cdot p_c = 0 $$
 沿"窗口 → 截流面 → 径向间隙 → 外缘"求稳态压力场：
 
 1. **截流面积**（阀片底面与活塞面之间的帘幕面积）
-   $$ A_{\text{th}} = N\,w_{\text{port}}\,h(r_{\text{port}}),\qquad h(r)=h_{\text{deck}}+w(r) $$
+   $$ r_{\text{out}}=r_{\text{port}}+\tfrac12 d_{r,\text{port}},\qquad
+      w_{\text{out}}=w_{\text{port}}\,\frac{r_{\text{out}}}{r_{\text{port}}} $$
+   $$ A_{\text{th}} = N\,w_{\text{out}}\,h(r_{\text{out}}),\qquad h(r)=h_{\text{deck}}+w(r) $$
    $$ \Delta p_c = \frac{\rho Q^2}{2 C_d^2 A_{\text{th}}^2} $$
 2. **射流效应**
    $$ v_{\text{port}}=\frac{Q}{A_{\text{th}}},\quad
       p_{\text{jet}}=\tfrac12\rho v_{\text{port}}^2,\quad
       F_{\text{jet}}=C_f\frac{\rho Q^2}{A_{\text{th}}}\quad (C_f\approx0.3) $$
-   射流在阀片上的作用宽度 $\sigma\approx w_{\text{port}}/2$，作为局部压力包
-   $p_{\text{jet}}\exp[-((r-r_{\text{port}})/\sigma)^2]$ 供挠度求解器使用。
+   射流在阀片上的作用半宽 $\sigma_c\approx w_{\text{out}}/2$、径向 $\sigma_r=d_{r,\text{port}}/2$，
+   以窗口外缘 $r_{\text{out}}$ 为中心作为局部压力包供挠度求解器使用。
 3. **径向间隙流**（黏性 + 惯性）
    $$ u(r)=\frac{Q}{2\pi r h},\quad
       \frac{dp}{dr}=-\frac{12\mu u}{h^2}+\rho u^2\left(\frac1r+\frac{h'}{h}\right),\quad
       p(r_{\text{out}})=p_{\text{back}} $$
-   $$ p_{\text{up}}=p(r_{\text{port}})+\Delta p_c $$
+   $$ p_{\text{up}}=p(r_{\text{out}})+\Delta p_c $$（积分从窗口外缘 $r_{\text{out}}$ 到外缘）
 4. **输出**：$F_{\text{damper}}=(p_{\text{up}}-p_{\text{back}})A_{\text{eff}}$，
    $F_{\text{shim}}=\int(p-p_{\text{back}})dA+F_{\text{jet}}$，损失分解（截流/黏性/惯性）、
    $Re$、告警。
 
 **默认活塞数据实测**（Ø46/Ø18，6×8 mm 窗口 @16 mm，$h_{\text{deck}}$=0.1 mm，
 幂律挠度场 0.15 mm，$\nu$=15 cSt）：$v$=0.25 m/s 时 $F\approx3.1$ kN、
-$\Delta p\approx2.22$ MPa、截流项占 **92%**、$p_{\text{jet}}\approx1.0$ MPa；
+$\Delta p\approx1.15$ MPa、截流项占 **94%**、$p_{\text{jet}}\approx0.53$ MPa；
 $v$=0.05 m/s 时截流 56%、黏性才同量级。数值自检覆盖：$Q\to0$ 极限、
 纯黏性环隙解析（相对差 $<10^{-7}$）、射流力公式、$F=\Delta p A_{\text{eff}}$、
 压力场边界与单调性、网格收敛（$<10^{-5}$）。
@@ -413,7 +415,7 @@ $KV_{100}$，因此开启黏度曲线时必须同时给 $KV_{100}$；输入 VI �
 "流道解 → 挠度解 → 修正"循环（固定松弛 $\alpha$ + 信赖域），默认 3 片堆叠
 （Ø18/42×0.25、Ø18/36×0.20、Ø18/30×0.20；第 1 片贴活塞、油压作用其底面）、$v=0.15$ m/s 时 **约 10 次迭代收敛**
 （残差 1.2 µm），得 $w_{\text{tip}}\approx-516$ µm、$h_{\text{port}}\approx370$ µm、
-$\Delta p\approx0.126$ MPa、$F\approx265$ N（层序修正：第 1 片贴活塞，油压作用于其底面）。Electron 桌面端（Flow Studio）的
+$\Delta p\approx0.126$ MPa、$F\approx146$ N（层序修正 + 外侧帘幕：第 1 片贴活塞，油压作用于其底面）。Electron 桌面端（Flow Studio）的
 "耦合迭代"模式直接调用该接口；`npm run smoke` 与 `npm run smoke:iterate`
 均通过端到端冒烟。
 
@@ -421,7 +423,7 @@ $\Delta p\approx0.126$ MPa、$F\approx265$ N（层序修正：第 1 片贴活塞
 即得阻尼力曲线 $F(Q)$。三个入口：
 `ShimTuner/fv_curve.py`（总项目命令行，直接调用两个 solver）、
 后端 `POST /api/fv-curve`、桌面端「Q–F 曲线」模式。
-默认 3 片堆叠、$v=0.02\to0.5$ m/s、6 点、16×12 网格：$F\approx68\to648$ N，
+默认 3 片堆叠、$v=0.02\to0.5$ m/s、6 点、16×12 网格：$F\approx40\to350$ N，
 6/6 收敛，平均 8.7 次迭代，总耗时约 30 s（首点 ~9 次，后续点热启动后 ~9 次）。
 输出含逐点 $Q, v, F, \Delta p, w_{\text{tip}}, h_{\text{port}}, p_{\text{jet}}$、
 迭代次数与残差，可导出 CSV / 图（`--csv` / `--plot`）。
@@ -448,7 +450,7 @@ $$p_{load}(r,\theta)=p_{base}(r,\theta)+p_{jet}(r,\theta)$$
 * 射流不是"窗口扇区内才有"：每个窗口形成一个**椭圆高斯冲击斑**
   （周向 $\sigma_c=w_{port}/2$、径向 $\sigma_r=d_{r,port}/2$；两者相等即圆形孔），
   多个斑叠加在流场压力上，窗间位置也有射流贡献（只是较小）；
-* 流道区 $r\ge r_{port}$ 的周向起伏随半径按 $D(r)=\exp[-(r-r_{port})/(r_{out}-r_{port})]$ 衰减，
+* 流道区 $r\ge r_{out}$（窗口外缘）的周向起伏随半径按 $D(r)=\exp[-(r-r_{out})/(r_{shim,out}-r_{out})]$ 衰减，
   表示油在间隙内逐渐铺开；
 * 开启后 $n_\theta$ 自动抬到 ≥48 以分辨射流斑，单点耗时增加；
 * 旧参数 `sector_load` 作为兼容别名（等价于 `window_load`）。
@@ -456,7 +458,7 @@ $$p_{load}(r,\theta)=p_{base}(r,\theta)+p_{jet}(r,\theta)$$
   因此只解 $1/N$ 扇区 + 旋转周期约束 $u_s=R(2\pi/N)u_m$（$u,v$ 与 $\varphi_x,\varphi_y$
   旋转、$w$ 不变），用稀疏变换 $P$ 做缩聚 $K'=P^\top KP$。这是**精确等价**：
   DOF 降为 $1/N$，vK + 窗口分布 12×48 由 183.6 s/点降到 3.0 s/点（≈60×），
-  F 与整环完全一致（547.42 N / 12 次迭代）。`sector_reduction=false` 可关闭对照。
+  F 与整环完全一致（289.8 N / 10 次迭代）。`sector_reduction=false` 可关闭对照。
 
 **杆速 → 流量 → 阻尼力（已实现）**：Q 不是独立输入，而由活塞杆运动唯一确定：
 
@@ -473,7 +475,7 @@ $Q_{\text{rod}}$ 是活塞杆侵入（或退出）油缸排开的体积速度（
 默认几何 Ø46/Ø18：$A_p=1661.9$、$A_{\text{rod}}=254.5$、$A_{\text{eff}}=1407.4$ mm²，
 $v=0.25$ m/s 时 $Q_{\text{valve}}=351.9$ mL/s、$Q_{\text{rod}}=63.6$ mL/s；
 示例双分支（压缩 3 片 / 回弹 2 片薄堆叠）：
-$v=0.05/0.15/0.25$ m/s → 压缩 121.0/265.0/388.2 N，回弹 102.7/222.6/324.8 N。
+$v=0.05/0.15/0.25$ m/s → 压缩 68.8/146.3/212.1 N，回弹 57.9/122.1/176.4 N。
 
 **定常旁通孔（常通孔，已实现）**：除"窗口 + 阀片间隙"主阀路径外，活塞上另开
 **固定截面**油孔（$n$ 个 Ø$d_b$），与主阀**并联**。其几何与阀片挠度无关，
@@ -487,18 +489,18 @@ Q_{\text{total}}=Q_{\text{main}}+Q_b$$
 使并联条件成立。常通孔油流不经过阀片底面，因此不直接产生阀片载荷，
 但通过降低 $\Delta p$ 直接降低阻尼力 $F=\Delta p\cdot A_{\text{eff}}$。
 
-静态挠度场（外缘抬升 0.15 mm、$v=0.25$ m/s、$A_{th}\approx7.25$ mm²）下：
+静态挠度场（外缘抬升 0.15 mm、$v=0.25$ m/s、$A_{th}\approx9.96$ mm²）下：
 
 | 常通孔 | $A_b$ (mm²) | $F$ (N) | $\Delta p$ (MPa) | $Q_b$ 占比 |
 |---|---|---|---|---|
-| 无 | 0 | 3131.4 | 2.225 | 0 % |
-| 1×Ø1.0 | 0.785 | 2625.9 | 1.866 | 9.2 % |
-| 2×Ø1.5 | 3.534 | 1564.8 | 1.112 | 31.8 % |
-| 2×Ø2.0 | 6.283 | 1036.6 | 0.737 | 46.1 % |
+| 无 | 0 | 1618.8 | 1.150 | 0 % |
+| 1×Ø1.0 | 0.785 | 1420.2 | 1.009 | 18.8 % |
+| 2×Ø1.5 | 3.534 | 951.3 | 0.676 | 38.2 % |
+| 2×Ø2.0 | 6.283 | 681.2 | 0.484 | 51.0 % |
 
 低速段相对影响更大（$v=0.02$ m/s：57.5 N → 2×Ø1.0 时 38.3 N，$-33\%$）；
 闭环迭代中（3 片、12×8 网格、2×Ø1.0）：$v=0.05/0.15/0.25$ m/s → 81.1/181.8/268.3 N
-（无孔 121.0/265.0/388.2 N），$Q_b$ = 11.3/17.0/20.6 mL/s。
+（无孔 68.8/146.3/212.1 N），$Q_b$ = 11.3/17.0/20.6 mL/s。
 
 入口：请求体 `piston.bypass_d_mm / bypass_n / bypass_Cd`、Tk/桌面端「常通孔 Ø/个数/C_d」、
 CLI `--bypass-d / --bypass-n / --bypass-cd`；报告给出 `Q_total / Q_main / Q_bypass`

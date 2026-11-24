@@ -145,6 +145,8 @@ def _markers(piston: cf.PistonSpec) -> list[dict]:
              color=PALETTE["muted"], style="dash"),
         dict(axis="x", value=piston.port_radius_mm, label="窗口中心",
              color=PALETTE["warn"], style="dash"),
+        dict(axis="x", value=piston.r_curtain_m() * 1e3, label="节流外缘",
+             color=PALETTE["accent"], style="dash"),
         dict(axis="x", value=piston.shim_outer_mm, label="最大阀片半径",
              color=PALETTE["accent2"], style="dash"),
     ]
@@ -249,7 +251,7 @@ def analyze(req: AnalyzeRequest) -> dict[str, Any]:
 
     notes = [
         "v1 假设：轴对称、不可压、定常、层流；未建空化/湍流/choked flow 模型。",
-        "主导阻尼：窗口-阀片截流面积（帘幕面积 A_th = N·w_port·h_port）与"
+        "主导阻尼：窗口-阀片截流面积（帘幕 A_th = N·w_out·h(r_out)，取窗口外缘）与"
         "射流冲击；黏性/惯性径向流道为次要项。",
         "挠度场为输入：可与 DeflectionSolver 组成 Q→w→P→w′ 定点迭代。",
     ]
@@ -451,6 +453,8 @@ def iterate(req) -> dict[str, Any]:
              "挠度由 DeflectionSolver 分层模型给出。",
              "负 w = 阀片被油压顶开；间隙 h = h_deck − w。",
              "层序：layers[0] = 贴活塞第 1 片（迎油面），油压作用其底面，向上逐层接触传力。",
+             "帘幕：节流面积取窗口外缘 r_out = r_port + dr/2 处的弧长与外缘间隙；"
+             "流道积分也从 r_out 开始。",
              "v0 迭代：固定松弛 + 信赖域；收敛判据 max|Δw| < tol。"]
     if spec.window_load:
         notes.append("窗口分布载荷（v2）：基础流场压力乘以周向平滑调制 "

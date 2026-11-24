@@ -165,7 +165,7 @@ def _jet_spots(r, theta, piston, p_jet, sigma_c, sigma_r):
     if p_jet <= 0.0:
         return np.zeros_like(r)
     n = int(piston.n_ports)
-    rp = piston.r_port_m()
+    rp = piston.r_curtain_m()      # 射流自窗口外缘帘幕射出
     ang = th[..., None] - (2.0 * np.pi / n) * np.arange(n)
     ang = (ang + np.pi) % (2.0 * np.pi) - np.pi      # 最小角差
     d2 = ((r[..., None] - rp) / sigma_r) ** 2 \
@@ -181,24 +181,25 @@ def _pressure_fn(res_flow, piston, p_back, spec: IterationSpec | None = None):
                  射流改为 N 个**圆形高斯冲击斑**叠加在压力场上。
     """
     r_port = piston.r_port_m()
+    r_curt = piston.r_curtain_m()
     r_out = piston.r_outer_m()
     r_ch, p_ch = res_flow.r_m, res_flow.p_pa
     win = bool(spec is not None and spec.window_load)
     if win:
         prof, coverage, contrast = window_profile(piston, spec.window_contrast)
         # 周向非均匀性沿径向向下游衰减（油在间隙内逐渐铺开）
-        Lc = max(r_out - r_port, 1e-9)
+        Lc = max(r_out - r_curt, 1e-9)
     sigma = res_flow.jet_sigma
 
     def fn(r_m, theta):
         r = np.asarray(r_m, dtype=float)
         th = np.asarray(theta, dtype=float)
-        land = r < r_port
+        land = r < r_curt
         p_raw = np.where(land, res_flow.p_up,
                          np.interp(r, r_ch, p_ch, left=res_flow.p_up,
                                    right=p_back))
         if not win:
-            bump = res_flow.p_jet * np.exp(-((r - r_port) / sigma) ** 2)
+            bump = res_flow.p_jet * np.exp(-((r - r_curt) / sigma) ** 2)
             return -(p_raw - p_back + bump)
         # v2：基础压力 × 周向平滑调制（均值 1）+ 圆形射流斑叠加
         W = prof(th)
