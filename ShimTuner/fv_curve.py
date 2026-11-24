@@ -59,6 +59,8 @@ def main(argv=None) -> int:
                     help="压缩（或单侧）阀片堆叠 '内径,外径,厚度;...'（mm）")
     ap.add_argument("--rebound-layers", default=None,
                     help="回弹阀片堆叠；缺省时与 --layers 相同")
+    ap.add_argument("--valve", choices=["mid", "base"], default="mid",
+                    help="阀类型：mid=活塞阀 Q=(A_p−A_rod)v；base=底阀 Q=A_rod·v")
     ap.add_argument("--direction", choices=["comp", "reb", "both"],
                     default="comp", help="压缩 / 回弹 / 双向（默认 comp）")
     ap.add_argument("--x-axis", choices=["v", "q"], default="v",
@@ -144,13 +146,14 @@ def main(argv=None) -> int:
                             window_contrast=args.window_contrast,
                             sector_reduction=not args.no_sector)
 
+    spec.valve_type = args.valve
     comp_layers = reb_layers = None
     if args.direction in ("comp", "both"):
         comp_layers = parse_layers(args.layers)
     if args.direction in ("reb", "both"):
         reb_layers = parse_layers(args.rebound_layers or args.layers)
 
-    kin = cf.rod_flows(args.v_max, piston)
+    kin = cf.rod_flows(args.v_max, piston, args.valve)
     A_p, A_rod, A_eff = kin["A_p_m2"], kin["A_rod_m2"], kin["A_eff_m2"]
 
     print("=" * 92)
@@ -158,7 +161,9 @@ def main(argv=None) -> int:
     print("=" * 92)
     print(f"活塞: Ø{piston.d_piston_mm:g}/Ø{piston.d_rod_mm:g} mm → "
           f"A_p={A_p*1e6:.1f}, A_rod={A_rod*1e6:.1f}, A_eff={A_eff*1e6:.1f} mm²")
-    print(f"流量: Q_valve=(A_p−A_rod)·v = {kin['Q_valve_m3s']*1e6:.1f} mL/s @ "
+    print(f"阀类型: {args.valve}-valve · 力面积 A_force="
+          f"{kin['A_force_m2']*1e6:.1f} mm²")
+    print(f"流量: Q_valve={kin['Q_valve_m3s']*1e6:.1f} mL/s @ "
           f"v={args.v_max:g}; Q_rod=A_rod·v = {kin['Q_rod_m3s']*1e6:.1f} mL/s")
     if comp_layers:
         print(f"压缩堆叠: {len(comp_layers)} 片 {comp_layers}")

@@ -274,21 +274,27 @@ class FluidSpec:
             raise ValueError("给 KV100/VI 时必须同时给 KV40")
 
 
-def rod_flows(v_mps: float, piston: PistonSpec) -> dict:
+def rod_flows(v_mps: float, piston: PistonSpec,
+              valve_type: str = "mid") -> dict:
     """杆速 → 体积流量拆分（运动学，压力场求解的输入）.
 
-        Q_rod   = A_rod · v          活塞杆侵入油缸的体积速度
-                                     （单筒: 进入蓄能/气室；双筒: 经底阀回油）
-        Q_valve = (A_p − A_rod) · v  通过活塞阀的流量 = 本求解器的 Q
+    valve_type:
+      * "mid"  （活塞阀/mid-valve）: Q_valve = (A_p − A_rod)·v，力面积 A_eff
+      * "base" （底阀/base-valve）: Q_valve = A_rod·v（杆侵入体积），力面积 A_rod
 
-    两者之比由杆/活塞直径唯一确定，和阀片挠度无关。
+    Q_rod = A_rod·v 始终是杆侵入油缸的体积速度；Q_valve 才是本求解器输入。
     """
     A_p = piston.area_piston_m2()
     A_rod = piston.area_rod_m2()
     A_eff = piston.area_effective_m2()
     v = max(float(v_mps), 0.0)
+    vt = "base" if str(valve_type).lower() == "base" else "mid"
+    A_force = A_rod if vt == "base" else A_eff
+    Q_valve = A_rod * v if vt == "base" else A_eff * v
     return dict(A_p_m2=A_p, A_rod_m2=A_rod, A_eff_m2=A_eff,
-                Q_rod_m3s=A_rod * v, Q_valve_m3s=A_eff * v, v_mps=v)
+                A_force_m2=A_force, valve_type=vt,
+                Q_rod_m3s=A_rod * v, Q_valve_m3s=Q_valve,
+                Q_piston_m3s=A_eff * v, v_mps=v)
 
 
 # ============================================================
@@ -377,6 +383,7 @@ class FlowResult:
     Q_bypass_m3s: float = 0.0        # 经常通孔的分流量（固定几何）
     r_curtain_m: float = 0.0         # 节流帘幕半径（窗口外缘）
     w_curtain_m: float = 0.0         # 帘幕周向弧长（外缘弧长）
+    force_area_m2: float = 0.0       # 阻尼力所用面积（mid=A_eff / base=A_rod）
     A_bypass_m2: float = 0.0         # 常通孔总面积
 
     def summary(self) -> str:
@@ -399,7 +406,8 @@ def _bypass_flow(dp_pa: float, A_b: float, C_d: float, rho: float) -> float:
 
 def solve_split(Q_total_m3s: float, piston: PistonSpec, fluid: FluidSpec,
                 gap, n_grid: int = 400, C_d: float = 0.70,
-                C_f: float = 0.30, h_min_m: float = 1e-6) -> FlowResult:
+                C_f: float = 0.30, h_min_m: float = 1e-6,
+                force_area_m2: float | None = None) -> FlowResult:
     """常通孔与主阀并联：总流量按压力自动分配.
 
     给定总流量 Q_total = Q_main + Q_bypass，求分流量与压力场：
@@ -417,7 +425,8 @@ def solve_split(Q_total_m3s: float, piston: PistonSpec, fluid: FluidSpec,
     A_b = piston.area_bypass_m2()
     if A_b <= 0:
         res = solve_point(Q_total, piston, fluid, gap, n_grid=n_grid,
-                          C_d=C_d, C_f=C_f, h_min_m=h_min_m)
+                          C_d=C_d, C_f=C_f, h_min_m=h_min_m,
+                          force_area_m2=force_area_m2)
         res.Q_total_m3s = Q_total
         res.Q_bypass_m3s = 0.0
         res.A_bypass_m2 = 0.0
@@ -425,7 +434,8 @@ def solve_split(Q_total_m3s: float, piston: PistonSpec, fluid: FluidSpec,
 
     rho = fluid.rho
     Cd_b = piston.bypass_Cd
-    kw = dict(n_grid=n_grid, C_d=C_d, C_f=C_f, h_min_m=h_min_m)
+    kw = dict(n_grid=n_grid, C_d=C_d, C_f=C_f, h_min_m=h_min_m,
+              force_area_m2=force_area_m2)
 
     def surplus(Q_main: float) -> float:
         r = solve_point(Q_main, piston, fluid, gap, **kw)
@@ -454,7 +464,9 @@ def solve_split(Q_total_m3s: float, piston: PistonSpec, fluid: FluidSpec,
     res.Q_total_m3s = Q_total
     res.Q_bypass_m3s = max(Q_total - Q_main, 0.0)
     res.A_bypass_m2 = A_b
-    res.v_mps = Q_total / piston.area_effective_m2()
+    A_force = (float(force_area_m2) if force_area_m2
+               else piston.area_effective_m2())
+    res.v_mps = Q_total / A_force
     if res.Q_bypass_m3s > 0.9 * Q_total:
         res.warnings.append("常通孔承担 >90% 流量：主阀接近关闭，"
                             "阻尼几乎全部来自常通孔")
@@ -473,7 +485,8 @@ def _gap_on_grid(gap, r_port: float, r_outer: float, n: int):
 
 def solve_point(Q_m3s: float, piston: PistonSpec, fluid: FluidSpec,
                 gap, n_grid: int = 400, C_d: float = 0.70,
-                C_f: float = 0.30, h_min_m: float = 1e-6) -> FlowResult:
+                C_f: float = 0.30, h_min_m: float = 1e-6,
+                force_area_m2: float | None = None) -> FlowResult:
     """给定流量 Q 与间隙场 gap(r)，求压力场与阻尼力."""
     piston.validate()
     fluid.validate()
@@ -487,7 +500,9 @@ def solve_point(Q_m3s: float, piston: PistonSpec, fluid: FluidSpec,
     r_seat = piston.r_seat_m()
     p_back = fluid.p_back_MPa * 1e6
     A_eff = piston.area_effective_m2()
-    v = Q_m3s / A_eff
+    A_force = (float(force_area_m2) if force_area_m2
+               else A_eff)
+    v = Q_m3s / A_force
 
     r, h_raw = _gap_on_grid(gap, r_curt, r_out, n_grid)
     warn: list[str] = []
@@ -533,7 +548,7 @@ def solve_point(Q_m3s: float, piston: PistonSpec, fluid: FluidSpec,
     F_jet = C_f * fluid.rho * Q_m3s ** 2 / A_th
 
     F_shim = F_land + F_channel + F_jet
-    F_damper = dp_total * A_eff
+    F_damper = dp_total * A_force
 
     # ---- 诊断 ----
     Re = float(fluid.rho * u[0] * h[0] / mu) if mu > 0 else 0.0
@@ -556,6 +571,7 @@ def solve_point(Q_m3s: float, piston: PistonSpec, fluid: FluidSpec,
         dp_curtain=dp_curtain, dp_viscous=dp_visc, dp_inertia=dp_inert,
         A_th=A_th, h_port=h_port, v_port=v_port, p_jet=p_jet,
         jet_sigma=jet_sigma, r_curtain_m=r_curt, w_curtain_m=w_curt,
+        force_area_m2=A_force,
         F_damper=F_damper, F_jet=F_jet, F_shim=F_shim,
         Re=Re, r_m=r, h_m=h_raw, p_pa=p, u_mps=u, warnings=warn)
 

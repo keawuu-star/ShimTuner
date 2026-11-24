@@ -460,16 +460,23 @@ $$p_{load}(r,\theta)=p_{base}(r,\theta)+p_{jet}(r,\theta)$$
   DOF 降为 $1/N$，vK + 窗口分布 12×48 由 183.6 s/点降到 3.0 s/点（≈60×），
   F 与整环完全一致（289.8 N / 10 次迭代）。`sector_reduction=false` 可关闭对照。
 
-**杆速 → 流量 → 阻尼力（已实现）**：Q 不是独立输入，而由活塞杆运动唯一确定：
+**杆速 → 流量 → 阻尼力（已实现）**：Q 不是独立输入，而由活塞杆运动唯一确定。
+阀类型可切换：
+* **mid-valve（活塞阀）**：$Q=(A_p-A_{\text{rod}})v$，力面积 $A_{\text{eff}}$；
+* **base-valve（底阀/foot valve）**：$Q=A_{\text{rod}}v$（杆侵入体积），力面积 $A_{\text{rod}}$。
+底阀计算时几何/阀片堆叠应替换为底阀自身参数。
+
 
 $$A_p=\frac{\pi}{4}D^2,\qquad A_{\text{rod}}=\frac{\pi}{4}d_{\text{rod}}^2,
 \qquad A_{\text{eff}}=A_p-A_{\text{rod}}$$
 
 $$Q_{\text{rod}}=A_{\text{rod}}\,v,\qquad
-Q_{\text{valve}}=(A_p-A_{\text{rod}})\,v$$
+Q_{\text{mid}}=(A_p-A_{\text{rod}})\,v,\qquad
+Q_{\text{base}}=A_{\text{rod}}\,v$$
 
-$Q_{\text{rod}}$ 是活塞杆侵入（或退出）油缸排开的体积速度（单筒进入气室/蓄能腔，
-双筒经底阀回油）；$Q_{\text{valve}}$ 才是通过活塞阀、驱动本求解器的流量。
+$Q_{\text{rod}}$ 是活塞杆侵入（或退出）油缸排开的体积速度。mid-valve 模式取
+$Q_{\text{mid}}$（活塞扫过相对体积），base-valve 模式取 $Q_{\text{base}}$
+（杆侵入体积，经底阀流入储油腔），两者都可切换。
 压缩与回弹可用各自阀片堆叠（`layers` / `layers_rebound`）描述。
 入口：后端 `POST /api/rod-curve`、桌面端「v–F 杆速」、`fv_curve.py --direction both`。
 默认几何 Ø46/Ø18：$A_p=1661.9$、$A_{\text{rod}}=254.5$、$A_{\text{eff}}=1407.4$ mm²，

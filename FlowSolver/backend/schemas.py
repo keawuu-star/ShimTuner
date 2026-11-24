@@ -143,6 +143,8 @@ class RodCurveRequest(BaseModel):
     fluid: FluidInput = FluidInput()
     coefficients: CoefficientInput = CoefficientInput()
     curve: CurveParams = CurveParams()
+    # 阀类型：mid=活塞阀（Q=(A_p−A_rod)v） / base=底阀（Q=A_rod·v）
+    valve_type: Literal["mid", "base"] = "mid"
 
 
 class FvCurveRequest(BaseModel):

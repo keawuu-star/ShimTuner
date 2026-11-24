@@ -91,7 +91,7 @@ python -m unittest discover -s tests -v # 后端回归 15 项
   逐点闭环迭代（热启动）；默认 6 点 F ≈ 40→350 N，6/6 收敛。
 * **v–F 杆速**：流量由杆侵入油缸的体积速度决定（`Q_valve=(A_p−A_rod)·v`，
   `Q_rod=A_rod·v`）；后台 `/api/rod-curve` / 桌面端「v–F 杆速」/ CLI `--direction both`
-  可同时给压缩、回弹两条分支（各自阀片堆叠）。默认压缩 6 点 F ≈ 40→350 N；
+  可切换 **mid-valve（活塞阀，Q=(A_p−A_rod)·v）/ base-valve（底阀，Q=A_rod·v）**，也可同时给压缩、回弹两条分支（各自阀片堆叠）。默认压缩 6 点 F ≈ 40→350 N；
   示例双分支（压缩 3 片 / 回弹 2 片薄堆叠）v≤0.25 m/s：压缩 212 N、回弹 176 N。
 * 油液黏度：支持工作温度 T + KV40/KV100/VI（ASTM D341 外推 ν(T)、ASTM D2270 校验 VI）；
   未启用时仍用手动 cSt，后端/桌面端/CLI 均已接入。

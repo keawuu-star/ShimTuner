@@ -477,5 +477,51 @@ class OuterCurtainTest(unittest.TestCase):
         self.assertAlmostEqual(res.h_port, h0, places=12)
 
 
+class ValveTypeTest(unittest.TestCase):
+    """mid-valve / base-valve 流量与力面积切换."""
+
+    def test_rod_flows_mid_vs_base(self):
+        p = cf.demo_piston()
+        mid = cf.rod_flows(0.25, p, "mid")
+        base = cf.rod_flows(0.25, p, "base")
+        A_eff = p.area_effective_m2()
+        A_rod = p.area_rod_m2()
+        self.assertAlmostEqual(mid["Q_valve_m3s"], A_eff * 0.25, places=15)
+        self.assertAlmostEqual(mid["A_force_m2"], A_eff, places=15)
+        self.assertAlmostEqual(base["Q_valve_m3s"], A_rod * 0.25, places=15)
+        self.assertAlmostEqual(base["A_force_m2"], A_rod, places=15)
+        self.assertEqual(mid["valve_type"], "mid")
+        self.assertEqual(base["valve_type"], "base")
+
+    def test_force_area_scales_damping_force(self):
+        p = cf.demo_piston()
+        gap = cf.PowerLawGap(lift_m=0.15e-3, r_seat_m=p.r_seat_m(),
+                             r_outer_m=p.r_outer_m(), power=2.0,
+                             h_deck_m=p.h_deck_m())
+        Q = 0.25 * p.area_effective_m2()
+        mid = cf.solve_point(Q, p, cf.DEMO_FLUID, gap)
+        base = cf.solve_point(Q, p, cf.DEMO_FLUID, gap,
+                              force_area_m2=p.area_rod_m2())
+        self.assertAlmostEqual(mid.F_damper,
+                               mid.dp_total * p.area_effective_m2())
+        self.assertAlmostEqual(base.F_damper,
+                               base.dp_total * p.area_rod_m2())
+        self.assertLess(base.F_damper, mid.F_damper)
+
+    def test_rod_curve_base_valve_api(self):
+        layers = [LayerInput(d_in_mm=18, d_out_mm=42, t_mm=0.25)]
+        req = RodCurveRequest(layers=layers, valve_type="base",
+                              curve=CurveParams(v_min_mps=0.05,
+                                                v_max_mps=0.1, n_points=2))
+        out = service.rod_curve(req)
+        self.assertEqual(out["meta"]["valve_type"], "base")
+        pts = out["meta"]["branches"]["compression"]["points"]
+        self.assertTrue(all(p["F_N"] > 0 for p in pts))
+        A_rod = cf.demo_piston().area_rod_m2()
+        for p in pts:
+            self.assertAlmostEqual(p["Q_valve_m3s"], A_rod * p["v_mps"],
+                                   places=15)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

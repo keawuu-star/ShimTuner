@@ -129,8 +129,12 @@
           <label class="field"><span>v_max</span><div class="unit-input"><input id="rdMax" type="number" step="0.05" min="0.002"><em>m/s</em></div></label>
           <label class="field"><span>曲线点数</span><div class="unit-input"><input id="rdPts" type="number" step="1" min="2" max="30"></div></label>
         </div>
+        <div class="field-grid two" style="margin:6px 0 2px">
+          <label class="check"><input type="radio" name="rodValve" id="rdValveMid" value="mid" checked><span>Mid-valve（活塞阀）</span></label>
+          <label class="check"><input type="radio" name="rodValve" id="rdValveBase" value="base"><span>Base-valve（底阀）</span></label>
+        </div>
         <label class="check"><input id="rdRebound" type="checkbox"><span>同时计算回弹分支（同一阀片堆叠）</span></label>
-        <p class="fem-hint">Q_valve=(A_p−A_rod)·v，Q_rod=A_rod·v；回弹分支可经 API 的 layers_rebound 使用不同堆叠。</p>
+        <p class="fem-hint">Mid：Q=(A_p−A_rod)·v，力面积 A_eff；Base：Q=A_rod·v（杆侵入体积），力面积 A_rod。回弹分支可用 API 的 layers_rebound 给不同堆叠。</p>
       </section>
 
       <section class="panel compact" id="opPanel">

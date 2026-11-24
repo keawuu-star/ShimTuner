@@ -50,7 +50,8 @@ class IterationSpec:
                  sector_reduction: bool = True,
                  sector_load: bool | None = None,
                  sector_scale: bool | None = None,
-                 nl_tol: float = 1e-6):
+                 nl_tol: float = 1e-6,
+                 valve_type: str = "mid"):
         self.alpha = float(alpha)
         self.tol_um = float(tol_um)
         self.max_iter = int(max_iter)
@@ -73,6 +74,8 @@ class IterationSpec:
         self.sector_reduction = bool(sector_reduction)
         # vK Newton 内层相对残差容差（耦合中间步可放宽到 1e-4 提速）
         self.nl_tol = float(nl_tol)
+        # 阀类型：mid（活塞阀，Q=A_eff·v） / base（底阀，Q=A_rod·v）
+        self.valve_type = "base" if str(valve_type).lower() == "base" else "mid"
 
     def n_theta_eff(self) -> int:
         """分布载荷要分辨射流斑（σ≈w_port/2）：自动把 nθ 抬到 ≥48."""
@@ -89,7 +92,7 @@ class IterationSpec:
                     window_load=self.window_load,
                     window_contrast=self.window_contrast,
                     sector_reduction=self.sector_reduction,
-                    nl_tol=self.nl_tol)
+                    nl_tol=self.nl_tol, valve_type=self.valve_type)
 
 
 def sector_plan(piston, spec: IterationSpec):
@@ -223,9 +226,10 @@ def iterate_point(v_mps: float, piston, fluid, stack: LayeredStack,
     """单点闭环迭代；返回 w / 最终流场 / 历史 / 收敛信息."""
     r_shim = stack.r_nodes
     w = np.zeros_like(r_shim) if w0 is None else np.asarray(w0).copy()
-    kin = cf.rod_flows(v_mps, piston)
-    Q = kin["Q_valve_m3s"]                 # 通过活塞阀的总流量（主阀 + 常通孔）
+    kin = cf.rod_flows(v_mps, piston, getattr(spec, "valve_type", "mid"))
+    Q = kin["Q_valve_m3s"]                 # 通过当前阀的总流量（主阀 + 常通孔）
     Q_rod = kin["Q_rod_m3s"]               # 杆侵入油缸的体积速度
+    A_force = kin["A_force_m2"]            # mid=A_eff / base=A_rod
     p_back = fluid.p_back_MPa * 1e6
     step0 = spec.relax_step_um * 1e-6
     step = step0
@@ -238,7 +242,8 @@ def iterate_point(v_mps: float, piston, fluid, stack: LayeredStack,
         gap = cf.ArrayGap(r_shim, -w, h_deck_m=piston.h_deck_m())
         # 常通孔并联：总流量按压力自动拆分（常通孔几何固定、不随 w 变化）
         res = cf.solve_split(Q, piston, fluid, gap, n_grid=spec.grid,
-                             C_d=spec.C_d, C_f=spec.C_f)
+                             C_d=spec.C_d, C_f=spec.C_f,
+                             force_area_m2=A_force)
         stack.set_pressure(_pressure_fn(res, piston, p_back, spec))
         if spec.nl:
             # vK 非线性：从上一迭代位移场热启动，后续迭代单步载荷即可
@@ -280,7 +285,8 @@ def iterate_point(v_mps: float, piston, fluid, stack: LayeredStack,
     # 用收敛后的 w 再算一次流场作为最终结果
     gap = cf.ArrayGap(r_shim, -w, h_deck_m=piston.h_deck_m())
     fin = cf.solve_split(Q, piston, fluid, gap, n_grid=spec.grid,
-                         C_d=spec.C_d, C_f=spec.C_f)
+                         C_d=spec.C_d, C_f=spec.C_f,
+                         force_area_m2=A_force)
     for h in hist:
         h.pop("_d_m", None)
         h.pop("_alpha", None)
@@ -328,9 +334,10 @@ def rod_curve(velocities, piston, fluid, layers_compression, spec,
               layers_rebound=None) -> dict:
     """活塞杆速度 → 阻尼力：压缩/回弹两条分支（可各自给定阀片堆叠）.
 
-    流量由杆速唯一决定：
-        Q_valve = (A_p − A_rod)·v     （通过活塞阀，本求解器输入）
-        Q_rod   = A_rod·v             （杆侵入油缸的体积速度）
+    流量由杆速唯一决定（由 spec.valve_type 选择）：
+        mid  : Q_valve = (A_p − A_rod)·v   （活塞阀/mid-valve，力面积 A_eff）
+        base : Q_valve = A_rod·v           （底阀/base-valve，力面积 A_rod）
+    两者都返回 F(v)；Q_rod = A_rod·v 始终是杆侵入体积。
     """
     t0 = time.perf_counter()
     branches = {}
@@ -343,6 +350,6 @@ def rod_curve(velocities, piston, fluid, layers_compression, spec,
             velocities, piston, fluid, layers_rebound, spec,
             direction="rebound")
     vs = list(velocities) if len(velocities) else [0.0]
-    kin = cf.rod_flows(max(vs), piston)
+    kin = cf.rod_flows(max(vs), piston, getattr(spec, "valve_type", "mid"))
     return dict(branches=branches, kinematics=kin,
                 elapsed_ms=(time.perf_counter() - t0) * 1e3)

@@ -172,6 +172,9 @@ function applyDefaults() {
   $('cvMin').value = cv.v_min_mps ?? 0.02;
   $('cvMax').value = cv.v_max_mps ?? 0.5;
   $('cvPts').value = cv.n_points ?? 6;
+  document.querySelectorAll('input[name="rodValve"]').forEach((el) => {
+    el.checked = el.value === 'mid';
+  });
   $('rdMin').value = cv.v_min_mps ?? 0.02;
   $('rdMax').value = cv.v_max_mps ?? 0.5;
   $('rdPts').value = cv.n_points ?? 6;
@@ -272,7 +275,7 @@ function setMode(mode, doRun = true) {
     : curve
       ? '沿速度序列逐点执行 Q→w→P→w′ 闭环迭代，输出 Q–F 曲线。'
       : rod
-        ? 'Q 由杆侵入体积速度决定：Q_valve=(A_p−A_rod)·v，输出 F(v)。'
+        ? 'Q 由杆速决定：Mid-valve Q=(A_p−A_rod)·v；Base-valve Q=A_rod·v（杆侵入体积）。'
         : '给定阀片堆叠与流量，迭代 Q→w→P→w′ 直到残差收敛。';
   if (doRun) runAnalysis(true);
 }
@@ -377,9 +380,11 @@ function collect() {
   }
   if (state.mode === 'rod') {
     const layers = layersInput();
+    const valveEl = document.querySelector('input[name="rodValve"]:checked');
     const body = {
       ...base,
       layers,
+      valve_type: valveEl ? valveEl.value : 'mid',
       curve: {
         ...iterationInput(),
         v_min_mps: num('rdMin'),

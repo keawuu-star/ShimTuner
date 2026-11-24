@@ -599,13 +599,17 @@ def rod_curve(req) -> dict[str, Any]:
         reb_layers = [(l.d_in_mm, l.d_out_mm, l.t_mm)
                       for l in req.layers_rebound]
     spec = _spec_from(par, coef)
+    spec.valve_type = req.valve_type
     vs = np.linspace(par.v_min_mps, par.v_max_mps, par.n_points)
 
     out = cp.rod_curve(vs, piston, fluid, comp_layers, spec, reb_layers)
     branches = out["branches"]
     kin = out["kinematics"]
     A_p, A_rod, A_eff = (kin["A_p_m2"], kin["A_rod_m2"], kin["A_eff_m2"])
-    q_valve = [A_eff * v * 1e6 for v in vs]
+    A_force = kin["A_force_m2"]
+    vt = "base" if req.valve_type == "base" else "mid"
+    vlabel = "base-valve（底阀）" if vt == "base" else "mid-valve（活塞阀）"
+    q_valve = [A_force * v * 1e6 for v in vs]
     q_rod = [A_rod * v * 1e6 for v in vs]
 
     colors = {"compression": PALETTE["accent"], "rebound": PALETTE["warn"]}
@@ -619,14 +623,17 @@ def rod_curve(req) -> dict[str, Any]:
             f"F-{name}", f"{labels[name]}行程 F(v)", colors[name],
             [p["v_mps"] for p in pts], [p["F_N"] for p in pts],
             dash="solid" if name == "compression" else "dash"))
-    force = dict(title="活塞杆速度–阻尼力 F(v)", x_label="杆速 v [m/s]",
-                 y_label="阻尼力 F [N]", series=force_series, markers=[])
+    force = dict(title=f"活塞杆速度–阻尼力 F(v) · {vlabel}",
+                 x_label="杆速 v [m/s]", y_label="阻尼力 F [N]",
+                 series=force_series, markers=[])
     # 杆速↔流量是纯线性换算，不单独出图（数值见报告中的 Q_valve / Q_rod）
 
     kpis = [
         dict(label="活塞面积 A_p", value=f"{A_p*1e6:.1f} mm²", hint="π/4·D²"),
         dict(label="杆面积 A_rod", value=f"{A_rod*1e6:.1f} mm²", hint="π/4·d²"),
         dict(label="活塞阀面积", value=f"{A_eff*1e6:.1f} mm²", hint="A_p − A_rod"),
+        dict(label="阻尼力面积", value=f"{A_force*1e6:.1f} mm²",
+             hint="mid: A_eff / base: A_rod"),
         dict(label="A_rod/A_p", value=f"{A_rod/A_p*100:.1f} %",
              hint="决定杆腔排量占比"),
     ]
@@ -655,13 +662,16 @@ def rod_curve(req) -> dict[str, Any]:
                 break
 
     lines = [
-        f"[杆速→阻尼力] {len(comp_layers)} 片 · v {par.v_min_mps:g}→"
+        f"[杆速→阻尼力 · {vlabel}] {len(comp_layers)} 片 · v {par.v_min_mps:g}→"
         f"{par.v_max_mps:g} m/s · {len(vs)} 点 · "
         f"{'vK' if par.nl else '线性'} · α={par.alpha:g}",
         f"面积: A_p={A_p*1e6:.1f}, A_rod={A_rod*1e6:.1f}, "
         f"A_eff={A_eff*1e6:.1f} mm²",
-        f"流量: Q_valve=(A_p−A_rod)·v = {q_valve[0]:.1f}→{q_valve[-1]:.1f} mL/s; "
-        f"Q_rod=A_rod·v = {q_rod[0]:.1f}→{q_rod[-1]:.1f} mL/s",
+        (f"流量: Q_valve=(A_p−A_rod)·v = {q_valve[0]:.1f}→{q_valve[-1]:.1f} mL/s; "
+         f"Q_rod=A_rod·v = {q_rod[0]:.1f}→{q_rod[-1]:.1f} mL/s"
+         if vt == "mid" else
+         f"流量: Q_base=A_rod·v = {q_valve[0]:.1f}→{q_valve[-1]:.1f} mL/s; "
+         f"Q_rod=A_rod·v = {q_rod[0]:.1f}→{q_rod[-1]:.1f} mL/s"),
         f"网格 {_grid_text(piston, spec, par)} · 总耗时 {out['elapsed_ms']/1000:.1f} s",
     ]
     if spec.window_load:
@@ -696,12 +706,15 @@ def rod_curve(req) -> dict[str, Any]:
         elapsed_ms=round((time.perf_counter() - t0) * 1e3, 1),
         charts=dict(force=force),
         report=dict(kpis=kpis, warnings=warn,
-                    notes=["Q 由活塞杆侵入油缸的体积速度决定："
-                           "Q_rod=A_rod·v，活塞阀 Q=(A_p−A_rod)·v。",
+                    notes=["Q 由活塞杆侵入油缸的体积速度决定：" +
+                           ("Q_base=A_rod·v（杆侵入体积），力面积 A_rod。"
+                            if vt == "base" else
+                            "Q_valve=(A_p−A_rod)·v，力面积 A_eff。"),
                            "压缩/回弹分支可为不同阀片堆叠（API 的 layers_rebound）；"
                            "未提供时仅输出压缩分支。",
-                           "F(v) 的每个点内部仍是 Q→w→P→w′ 定点迭代。"],
+                           "F(v) 的每个点内部仍是 Q→w→P→w′ 定点迭代。",
+                           "阀类型可切换：mid-valve（活塞阀）/ base-valve（底阀）。"],
                     lines=lines, layers=[]),
-        meta=dict(kinematics=kin, branches=branches,
+        meta=dict(kinematics=kin, branches=branches, valve_type=vt,
                   total_ok=total_ok, total_pts=total_pts,
                   v_mps=list(vs), q_valve_mL_s=q_valve, q_rod_mL_s=q_rod))
