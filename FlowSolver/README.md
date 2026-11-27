@@ -1,5 +1,7 @@
 # FlowSolver · 挠度场 + 流道 → 压力场
 
+> **状态：未完成 / 不可用原型。** 请勿用于工程决策或生产环境；详见仓库根目录 [`STATUS.md`](../STATUS.md)。
+
 ShimTuner 项目的第二半：给定**阀片挠度场** `w(r)` 与**总流量 Q**（或活塞速度 v），
 求阀片/活塞面之间流道的**稳态压力场** `p(r)`、截流压降与阻尼力 `F`。
 服务于最终的 `Q → w → P → w′` 定点迭代器（见 [`../ShimTuner/ShimTunerPhysics.md`](../ShimTuner/ShimTunerPhysics.md)
