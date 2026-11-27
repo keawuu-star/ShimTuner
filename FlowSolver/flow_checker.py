@@ -55,7 +55,7 @@ class FlowCheckerApp:
 
     def __init__(self, root: tk.Tk):
         self.root = root
-        root.title("FlowSolver v1 — 定常流道-压力场")
+        root.title("FlowSolver Lite（未完成/不可用原型） — 定常流道-压力场")
         root.geometry("1340x840")
         root.configure(bg=BG)
         self._after_id = None
