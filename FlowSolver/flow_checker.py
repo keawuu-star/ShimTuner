@@ -185,12 +185,12 @@ class FlowCheckerApp:
             self.v[key] = tk.StringVar(value=val)
         for key, lab in (("d_piston", "活塞直径 [mm]"), ("d_rod", "杆直径 [mm]"),
                          ("n_ports", "窗口数"),
-                         ("port_width", "窗口周向宽度 [mm]"),
-                         ("port_radial", "窗口径向宽度 [mm]"),
-                         ("port_radius", "窗口中心半径 [mm]"),
+                         ("port_width", "周向宽度 [mm]"),
+                         ("port_radial", "径向宽度 [mm]"),
+                         ("port_radius", "中心半径 [mm]"),
                          ("clamp_diameter", "夹持直径 [mm]"),
                          ("deck", "初始间隙 [mm]"),
-                         ("shim_outer_diameter", "最大阀片直径 [mm]"),
+                         ("shim_outer_diameter", "最大阀片 Ø [mm]"),
                          ("bypass_d", "常通孔 Ø [mm]"),
                          ("bypass_n", "常通孔个数")):
             self._row(p, lab, self.v[key])
@@ -689,8 +689,8 @@ class FlowCheckerApp:
                             f"{res.Q_bypass_m3s*1e6:.2f} mL/s "
                             f"({res.Q_bypass_m3s/max(res.Q_total_m3s,1e-18)*100:.1f}%)")
         lines += [f"[警告] {w}" for w in res.warnings]
-        lines.append("注: v1 轴对称/不可压/定常/层流；挠度场为输入，闭环迭代见 "
-                     "couple_demo.py。")
+        lines.append("注: v1 轴对称/不可压/定常/层流；挠度场为输入。需要闭环迭代时，"
+                     "切换到「耦合迭代」模式。")
         self._status("\n".join(lines))
 
     def _status(self, text: str):
