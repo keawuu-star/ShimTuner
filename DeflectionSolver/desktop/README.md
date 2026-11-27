@@ -63,7 +63,7 @@ desktop/renderer/index.html?backend=http://127.0.0.1:8760
 ## 界面功能
 
 * **阀片堆叠编辑器**：逐行编辑内径/外径/厚度，支持上移、下移、删除、
-  4 组预设；第 1 行标记为「顶」（受油压片）。
+  4 组预设；第 1 行 = 贴活塞（迎油面）第 1 片，向上依次；油压作用第 1 片底面。
 * **材料与载荷**：E [GPa]、ν、p_max [MPa]。
 * **四种求解器**：1D 环元 / 2D Mindlin / 2D 大挠度 vK / 2D 分层 μ=0。
   切换时自动载入建议网格（大挠度 20×24，分层 24×24）。
@@ -105,7 +105,7 @@ desktop/renderer/index.html?backend=http://127.0.0.1:8760
 {
   "solver": "2d",
   "solver_label": "2D FEM (Mindlin)",
-  "headline": "3 片 · 2D Mindlin · 顶片 h = 0.04235 mm @ 1 MPa",
+  "headline": "3 片 · 2D Mindlin · 第1片（贴活塞） h = 0.04235 mm @ 1 MPa",
   "elapsed_ms": 2161.2,
   "charts": {
     "hp": {
@@ -119,7 +119,7 @@ desktop/renderer/index.html?backend=http://127.0.0.1:8760
     "profile": {"…": "同上结构"}
   },
   "report": {
-    "kpis": [{"label": "顶片外缘挠度", "value": "0.04235 mm", "hint": "@ 1 MPa"}],
+    "kpis": [{"label": "第1片（贴活塞）外缘挠度", "value": "0.04235 mm", "hint": "@ 1 MPa"}],
     "warnings": ["…"], "notes": ["…"],
     "lines": ["[2D FEM Mindlin] 网格 …", "…"],
     "layers": [{"index": 1, "h_mm": 0.04235, "ratio": 0.424,

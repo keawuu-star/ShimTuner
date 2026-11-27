@@ -7,7 +7,7 @@ ShimTuner 基础版 2D 极坐标 FEM 求解器 (线性小挠度 Mindlin 板)
 物理:   与 v0 (shim_physics_core.ShimStackCore) 同一堆叠模型 —— 各层共用一张中面
          (等挠度/等曲率的等效单板), 层间切向力按项目决策取 μ≡0 (不计摩擦),
          见 ShimTunerPhysics.md),
-        阶梯刚度 D(r)=ΣDᵢ; 内缘 clamp 圆固支; 外缘自由; 顶片环形面 [a₀,b₀]
+        阶梯刚度 D(r)=ΣDᵢ; 内缘 clamp 圆固支; 外缘自由; 第1片(迎油片)环形面 [a₀,b₀]
         均布压强 p (方向 = +z)。差异仅为: v0=1D Kirchhoff 环元(无横向剪切),
         本模块=2D 极坐标 4 节点 Mindlin 板 (含横向剪切 kG·Σt, k=5/6),
         剪切使结果略软 ~1.2(t/(b−a))² 量级 —— 这是物理修正而非误差。
@@ -18,7 +18,7 @@ ShimTuner 基础版 2D 极坐标 FEM 求解器 (线性小挠度 Mindlin 板)
     U = ½∫[D(κx²+κy²+2νκxκy + (1−ν)/2·κxy²) + S(γx²+γy²)] dA
     D_e = ΣDᵢ (网格带, N·m),  S = k·G·Σtᵢ (G=E/2(1+ν))
 积分:   弯曲 2×2 Gauss; 剪切 1×1 中心 (选择性减缩积分, 抗剪切锁死)。
-载荷:   单元面力 = p (沿 +z), 只加在 face 带 (顶片环形面)。
+载荷:   单元面力 = p (沿 +z), 只加在 face 带 (第1片环形面)。
 边界:   clamp 圆整圈 w=φx=φy=0 (节点环 clamp_node·nθ+j); 外缘自然边界。
 求解:   单位压强一次性求解 (线性), 任意 p 直接线性放大 —— 组装+分解只做一次。
 
@@ -73,7 +73,7 @@ class PolarShimFEM:
                  n_elem_base_radial: int = 100, n_theta: int = 0,
                  clamp_radius_mm: float | None = None):
         """
-        layers_mm          : 阀片列表 (自上而下, [0]=受油压顶片)
+        layers_mm          : 阀片列表 (从受载面/贴活塞第1片向上, [0]=迎油片)
         n_elem_base_radial : 目标径向单元总数 (mesh 带内 ceil 取整)
         n_theta            : 周向分段; 0 → auto_n_theta 自动 (偶数)
         clamp_radius_mm    : 夹持半径, 默认 min(d_in)/2
@@ -197,7 +197,7 @@ class PolarShimFEM:
             Ke += ajd[:, None, None] * np.einsum(
                 "mij,mjk,mkl->mil", BT, Dm_e, Bb)
             fe += ajd[:, None] * N[None, :]       # w 载荷 (单位压强, 先全积)
-        fe[~is_face] = 0.0                        # 只保留受压面 (顶片环形面)
+        fe[~is_face] = 0.0                        # 只保留受压面 (第1片环形面)
 
         # ---- 剪切: 1×1 中心 (减缩, 防锁) ----
         N0, dNxi0, dNeta0, ajd0, dNx0, dNy0 = _geo([(0.0, 0.0)])[0]
@@ -329,7 +329,7 @@ def _selftest() -> None:
         rel_an = abs(tips_fem[0] - h_an) / h_an
         rel_1d = abs(tips_fem[0] - tips_1d[0]) / tips_1d[0]
         worst = max(worst, rel_1d)
-        print(f"  顶片外缘 h: FEM={tips_fem[0] * 1e3:.6f} mm | "
+        print(f"  第1片外缘 h: FEM={tips_fem[0] * 1e3:.6f} mm | "
               f"解析={h_an * 1e3:.6f} mm (rel={rel_an:.2e}) | "
               f"v0-1D={tips_1d[0] * 1e3:.6f} mm (rel={rel_1d:.2e})")
         for i in range(1, len(layers)):

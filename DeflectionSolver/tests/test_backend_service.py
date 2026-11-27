@@ -105,5 +105,26 @@ class ConfigTest(unittest.TestCase):
         self.assertTrue(math.isfinite(cfg["material_defaults"]["E_GPa"]))
 
 
+class LayerOrderTest(unittest.TestCase):
+    """对外层序：第1片贴活塞（迎油面），向上依次；分层结果按该顺序返回."""
+
+    def test_layered_first_shim_on_piston(self):
+        layers = [
+            {"d_in_mm": 18, "d_out_mm": 42, "t_mm": 0.25},
+            {"d_in_mm": 18, "d_out_mm": 36, "t_mm": 0.20},
+            {"d_in_mm": 18, "d_out_mm": 30, "t_mm": 0.20},
+        ]
+        out = service.analyze(dict(
+            layers=layers, solver="layered", E_GPa=200, nu=0.3,
+            p_max_MPa=0.2, clamp_diameter_mm=18,
+            n_radial=8, n_theta=48, layered_nonlinear=False, n_points=2))
+        rows = out["report"]["layers"]
+        self.assertEqual([r["d_out_mm"] for r in rows], [42.0, 36.0, 30.0])
+        self.assertIn("第1片（贴活塞）", out["headline"])
+        self.assertIn("第1片（贴活塞）", " ".join(out["report"]["lines"]))
+        self.assertGreater(rows[0]["h_mm"], rows[1]["h_mm"])
+        self.assertGreater(rows[1]["h_mm"], rows[2]["h_mm"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -210,7 +210,7 @@ def get_config() -> dict:
                    "ratio_linear": RATIO_LINEAR, "ratio_nl": RATIO_NL,
                    "curve_points": [11, 401]},
         "assumptions": [
-            "阀片自上而下排列, 第 1 片顶面受均布油压, 其余层经接触传载。",
+            "阀片按装配顺序：第 1 片贴活塞（迎油面），油压作用其底面，向上依次；无重力/结构反射对称，分层模型按第 1 片顶面向下受压镜像求解，逐层挠度幅值等价。",
             "内孔被压紧螺栓夹持 (w=0, θ=0), 外缘自由。",
             "1D/2D 模式假设层间全程粘合 (ΣD), 分层模式允许分离。",
         ],
@@ -361,10 +361,10 @@ def _run_1d(layers, E, nu, p_max, clamp_mm, n_points, _cfg) -> dict:
     lines = [
         f"FEM 网格: {core.n_nodes} 节点, {core.n_nodes - 1} 单元, "
         f"固支半径 {core.clamp_radius_m * 1e3:.3f} mm",
-        f"顶片单片解析 (md): φ = "
+        f"第1片（贴活塞）单片解析 (md): φ = "
         f"{analytic_phi(top.d_in_mm, top.d_out_mm, nu):.6g}, "
         f"h = {h_an * 1e3:.5f} mm @ {p_mpa:g} MPa",
-        f"堆叠顶片 FEM: h = {h_top * 1e3:.5f} mm"
+        f"堆叠第1片（贴活塞） FEM: h = {h_top * 1e3:.5f} mm"
         + (f"  (FEM/解析 = {h_top / h_an:.6f})" if len(layers) == 1 else ""),
         f"堆叠刚度提升 (相对单片): "
         + (f"{gain:.3f} ×" if gain else "—"),
@@ -382,7 +382,7 @@ def _run_1d(layers, E, nu, p_max, clamp_mm, n_points, _cfg) -> dict:
     report = _report(
         layers, rows, warnings, lines,
         kpis=[
-            _kpi("顶片外缘挠度", f"{h_top * 1e3:.5f} mm", f"@ {p_mpa:g} MPa"),
+            _kpi("第1片（贴活塞）外缘挠度", f"{h_top * 1e3:.5f} mm", f"@ {p_mpa:g} MPa"),
             _kpi("刚度提升", f"{gain:.2f} ×" if gain else "—",
                  "相对单片解析"),
             _kpi("最大 h/t", f"{ratio_max:.3f}",
@@ -397,7 +397,7 @@ def _run_1d(layers, E, nu, p_max, clamp_mm, n_points, _cfg) -> dict:
     return {
         "solver": "1d", "solver_label": "1D 环元",
         "headline": f"{len(layers)} 片 · 1D 环元 · "
-                    f"顶片 h = {h_top * 1e3:.5f} mm @ {p_mpa:g} MPa",
+                    f"第1片（贴活塞） h = {h_top * 1e3:.5f} mm @ {p_mpa:g} MPa",
         "charts": {
             "hp": _chart("hp", "阀片外缘 挠度-压强 h(p) · 1D 环元",
                          "压强 p [MPa]", "外缘挠度 h [mm]", hp_series),
@@ -475,7 +475,7 @@ def _run_2d(layers, E, nu, p_max, clamp_mm, n_points, cfg) -> dict:
         f"单片解析参照 (md): φ = "
         f"{analytic_phi(top.d_in_mm, top.d_out_mm, nu):.6g}, "
         f"h = {h_an * 1e3:.5f} mm @ {p_mpa:g} MPa",
-        f"顶片外缘 @ {p_mpa:g} MPa: FEM-2D h = {tips_f[0, -1] * 1e3:.5f} mm "
+        f"第1片（贴活塞）外缘 @ {p_mpa:g} MPa: FEM-2D h = {tips_f[0, -1] * 1e3:.5f} mm "
         f"| 1D-v0 h = {tips_1[0, -1] * 1e3:.5f} mm | 相对差 "
         f"{rel_1d[0]:+.2e} (FEM 含 Mindlin 剪切, 略软)",
         f"守恒: 环向均匀性 {fem.ring_uniformity():.1e} | "
@@ -494,7 +494,7 @@ def _run_2d(layers, E, nu, p_max, clamp_mm, n_points, cfg) -> dict:
     report = _report(
         layers, rows, warnings, lines,
         kpis=[
-            _kpi("顶片外缘挠度", f"{tips_f[0, -1] * 1e3:.5f} mm",
+            _kpi("第1片（贴活塞）外缘挠度", f"{tips_f[0, -1] * 1e3:.5f} mm",
                  f"FEM-2D @ {p_mpa:g} MPa"),
             _kpi("相对 1D 偏差", f"{rel_1d[0]:+.2%}", "Mindlin 剪切修正"),
             _kpi("最大 h/t", f"{ratio_max:.3f}",
@@ -509,7 +509,7 @@ def _run_2d(layers, E, nu, p_max, clamp_mm, n_points, cfg) -> dict:
     return {
         "solver": "2d", "solver_label": "2D FEM (Mindlin)",
         "headline": f"{len(layers)} 片 · 2D Mindlin · "
-                    f"顶片 h = {tips_f[0, -1] * 1e3:.5f} mm @ {p_mpa:g} MPa",
+                    f"第1片（贴活塞） h = {tips_f[0, -1] * 1e3:.5f} mm @ {p_mpa:g} MPa",
         "charts": {
             "hp": _chart("hp", "阀片外缘 h(p): 2D FEM 实线 vs 1D v0 虚线",
                          "压强 p [MPa]", "外缘挠度 h [mm]", hp_series),
@@ -608,7 +608,7 @@ def _run_nl(layers, E, nu, p_max, clamp_mm, _n_points, cfg) -> dict:
     report = _report(
         layers, rows, warnings, lines,
         kpis=[
-            _kpi("顶片外缘挠度", f"{abs(tips_nl[0, -1]) * 1e3:.5f} mm",
+            _kpi("第1片（贴活塞）外缘挠度", f"{abs(tips_nl[0, -1]) * 1e3:.5f} mm",
                  f"大挠度 @ {p_mpa:g} MPa"),
             _kpi("刚化因子", f"{stiff[0]:.2f} ×" if stiff[0] else "—",
                  "线性解 / 非线性解"),
@@ -623,7 +623,7 @@ def _run_nl(layers, E, nu, p_max, clamp_mm, _n_points, cfg) -> dict:
     return {
         "solver": "nl", "solver_label": "2D 大挠度 (vK)",
         "headline": f"{len(layers)} 片 · von Kármán · "
-                    f"顶片 h = {abs(tips_nl[0, -1]) * 1e3:.5f} mm "
+                    f"第1片（贴活塞） h = {abs(tips_nl[0, -1]) * 1e3:.5f} mm "
                     f"@ {p_mpa:g} MPa",
         "charts": {
             "hp": _chart("hp", "阀片外缘 h(p): 大挠度 vK 实线 vs 线性虚线",
@@ -647,6 +647,10 @@ def _run_nl(layers, E, nu, p_max, clamp_mm, _n_points, cfg) -> dict:
 def _run_layered(layers, E, nu, p_max, clamp_mm, _n_points, cfg) -> dict:
     nt = cfg["n_theta"] or _auto_n_theta(layers, cfg["n_radial"], clamp_mm)
     nl_flag = cfg["layered_nonlinear"]
+    # 对外层序：layers[0] = 贴活塞第 1 片，向上依次。
+    # 结构/接触关于中面反射对称，且无重力：把第 1 片视为"顶面向下受压"的镜像
+    # 与真实"第 1 片底面向上受压"逐层挠度幅值相同。故这里直接按用户顺序加载，
+    # 输出各层挠度即可与真实装配方向对应（vK 也复用同一镜像等效）。
     lr = LayeredStack(layers, E=E, nu=nu,
                       n_elem_base_radial=cfg["n_radial"], n_theta=nt,
                       clamp_radius_mm=clamp_mm, nl=nl_flag)
@@ -719,7 +723,7 @@ def _run_layered(layers, E, nu, p_max, clamp_mm, _n_points, cfg) -> dict:
         f"接触对 {info['n_pairs']} (激活 {info['n_active']}, "
         f"分离 {info['n_pairs'] - info['n_active']}) | "
         f"最大穿透 {info['penetration_max'] * 1e6:.3f} µm",
-        f"{eq_tag} 顶片 @ {p_mpa:g} MPa = {float(tips_eq[0]) * 1e3:.5f} mm | "
+        f"{eq_tag} 第1片（贴活塞） @ {p_mpa:g} MPa = {float(tips_eq[0]) * 1e3:.5f} mm | "
         f"分层偏差 Δ = "
         + (f"{delta * 100:+.2f}%" if delta is not None else "—"),
         f"@ {p_mpa:g} MPa 各层外缘:",
@@ -734,7 +738,7 @@ def _run_layered(layers, E, nu, p_max, clamp_mm, _n_points, cfg) -> dict:
     report = _report(
         layers, rows, warnings, lines,
         kpis=[
-            _kpi("顶片外缘挠度", f"{abs(float(tip_last[0])) * 1e3:.5f} mm",
+            _kpi("第1片（贴活塞）外缘挠度", f"{abs(float(tip_last[0])) * 1e3:.5f} mm",
                  f"分层 @ {p_mpa:g} MPa"),
             _kpi("分层 vs 等效板",
                  f"{delta:+.2%}" if delta is not None else "—",
@@ -751,7 +755,7 @@ def _run_layered(layers, E, nu, p_max, clamp_mm, _n_points, cfg) -> dict:
     return {
         "solver": "layered", "solver_label": "2D 分层 (μ=0)",
         "headline": f"{len(layers)} 片 · 分层接触 · "
-                    f"顶片 h = {abs(float(tip_last[0])) * 1e3:.5f} mm "
+                    f"第1片（贴活塞） h = {abs(float(tip_last[0])) * 1e3:.5f} mm "
                     f"@ {p_mpa:g} MPa",
         "charts": {
             "hp": _chart("hp", "阀片外缘 h(p): 分层实线 vs 等效板虚线 "

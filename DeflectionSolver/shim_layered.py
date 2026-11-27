@@ -6,8 +6,10 @@
       等效阶梯刚度板）的**分层升级版**。网格、单元（Q4 Mindlin, 剪切 1×1 减缩）
       与 `shim_element` 完全共用，唯一区别:
         * 每层有自己的中面位移场 (u,v,w,φx,φy)，不再压成单张等效板;
-        * 层序约定：layers[0] = 最上层（默认 load_layer=0，顶面受压）；
-          FlowSolver 使用 layers[0]=贴活塞第1片，故反转层序后令 load_layer=最底层。
+        * 内部层序约定：layers[0] = 最上层（默认 load_layer=0，顶面受压）；
+          对外 FlowSolver 输入约定 layers[0] = 贴活塞第 1 片；FlowSolver 反转层序后
+  令 load_layer=最底层，并以负压从底面向上加载。DeflectionSolver 独立版利用
+  无重力/反射对称，按第 1 片顶面向下受压镜像求解（逐层挠度幅值等价）。
         * 层间只有**法向罚接触**（可分离、不传切向力 = μ=0）;
         * 每层在自己的内缘 max(clamp, aᵢ) 处固支。
 

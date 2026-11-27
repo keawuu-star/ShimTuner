@@ -9,8 +9,8 @@ ShimTuner 物理内核数值检验 UI (Tkinter + matplotlib)
 
 功能:
   * 左侧: 编辑阀片堆叠参数 (每行: 内径, 外径, 厚度 [mm]),
-         第 1 行 = 受油压的顶片, 往下依次排列 (与 ShimTunerPhysics.md 示例一致)。
-  * 右侧上图: 各阀片外缘的 挠度-压强 h(p) 曲线, 灰色虚线为"顶片单片
+         第 1 行 = 贴活塞（迎油面）的第 1 片, 向上依次排列；油压作用第 1 片底面。
+  * 右侧上图: 各阀片外缘的 挠度-压强 h(p) 曲线, 灰色虚线为"第1片（贴活塞）单片
          解析解"参照 (md 公式)。
   * 右侧下图: p_max 下整条挠度剖面 w(r), 竖虚线标记每片外缘位置。
   * 状态栏: 数值核验摘要 + 小挠度适用性警告 (h < 0.2·t 才满足线性假设)。
@@ -68,7 +68,7 @@ class ShimStackCheckerApp:
         ctrl.pack(side=tk.LEFT, fill=tk.Y, padx=8, pady=8)
         ctrl.pack_propagate(False)
 
-        tk.Label(ctrl, text="阀片堆叠 (第 1 行 = 受油压顶片, 自上而下)",
+        tk.Label(ctrl, text="阀片堆叠 (第 1 行 = 贴活塞/迎油面, 向上依次)",
                  font=tkfont.Font(weight="bold")).pack(anchor="w")
         tk.Label(ctrl, text="每行: 内径, 外径, 厚度 [mm]",
                  fg="#555").pack(anchor="w")
@@ -249,7 +249,7 @@ class ShimStackCheckerApp:
         ps = np.linspace(0.0, p_max, P_CURVE_POINTS)
         tips = core.edge_deflection_curve(ps)          # (n_layers, n_p)
 
-        # 顶片单片解析参照 (md 公式)
+        # 第1片（贴活塞）单片解析参照 (md 公式)
         top = layers[0]
         h_an_pmax = analytic_edge_deflection(top.d_in_mm, top.d_out_mm,
                                              top.t_mm, p_max, e_pa, nu)
@@ -493,12 +493,12 @@ class ShimStackCheckerApp:
         p_max = ps[-1]
         p_mpa = p_max / 1e6
         top = layers[0]
-        h_top = tips[0, -1]                     # 堆叠顶片外缘挠度 @ p_max
+        h_top = tips[0, -1]                     # 堆叠第1片（贴活塞）外缘挠度 @ p_max
         lines = [f"FEM 网格: {core.n_nodes} 节点, {core.n_nodes - 1} 单元, "
                  f"固支半径 {core.clamp_radius_m * 1e3:.3f} mm",
-                 f"顶片单片解析 (md): φ = {analytic_phi(top.d_in_mm, top.d_out_mm, nu):.6g}, "
+                 f"第1片（贴活塞）单片解析 (md): φ = {analytic_phi(top.d_in_mm, top.d_out_mm, nu):.6g}, "
                  f"h = {h_an_pmax * 1e3:.5f} mm @ {p_mpa:g} MPa",
-                 f"堆叠顶片 FEM: h = {h_top * 1e3:.5f} mm"
+                 f"堆叠第1片（贴活塞） FEM: h = {h_top * 1e3:.5f} mm"
                  + (f"  (FEM/解析 = {h_top / h_an_pmax:.6f})"
                     if len(layers) == 1 else ""),
                  f"堆叠刚度提升(相对单片): {h_an_pmax / h_top:.3f} ×"]
@@ -535,7 +535,7 @@ class ShimStackCheckerApp:
             f"单片解析参照 (md): φ = "
             f"{analytic_phi(top.d_in_mm, top.d_out_mm, nu):.6g}, "
             f"h = {h_an_pmax * 1e3:.5f} mm @ {p_mpa:g} MPa",
-            f"顶片外缘 @ {p_mpa:g} MPa: FEM-2D h = {tips_f[0, -1] * 1e3:.5f} "
+            f"第1片（贴活塞）外缘 @ {p_mpa:g} MPa: FEM-2D h = {tips_f[0, -1] * 1e3:.5f} "
             f"mm | 1D-v0 h = {tips_1[0, -1] * 1e3:.5f} mm | "
             f"相对差 {(tips_f[0, -1] - tips_1[0, -1]) / tips_1[0, -1]:+.2e} "
             f"(FEM 含 Mindlin 剪切, 略软)",
@@ -573,6 +573,7 @@ class ShimStackCheckerApp:
                          NL_MAX_NTHETA)
             nl_flag = bool(self.var_layered_nl.get())
             t0 = time.perf_counter()
+            # 镜像等效：第1片贴活塞/迎油面，挠度幅值与"顶面向下受压"相同
             lr = LayeredStack(layers, E=e_pa, nu=nu,
                               n_elem_base_radial=nr, n_theta=nt,
                               clamp_radius_mm=clamp_mm, nl=nl_flag)
@@ -669,7 +670,7 @@ class ShimStackCheckerApp:
             eq0 = float(tips_eq_unit[0] * p_max)
             tag = "等效板 (ΣD)"
         delta = (d_eq - eq0) / eq0
-        lines.append(f"{tag} 顶片 = {eq0 * 1e3:.5f} mm | "
+        lines.append(f"{tag} 第1片（贴活塞） = {eq0 * 1e3:.5f} mm | "
                      f"分层偏差 Δ = {delta * 100:+.2f}%")
         lines.append("说明: 等效板强制各层等挠度/等曲率, 通常略硬; "
                      "分层允许各层独立曲率并允许外伸段分离。")
